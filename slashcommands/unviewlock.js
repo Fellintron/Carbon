@@ -52,7 +52,7 @@ module.exports = {
     }
 
     const channel = data.channel;
-    if (channel.type !== 'GUILD_TEXT')
+    if (channel.type !== 'GuildText')
       return interaction.reply({
         content: 'Make sure it is a text channel.'
       });

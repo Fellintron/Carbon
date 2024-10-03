@@ -8,7 +8,7 @@ const db = require('../database/models/settingsSchema');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('role-ping')
-    .setDescription('Ping a role for giveaway/event/.')
+    .setDescription('Ping a role for giveaway/event')
     .addStringOption((opt) => {
       return opt
         .setName('role')
