@@ -12,7 +12,7 @@ module.exports = {
     .setDescription('Request a middleman!')
     .addChannelOption((opt) => {
       return opt
-        .addChannelType(0)
+        .addChannelTypes(0)
         .setName('channel')
         .setRequired(true)
         .setDescription('The channel you require middleman in.');

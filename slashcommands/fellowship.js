@@ -14,7 +14,7 @@ module.exports = {
         .setDescription('Create a new fellowship.')
         .addChannelOption((o) => {
           return o
-            .addChannelType(0)
+            .addChannelTypes(0)
             .setRequired(true)
             .setName('channel')
             .setDescription(

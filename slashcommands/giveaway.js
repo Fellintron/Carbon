@@ -38,7 +38,7 @@ module.exports = {
         .setName('channel')
         .setDescription('Mention the channel you want the giveaway to be in.')
         .setRequired(true)
-        .addChannelType(ChannelType.GuildText);
+        .addChannelTypes(ChannelType.GuildText);
     })
     .addStringOption((option) => {
       return option
