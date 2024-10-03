@@ -5,7 +5,9 @@ const {
   ButtonStyle,
   EmbedBuilder
 } = require('discord.js');
+
 let fighting = [];
+
 module.exports = {
   name: 'fight',
   args: true,
@@ -17,8 +19,8 @@ module.exports = {
   checkDeath: (user, collector, message, current, gamedata, logs) => {
     if (user.hp < 1) {
       collector.stop();
-      message.components[0].components.forEach((c) => c.setDisabled());
-      message.embeds[0].setColor('Random').setFields([
+     // message.components[0].components.forEach((c) => c.setDisabled());
+      const embed =  EmbedBuilder.from(message.embeds[0]).setColor('Random').setFields([
         {
           name: gamedata[0].user.tag,
           value: `Health: **${gamedata[0].hp < 1 ? 0 : gamedata[0].hp}%**`,
@@ -35,10 +37,11 @@ module.exports = {
           inline: false
         }
       ]);
+      message.embeds[0] = embed
       message.edit({
         content: `${current.user.toString()} has won the game! :trophy:`,
         embeds: message.embeds,
-        components: message.components
+        components: disableButtons(message.components)
       });
       return true;
     } else return false;
@@ -49,7 +52,7 @@ module.exports = {
    * @param {Object[]} gamedata
    */
   updateMessage: (msg, gamedata, logs, current) => {
-    msg.embeds[0].setColor('Random').setFields([
+   const embed = EmbedBuilder.from(msg.embeds[0]).setColor('Random').setFields([
       {
         name: gamedata[0].user.tag,
         value: `Health: **${gamedata[0].hp < 1 ? 0 : gamedata[0].hp}%**`,
@@ -66,6 +69,8 @@ module.exports = {
         inline: false
       }
     ]);
+
+    msg.embeds[0] = embed
     msg.edit({
       content: `${current.user.toString()} its your turn!`,
       embeds: msg.embeds
@@ -264,27 +269,39 @@ module.exports = {
     collector.on('end', () => {
       if (status.includes('respon')) {
         console.log(confirMessage.components)
-        confirMessage.components[0].components.forEach((c) => c.setDisabled());
+      //  confirMessage.components[0].components.forEach((c) => c.setDisabled());
         confirMessage.edit({
           content: `~~${confirMessage.content}~~\n\nNo response!`,
-          components: confirMessage.components
+          components: disableButtons(confirMessage.components)
         });
       } else if (status.includes('rejec')) {
-        confirMessage.components[0].components.forEach((c) => c.setDisabled());
+       // confirMessage.components[0].components.forEach((c) => c.setDisabled());
         confirMessage.edit({
           content: `~~${confirMessage.content}~~\n\nThe challenge was denied.`,
-          components: confirMessage.components
+          components: disableButtons(confirMessage.components)
         });
       } else {
         console.log(confirMessage.components)
-        confirMessage.components[0].components.forEach((c) =>
+       /* confirMessage.components[0].components.forEach((c) =>
           ButtonBuilder.from(c).setDisabled()
-        );
+        );*/
         confirMessage.edit({
           content: `The challenge was accepted.`,
-          components: confirMessage.components
+          components: disableButtons(confirMessage.components)
         });
       }
     });
   }
 };
+
+function disableButtons(components: any[]) {
+  for (let x = 0; x < components.length; x++) {
+    for (let y = 0; y < components[x].components.length; y++) {
+      components[x].components[y] = ButtonBuilder.from(
+        components[x].components[y],
+      );
+      components[x].components[y].setDisabled(true);
+    }
+  }
+  return components;
+}
