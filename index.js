@@ -25,11 +25,7 @@ const client = new Client({
 });
 
 let dbURL = process.env.mongopath;
-mongoose.connect(dbURL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false
-});
+mongoose.connect(dbURL);
 client.c = {
   commands: new Collection(),
   cooldowns: new Collection(),
