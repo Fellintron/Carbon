@@ -115,6 +115,7 @@ module.exports = {
         ])
       ]
     });
+    
     const collector = confirMessage.createMessageComponentCollector({
       filter: (b) => {
         if (b.user.id !== target.id) {
@@ -220,7 +221,7 @@ module.exports = {
             CONSTANTS.dmg.max
           );
 
-          button.deferUpdate();
+        //  button.deferUpdate();
           let what = `**${current.user.username}** deals **${damage}** damage to **${opponent.user.username}**!`;
           logs.push(what);
           opponent.hp -= damage;
@@ -253,7 +254,7 @@ module.exports = {
           if (current.hp + health > 100) health = 100 - current.hp;
           current.hp += health;
           let what = `**${current.user.username}** heals **${health}** hp!`;
-          button.deferUpdate();
+       //   button.deferUpdate();
           current = opponent;
           this.updateMessage(mainMessage, gamedata, what, current);
         } else;
@@ -262,6 +263,7 @@ module.exports = {
 
     collector.on('end', () => {
       if (status.includes('respon')) {
+        console.log(confirMessage.components)
         confirMessage.components[0].components.forEach((c) => c.setDisabled());
         confirMessage.edit({
           content: `~~${confirMessage.content}~~\n\nNo response!`,
@@ -274,6 +276,7 @@ module.exports = {
           components: confirMessage.components
         });
       } else {
+        console.log(confirMessage.components)
         confirMessage.components[0].components.forEach((c) =>
           ButtonBuilder.from(c).setDisabled()
         );
