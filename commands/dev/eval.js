@@ -6,10 +6,7 @@ const {
   ButtonBuilder,
   ButtonStyle
 } = require('discord.js');
-const { AmariBot } = require('amaribot.js');
-const Amari = new AmariBot(process.env.amariToken, {
-  token: process.env.amariToken
-});
+
 async function uploadResult(content) {
   const parseQueryString = (obj) => {
     let res = '';
@@ -55,11 +52,11 @@ module.exports = {
     }
 
     const tokenRegex = new RegExp(process.env.token, 'gi');
-    const tokenRegex2 = new RegExp(process.env.amariToken, 'gi');
+    
     let button = false;
     let hasteURL = '';
     result = result.replace(tokenRegex, 'ok kiddo.');
-    result = result.replace(tokenRegex2, 'https://youtu.be/iik25wqIuFo');
+    
     if (result.length > 1000) {
       if (result.length >= 1024) {
         hasteURL = await uploadResult(result, {
