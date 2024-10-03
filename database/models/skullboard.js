@@ -5,7 +5,7 @@ const SkullBoardSchema = new mongoose.Schema({
   messageId: String,
   channelId: String,
   guildId: String,
-  count: 0,
+  count: { type: Number, default: 0 },
   skullBoardMessageId: String
 });
 
