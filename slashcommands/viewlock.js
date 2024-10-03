@@ -44,9 +44,9 @@ module.exports = {
       role: interaction.options.getRole('role') || null
     };
 
-    if (!interaction.member.permissions.has('ADMINISTRATOR')) {
+    if (!interaction.member.permissions.has('Administrator')) {
       return interaction.reply({
-        content: `You must have the \`ADMINISTRATOR\` permission to run this command.`,
+        content: `You must have the \`Administrator\` permission to run this command.`,
         ephemeral: true
       });
     }

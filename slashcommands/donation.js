@@ -177,7 +177,7 @@ module.exports = {
       case 'grind_dono':
         if (!interaction.memberPermissions.has('BanMembers')) {
           return interaction.reply({
-            content: `You need to have \`BAN_MEMBERS\` to run this command`,
+            content: `You need to have \`BanMembers\` to run this command`,
             ephemeral: true
           });
         }

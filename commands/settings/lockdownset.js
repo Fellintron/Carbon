@@ -9,7 +9,7 @@ module.exports = {
     // fh lockset list
     // fh lockset clear
     // fh lockset message [message]
-    if (!message.member.permissions.has('ADMINISTRATOR'))
+    if (!message.member.permissions.has('Administrator'))
       return message.channel.send(
         `You must have the Administrator permission to run this command`
       );

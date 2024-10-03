@@ -53,9 +53,9 @@ module.exports = {
    * @param {Client} client
    */
   async execute(interaction, client) {
-    if (!interaction.member.permissions.has('ADMINISTRATOR')) {
+    if (!interaction.member.permissions.has('Administrator')) {
       return interaction.reply(
-        'You need the `ADMINISTRATOR` permission to run this command.'
+        'You need the `Administrator` permission to run this command.'
       );
     }
     let server = await SETTINGS.findOne({

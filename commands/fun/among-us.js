@@ -20,9 +20,9 @@ module.exports = {
    * @param {String[]} args
    */
   async execute(message, args, client) {
-    if (!message.member.permissions.has('MANAGE_GUILD')) {
+    if (!message.member.permissions.has('Manage_Guild')) {
       return message.reply(
-        'You need the `MANAGE_GUILD` permission to run this command.'
+        'You need the `Manage_Guild` permission to run this command.'
       );
     }
     const sessionId = client.functions.randomHash();

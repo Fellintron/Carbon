@@ -12,11 +12,11 @@ module.exports = {
   async execute(message, args, client) {
     return message.channel.send('This command is still under development.');
 
-    const admin = message.member.permissions.has('ADMINISTRATOR');
+    const admin = message.member.permissions.has('Administrator');
 
     if (!admin) {
       message.channel.send(
-        `You must have the \`ADMINISTRATOR\` permission to run this command.`
+        `You must have the \`Administrator\` permission to run this command.`
       );
     }
 

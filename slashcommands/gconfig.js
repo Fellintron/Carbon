@@ -120,7 +120,7 @@ module.exports = {
   async execute(interaction, client) {
     if (!interaction.member.permissions.has('Administrator')) {
       return interaction.reply(
-        'You need `ADMINISTRATOR` permission to mess with this.'
+        'You need `Administrator` permission to mess with this.'
       );
     }
     let server = await Database.findOne({

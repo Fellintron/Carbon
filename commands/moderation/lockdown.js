@@ -16,7 +16,7 @@ module.exports = {
   async execute(message) {
     if (!message.member.permissions.has('BanMembers'))
       return message.channel.send(
-        `You must have the BAN_MEMBERS permission to run this command`
+        `You must have the BanMembers permission to run this command`
       );
 
     const server = await db.findOne({ guildID: message.guild.id });

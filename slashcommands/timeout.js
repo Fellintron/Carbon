@@ -33,7 +33,7 @@ module.exports = {
    *
    * @param {CommandInteraction} interaction
    */
-  permissions: 'BAN_MEMBERS',
+  permissions: 'BanMembers',
   /**
    *
    * @param {CommandInteraction} interaction

@@ -16,11 +16,11 @@ module.exports = {
         useFindAndModify: false
       });
     }
-    const hasRole = message.member.permissions.has('ADMINISTRATOR');
+    const hasRole = message.member.permissions.has('Administrator');
 
     if (!hasRole)
       return message.channel.send(
-        'You must have the `ADMINISTRATOR` permission to change the server config.'
+        'You must have the `Administrator` permission to change the server config.'
       );
 
     args.shift();
