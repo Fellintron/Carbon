@@ -51,12 +51,12 @@ module.exports = {
     let i = 0;
     for (const array of arrays) {
       let j = 0;
-      console.log(`---------------Main Array\n${array[i]}`);
+    //  console.log(`---------------Main Array\n${array[i]}`);
       for (const arra of array) {
-        console.log(arra[j]);
+      /*  console.log(arra[j]);
         console.log(
           `Label: ${arra[j][0]} - Custom ID: ${arra[j][1]} - Style: ${arra[j][2]}`
-        );
+        );*/
         components[i].addComponents([
           new ButtonBuilder()
             .setLabel(arra[j])
@@ -111,7 +111,7 @@ module.exports = {
         });
       }
       const operation = operationArray.includes(thing);
-      console.log(operationArray, operation, amogus[-1], amogus);
+    //  console.log(operationArray, operation, amogus[-1], amogus);
       operation
         ? operationArray.includes(amogus[-1])
           ? (amogus[-1] = thing)
