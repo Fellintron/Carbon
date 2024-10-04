@@ -294,7 +294,7 @@ module.exports = {
   }
 };
 
-function disableButtons(components: any[]) {
+function disableButtons(components) {
   for (let x = 0; x < components.length; x++) {
     for (let y = 0; y < components[x].components.length; y++) {
       components[x].components[y] = ButtonBuilder.from(
