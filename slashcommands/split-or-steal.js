@@ -142,7 +142,7 @@ module.exports = {
           .setDescription(
             `**Rules**:\n${blnk}If both parties steal, its a tie!\n${blnk}If one steals and the other splits, the stealer keeps it all!\n${blnk}If both split, the reward gets split!\n\n**Reward**: ${data.prize}`
           )
-          .setFooter('Good luck!');
+          .setFooter({ text: 'Good luck!' });
         let newPonents = new ActionRowBuilder().addComponents([
           new ButtonBuilder()
             .setEmoji('🤝')

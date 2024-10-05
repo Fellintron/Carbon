@@ -90,12 +90,7 @@ module.exports = {
       }
 
       const mainMessage = await message.channel.send({
-        embeds: [
-          {
-            title: 'Starting game....',
-            color: '65280'
-          }
-        ]
+        embeds: [new EmbedBuilder().setTitle('Starting game...').setColor('Random')]
       });
 
       await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -119,7 +114,7 @@ module.exports = {
             inline: true
           }
         )
-        .setColor('65280')
+        .setColor('Random')
         .setFooter({
           text: 'gg'
         });
@@ -147,7 +142,7 @@ module.exports = {
       if (gamedata.players.oneR === gamedata.players.twoR) {
         await sentMessage.edit({
           embeds: [
-            embed.setDescription('It was a tie!').setColor('65280').setFooter({
+            embed.setDescription('It was a tie!').setColor('Random').setFooter({
               text: 'Better luck next time!'
             })
           ]
@@ -163,7 +158,7 @@ module.exports = {
                     : gamedata.players.twoR
                 } points!`
               )
-              .setColor('65280')
+              .setColor('Random')
               .setFooter({
                 text: `Congratulations ${winner.user.tag}!`
               })

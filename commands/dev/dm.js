@@ -16,8 +16,8 @@ module.exports = {
       return message.reply('You cannot use this.');
     }
 
-    if (!args[0]) return message.reply('Please provide an ID.');
-    const user = await client.users.fetch(args[0], { cache: true });
+    if (!args[0] && !message?.mentions?.users?.first()) return message.reply('Please provide an ID.');
+    const user = message?.mentions?.users.first() || await client.users.fetch(args[0], { cache: true });
 
     if (!user) {
       return message.reply(
@@ -52,7 +52,7 @@ module.exports = {
             .setTimestamp()
         ]
       });
-      message.react('929620380434440212');
+      message.react('📤');
     } catch (e) {
       return message.reply({
         content: `Could not DM the user.\nError: ${

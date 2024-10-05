@@ -195,9 +195,7 @@ module.exports = {
         gameBoard['c'][id] = player.symbol;
         gameButton = crow.components.filter((c) => c.customId === id);
       }
-      gameButton[0].setDisabled();
-      gameButton[0].setEmoji(player.emoji);
-      gameButton[0].setStyle(
+      gameButton[0] = ButtonBuilder.from(gameButton[0]).setDisabled().setEmoji(player.emoji).setStyle(
         player.symbol === 'x' ? ButtonStyle.Danger : ButtonStyle.Primary
       );
       current = ids.filter((a) => a !== current)[0];
@@ -205,18 +203,18 @@ module.exports = {
       if (win.win) {
         mainCollector.stop();
         if (win.tie) {
-          arow.components.forEach((c) => c.setDisabled());
-          brow.components.forEach((c) => c.setDisabled());
-          crow.components.forEach((c) => c.setDisabled());
+       //   arow.components.forEach((c) => c.setDisabled());
+      //    brow.components.forEach((c) => c.setDisabled());
+       //   crow.components.forEach((c) => c.setDisabled());
 
           return message.edit({
-            components: [arow, brow, crow],
+            components: [disableButtons(arow), disableButtons(brow), disableButtons(crow)],
             content: "It's a tie!"
           });
         }
-        arow.components.forEach((c) => c.setDisabled());
-        brow.components.forEach((c) => c.setDisabled());
-        crow.components.forEach((c) => c.setDisabled());
+     //   arow.components.forEach((c) => c.setDisabled());
+      //  brow.components.forEach((c) => c.setDisabled());
+     //   crow.components.forEach((c) => c.setDisabled());
         return message.edit({
           content: `<@${player.user.id}> has won!`,
           components: [arow, brow, crow]
@@ -224,9 +222,22 @@ module.exports = {
       } else {
         message.edit({
           content: `<@${current}> your turn!`,
-          components: [arow, brow, crow]
+          components: [disableButtons(arow), disableButtons(brow), disableButtons(crow)]
         });
       }
     });
   }
 };
+
+  
+function disableButtons(components) {
+  for (let x = 0; x < components.length; x++) {
+    for (let y = 0; y < components[x].components.length; y++) {
+      components[x].components[y] = ButtonBuilder.from(
+        components[x].components[y],
+      );
+      components[x].components[y].setDisabled(true);
+    }
+  }
+  return components;
+}
