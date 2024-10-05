@@ -23,22 +23,22 @@ module.exports = {
       const helpBed = new EmbedBuilder()
         .setTitle('Grinders')
         .setDescription('Help command for grirnders.\n\nAvailable commands:')
-        .addFields(
-          'fh grinders add <id>/<@mention>',
-          'Adds a new grinder to the grinders team.'
-        )
-        .addFields(
-          'fh grinders remove <id><@mention>',
-          'Removes the user from the grinders team.'
-        )
-        .addFields(
-          'fh grinders days <days>',
-          "Adds __x__ amount of days to the grinder's profile."
-        )
-        .addFields(
-          'fh grinders pending',
-          'Lists all the users who are yet to pay the grinder cash.'
-        )
+        .addFields({
+         name: 'fh grinders add <id>/<@mention>',
+        value : 'Adds a new grinder to the grinders team.', inline: false
+       },
+        {
+          name: 'fh grinders remove <id><@mention>',
+          value: 'Removes the user from the grinders team.', inline: false
+        },
+       {
+          name:'fh grinders days <days>',
+          value:"Adds __x__ amount of days to the grinder's profile."
+       },
+       {
+          name: 'fh grinders pending',
+         value : 'Lists all the users who are yet to pay the grinder cash.'
+       } )
         .setTimestamp();
 
       return message.channel.send({ embeds: [helpBed] });

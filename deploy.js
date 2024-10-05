@@ -20,13 +20,13 @@ const rest = new REST().setToken(process.env.token);
 
 (async () => {
   try {
-    console.log('[FightHub] Started refreshing application (/) commands.');
+    console.log('[IceCafe] Started refreshing application (/) commands.');
 
     await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
       body: commands
     });
 
-    console.log('[FightHub] Successfully reloaded application (/) commands.');
+    console.log('[IceCafe] Successfully reloaded application (/) commands.');
   } catch (error) {
     console.error(error);
   }
@@ -34,7 +34,6 @@ const rest = new REST().setToken(process.env.token);
 (async () => {
   try {
     console.log('[GLOBAL]: Started refreshing application (/) commands.');
-    console.log(globalCommands);
     await rest.put(Routes.applicationCommands(clientId), {
       body: globalCommands
     });

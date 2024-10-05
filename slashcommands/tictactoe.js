@@ -158,7 +158,7 @@ module.exports = {
       components: [arow, brow, crow]
     });
 
-    const mainCollector = message.createMessageComponentCollector({});
+    const mainCollector = message.createMessageComponentCollector();
 
     mainCollector.on('collect', async (button) => {
       if (![interaction.user.id, data.opponent.id].includes(button.user.id)) {
@@ -203,18 +203,12 @@ module.exports = {
       if (win.win) {
         mainCollector.stop();
         if (win.tie) {
-       //   arow.components.forEach((c) => c.setDisabled());
-      //    brow.components.forEach((c) => c.setDisabled());
-       //   crow.components.forEach((c) => c.setDisabled());
-
+       
           return message.edit({
             components: [disableButtons(arow), disableButtons(brow), disableButtons(crow)],
             content: "It's a tie!"
           });
         }
-     //   arow.components.forEach((c) => c.setDisabled());
-      //  brow.components.forEach((c) => c.setDisabled());
-     //   crow.components.forEach((c) => c.setDisabled());
         return message.edit({
           content: `<@${player.user.id}> has won!`,
           components: [arow, brow, crow]

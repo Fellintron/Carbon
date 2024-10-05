@@ -56,7 +56,7 @@ module.exports = {
     });
     const embed = new EmbedBuilder()
       .setTitle('Dank Memer Items')
-      .setColor('AQUA')
+      .setColor('Aqua')
       .setDescription(Items[0].join(`\n\n`))
       .setFooter({
         text: `Page 1/${Items.length}`

@@ -178,6 +178,7 @@ module.exports = {
               ephemeral: true
             });
           }
+          
           if (current !== but.user.id) {
             return button.reply({
               content: 'Not your turn.',

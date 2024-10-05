@@ -131,7 +131,7 @@ module.exports = {
         embeds: [
           new EmbedBuilder()
             .setTitle('Censors')
-            .setColor('AQUA')
+            .setColor('Aqua')
             .setDescription(sensors.join('\n\n') || 'No censors yet...')
             .setTimestamp()
         ]
