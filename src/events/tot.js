@@ -11,8 +11,8 @@ module.export = {
     if (message.author.bot) return;
     const role = '1301486755513372672';
     if (
-      message.content.toLowerCase() == 'pls tot' ||
-      message.content.toLowerCase() == 'pls trickortreat'
+      message.content.toLowerCase() === 'pls tot' ||
+      message.content.toLowerCase() === 'pls trickortreat'
     ) {
       if (message.member.roles.cache.has(role)) {
         await message.reply({
