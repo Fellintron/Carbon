@@ -1,6 +1,6 @@
 const { Message, Events, Colors } = require('discord.js');
 
-module.export = {
+module.exports = {
   name: Events.MessageCreate,
   /**
    *
@@ -10,12 +10,10 @@ module.export = {
     if (message.guild.id !== '824294231447044197') return;
     if (message.author.bot) return;
     const role = '1301486755513372672';
-    console.log('\n');
     if (
       message.content.toLowerCase() === 'pls tot' ||
       message.content.toLowerCase() === 'pls trickortreat'
     ) {
-      console.log('TOT!');
       if (message.member.roles.cache.has(role)) {
         await message.reply({
           embeds: [
