@@ -1,4 +1,4 @@
-const { Message, Client } = require('discord.js');
+const { Message, Client, Colors } = require('discord.js');
 const math = require('mathjs');
 module.exports = {
   name: 'messageCreate',
@@ -10,13 +10,13 @@ module.exports = {
   async execute(message, client) {
     const regex = /^\d+(\s*[+\-*/]\s*\d+)*$/;
     if (!regex.test(message.content)) return;
-    console.log('Message is calculatable');
     await message.react('➕');
     await message
       .awaitReactions({
         max: 1,
         time: 10000,
-        errors: ['time']
+        errors: ['time'],
+        filter: (_, a) => !a.bot
       })
       .then((collected) => {
         const reaction = collected.first();
@@ -26,9 +26,11 @@ module.exports = {
             embeds: [
               {
                 title: 'Result',
-                description: `**${
-                  message.content
-                }** = ${result.toLocaleString()}`
+                description: `Answer: ${result.toLocaleString()}`,
+                footer: {
+                  text: result.toString()
+                },
+                color: Colors.Blurple
               }
             ]
           });
