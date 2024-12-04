@@ -25,11 +25,7 @@ module.exports = {
           message.reply({
             embeds: [
               {
-                title: 'Result',
-                description: `Answer: ${result.toLocaleString()}`,
-                footer: {
-                  text: result.toString()
-                },
+                description: `Calculated: **${result.toLocaleString()}**`,
                 color: Colors.Blurple
               }
             ]
