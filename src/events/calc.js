@@ -10,7 +10,7 @@ module.exports = {
   async execute(message, client) {
     const regex = /^\d+(\s*[+\-*/]\s*\d+)*$/;
     if (!regex.test(message.content)) return;
-
+    console.log('Message is calculatable');
     await message.react('🖩');
     await message
       .awaitReactions({
