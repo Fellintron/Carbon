@@ -11,7 +11,7 @@ module.exports = {
     const regex = /^\d+(\s*[+\-*/]\s*\d+)*$/;
     if (!regex.test(message.content)) return;
     console.log('Message is calculatable');
-    await message.react('🖩');
+    await message.react('➕');
     await message
       .awaitReactions({
         max: 1,
@@ -20,9 +20,18 @@ module.exports = {
       })
       .then((collected) => {
         const reaction = collected.first();
-        if (reaction.emoji.name === '🖩') {
+        if (reaction.emoji.name === '➕') {
           const result = math.evaluate(message.content);
-          message.reply(result);
+          message.reply({
+            embeds: [
+              {
+                title: 'Result',
+                description: `**${
+                  message.content
+                }** = ${result.toLocaleString()}`
+              }
+            ]
+          });
         }
       });
   }
