@@ -10,6 +10,8 @@ module.exports = {
   async execute(message, client) {
     const regex = /^\d+(\s*[+\-*/]\s*\d+)*$/;
     if (!regex.test(message.content)) return;
+    const secondRegex = /(\+|-|\/|\*)/g;
+    if (!secondRegex.test(message.content)) return;
     await message.react('➕');
     await message
       .awaitReactions({
