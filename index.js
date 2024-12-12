@@ -41,6 +41,7 @@ client.emojis.cross = '❌'
 client.snipedMessages= new Collection()
 client.editSnipedMessages= new Collection()
 client.skulls = new Collection();
+client.afkIgnore = []
 client.afks = []
 client.db = {
   afks: [],

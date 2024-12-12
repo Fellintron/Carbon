@@ -1,7 +1,8 @@
 const {
   ActionRowBuilder,
   ButtonBuilder,
-  ButtonStyle
+  ButtonStyle,
+  EmbedBuilder,
 } = require('discord.js');
 
 module.exports = {
@@ -57,6 +58,8 @@ await response.pin()
 
     collector.on('collect', async (interaction) => {
       await interaction.deferUpdate()
+      
+      if (interaction.user.id !== message.author.id) return interaction.followUp({ content: 'This interaction is not for you.', ephemeral: true })
       if (interaction.customId === 'cancel') {
         cancelButton.setStyle(ButtonStyle.Secondary).setDisabled()
         startButton.setDisabled()
