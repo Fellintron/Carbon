@@ -43,7 +43,7 @@ module.exports = {
       .setStyle(ButtonStyle.Danger)
       .setCustomId('cancel');
 
-    const row = new ActionRowBuilder([startButton, cancelButton]);
+    const row = new ActionRowBuilder().addComponents([startButton, cancelButton]);
 
     const response = await message.channel.send({
       content: message.author.toString(),

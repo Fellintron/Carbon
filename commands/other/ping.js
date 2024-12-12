@@ -11,20 +11,13 @@ module.exports = {
       embeds: [
         new EmbedBuilder()
           .setDescription(
-            `Latency: ${
+            `**Websocket Ping:** ${
               client.ws.ping
-            }ms\nUptime: <t:${uptime}:R> ${client.functions.formatTime(client.readyAt)}`
-          )
-          .setFooter({
-            text: `The message took ${(
+            }ms\n**Uptime:** <t:${uptime}:R>\nRoundtrip **Latency:** ${(
               Date.now() - message.createdTimestamp
-            ).toLocaleString()}ms to send.`,
-            iconURL:
-              client.user.displayAvatarURL({ dynamic: true }) ??
-              client.user.displayAvatarURL({
-                dynamic: true
-              })
-          })
+            ).toLocaleString()}ms`
+          )
+          .setColor('Blurple')
           .setTimestamp()
       ]
     });

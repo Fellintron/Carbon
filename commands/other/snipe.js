@@ -4,7 +4,7 @@ const {
   ActionRowBuilder,
   ButtonStyle
 } = require('discord.js');
-const settings = require('../../database/models/settingsSchema');
+const guildSchema = require('../../database/models/settingsSchema');
 
 module.exports = {
   name: 'snipe',

@@ -3,7 +3,7 @@ const {
   Message,
   Client,
   EmbedBuilder,
-  SelectMenuBuilder,
+  StringSelectMenuBuilder,
   ActionRowBuilder,
   SelectMenuInteraction
 } = require('discord.js');
@@ -82,7 +82,7 @@ module.exports = {
         text: 'Use ic help [command/alias] for more info!'
       });
 
-    const selection = new SelectMenuBuilder()
+    const selection = new StringSelectMenuBuilder()
       .setPlaceholder('Choose a Category...')
       .setCustomId('help-menu')
       .setOptions([

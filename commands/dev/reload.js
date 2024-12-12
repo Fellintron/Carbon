@@ -12,7 +12,7 @@ module.exports = {
    * @param {Client} client
    */
   async execute(message, args, client) {
-    if (!client.config.idiots.includes(message.author.id)) return;
+    if (!client.config.developers.includes(message.author.id)) return;
 
     let command = args[0]?.toString();
     if (!command) return message.reply('Please provide command name.');

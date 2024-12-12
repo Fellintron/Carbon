@@ -21,7 +21,7 @@ module.exports = {
    * @param {Client} client
    */
   async execute(message, args, client) {
-    if (!client.config.devs.includes(message.author.id))
+    if (!client.config.developers.includes(message.author.id))
       return message.reply(
         `This command can only be run by Developers or Admininstrator.`
       );

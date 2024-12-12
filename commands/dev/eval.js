@@ -29,7 +29,7 @@ module.exports = {
   category: 'Developer',
   descriprtion: 'Not for you to see.',
   async execute(message, args, client) {
-    if (!client.config.idiots.includes(message.author.id)) return;
+    if (!client.config.developers.includes(message.author.id)) return;
     const parrot = client.channels.cache.get('897100501148127272');
     require('dotenv').config();
     let input = args.join(' ');
