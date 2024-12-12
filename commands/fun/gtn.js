@@ -106,6 +106,7 @@ module.exports = {
         const messageCollector = message.channel.createMessageCollector();
 
         messageCollector.on('collect', (collected) => {
+          console.log(Number(collected.content))
           if (Number(collected.content) !== randomNumber) return;
           
           message.channel.permissionOverwrites.edit(
