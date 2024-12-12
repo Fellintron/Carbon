@@ -8,15 +8,19 @@ const {
 } = require('discord.js');
 const { splitMessage } = require('../node_modules/discord.js/src/util/Util');
 const timers = require('../database/models/timer');
+
 const ms = require('better-ms');
+
 let counter = 0;
 const toEdit = new Collection();
+
 module.exports = {
   name: 'tick',
   /**
    * @param {Client} client
    */
   async execute(client) {
+    console.log('tick')
     counter++;
     if (counter > 4) {
       counter = 0;

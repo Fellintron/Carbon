@@ -124,6 +124,7 @@ client.on('ready', async () => {
   // })
   // console.log("Guilds purged!")
   client.emit('tick');
+  console.log("hmm")
   client.user.setActivity({
     name: '/suggest',
     type: 'dnd'
