@@ -45,16 +45,16 @@ module.exports = {
       reminders: [],
       ended: false
     });
-    
+
     message.delete();
-    
+
     const RemindBut = new ButtonBuilder()
       .setEmoji('🔔')
       .setStyle(ButtonStyle.Success)
       .setCustomId('remind_me');
-      
+
     const row = new ActionRowBuilder().addComponents([RemindBut]);
-    
+
     const msg = await message.channel.send({
       embeds: [
         new EmbedBuilder()

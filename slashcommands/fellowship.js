@@ -250,8 +250,8 @@ module.exports = {
         fellowship.owners.one.userId == data.owner.id
           ? fellowship.owners.one
           : fellowship.owners.two.userId == data.owner.id
-          ? fellowship.owners.two
-          : fellowship.owners.three;
+            ? fellowship.owners.two
+            : fellowship.owners.three;
 
       dbUser.invites = data.invites;
       fellowship.save();
@@ -280,8 +280,8 @@ module.exports = {
         fellowship.owners.one.userId == interaction.user.id
           ? fellowship.owners.one
           : fellowship.owners.two.userId == interaction.user.id
-          ? fellowship.owners.two
-          : fellowship.owners.three;
+            ? fellowship.owners.two
+            : fellowship.owners.three;
 
       if (dbUser.invited.length == dbUser.invites) {
         return interaction.reply({
@@ -325,8 +325,8 @@ module.exports = {
         fellowship.owners.one.userId == interaction.user.id
           ? fellowship.owners.one
           : fellowship.owners.two.userId == interaction.user.id
-          ? fellowship.owners.two
-          : fellowship.owners.three;
+            ? fellowship.owners.two
+            : fellowship.owners.three;
 
       if (!dbUser.invited.includes(data.user.id))
         return interaction.reply('That user is not a part of your fellowship!');
@@ -362,8 +362,8 @@ module.exports = {
         fellowship.owners.one.userId == interaction.user.id
           ? fellowship.owners.one
           : fellowship.owners.two.userId == interaction.user.id
-          ? fellowship.owners.two
-          : fellowship.owners.three;
+            ? fellowship.owners.two
+            : fellowship.owners.three;
 
       const allInvites = dbUser.invited;
       allInvites.forEach((invite) => {

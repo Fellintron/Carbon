@@ -2,7 +2,7 @@ const blacklists = require('../database/models/blacklist');
 
 const checkBL = async () => {
   const now = new Date();
- 
+
   const conditional = {
     expires: {
       $lt: now

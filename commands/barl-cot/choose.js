@@ -8,7 +8,7 @@ module.exports = {
     if (/^https?:\/\//.test(message.content)) {
       return message.reply('I choose not to choose between links.');
     }
-    
+
     if (message.content.includes(', ')) {
       const argarray = args.join(' ').split(', ');
       return message.reply(
@@ -20,4 +20,3 @@ module.exports = {
       });
   }
 };
-

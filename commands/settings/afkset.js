@@ -9,13 +9,12 @@ module.exports = {
   category: 'Utility',
   description: 'Change the settings for the `afk` command in your server!',
   async execute(message, args, client) {
-    
     const examples = {
       ignore: `\`ic afkset ignore #${message.channel.name}\``,
       remove: `\`ic afkset clear @${message.author.tag}\` or \`ic afkset clear ${message.author.id}\``,
       ignores: `\`ic afkset ignores\``
     };
-    
+
     if (
       !args[0] ||
       !['remove', 'ignore', 'clear', 'ignores'].includes(
@@ -98,9 +97,7 @@ module.exports = {
 
         if (server.afkIgnore.includes(channel.id)) {
           server.afkIgnore = server.afkIgnore.filter((a) => a !== channel.id);
-          client.afkIgnore = client.afkIgnore.filter(
-            (a) => a !== channel.id
-          );
+          client.afkIgnore = client.afkIgnore.filter((a) => a !== channel.id);
           server.save();
           return message.reply(
             `${channel.toString()} is no longer AFK Ignored.`

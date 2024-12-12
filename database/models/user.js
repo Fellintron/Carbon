@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
   commandsRan: { type: Number, default: 0 },
   afk: {
     reason: String,
-    timestamp: Number,
+    timestamp: Number
   },
   highlight: {
     words: [String]

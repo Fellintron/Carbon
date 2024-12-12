@@ -19,24 +19,26 @@ module.exports = {
   checkDeath: (user, collector, message, current, gamedata, logs, button) => {
     if (user.hp < 1) {
       collector.stop();
-      const embed =  EmbedBuilder.from(message.embeds[0]).setColor('Random').setFields([
-        {
-          name: gamedata[0].user.tag,
-          value: `Health: **${gamedata[0].hp < 1 ? 0 : gamedata[0].hp}%**`,
-          inline: true
-        },
-        {
-          name: gamedata[1].user.tag,
-          value: `Health: **${gamedata[1].hp < 1 ? 0 : gamedata[1].hp}%**`,
-          inline: true
-        },
-        {
-          name: 'Last Action',
-          value: `${current.user.toString()} has won!`,
-          inline: false
-        }
-      ]);
-      message.embeds[0] = embed
+      const embed = EmbedBuilder.from(message.embeds[0])
+        .setColor('Random')
+        .setFields([
+          {
+            name: gamedata[0].user.tag,
+            value: `Health: **${gamedata[0].hp < 1 ? 0 : gamedata[0].hp}%**`,
+            inline: true
+          },
+          {
+            name: gamedata[1].user.tag,
+            value: `Health: **${gamedata[1].hp < 1 ? 0 : gamedata[1].hp}%**`,
+            inline: true
+          },
+          {
+            name: 'Last Action',
+            value: `${current.user.toString()} has won!`,
+            inline: false
+          }
+        ]);
+      message.embeds[0] = embed;
       button.update({
         content: `${current.user.toString()} has won the game! :trophy:`,
         embeds: message.embeds,
@@ -51,25 +53,27 @@ module.exports = {
    * @param {Object[]} gamedata
    */
   updateMessage: (msg, gamedata, logs, current, button) => {
-   const embed = EmbedBuilder.from(msg.embeds[0]).setColor('Random').setFields([
-      {
-        name: gamedata[0].user.tag,
-        value: `Health: **${gamedata[0].hp < 1 ? 0 : gamedata[0].hp}%**`,
-        inline: true
-      },
-      {
-        name: gamedata[1].user.tag,
-        value: `Health: **${gamedata[1].hp < 1 ? 0 : gamedata[1].hp}%**`,
-        inline: true
-      },
-      {
-        name: 'Last Action',
-        value: logs,
-        inline: false
-      }
-    ]);
+    const embed = EmbedBuilder.from(msg.embeds[0])
+      .setColor('Random')
+      .setFields([
+        {
+          name: gamedata[0].user.tag,
+          value: `Health: **${gamedata[0].hp < 1 ? 0 : gamedata[0].hp}%**`,
+          inline: true
+        },
+        {
+          name: gamedata[1].user.tag,
+          value: `Health: **${gamedata[1].hp < 1 ? 0 : gamedata[1].hp}%**`,
+          inline: true
+        },
+        {
+          name: 'Last Action',
+          value: logs,
+          inline: false
+        }
+      ]);
 
-    msg.embeds[0] = embed
+    msg.embeds[0] = embed;
     button.update({
       content: `${current.user.toString()} its your turn!`,
       embeds: msg.embeds
@@ -115,151 +119,152 @@ module.exports = {
         ])
       ]
     });
-    
+
     const collector = response.createMessageComponentCollector({
-      idle: 10*60* 1000
+      idle: 10 * 60 * 1000
     });
     let status = 'no response';
 
     collector.on('collect', async (interaction) => {
-      await interaction.deferUpdate()
-      
-     if (interaction.user.id !== target.id) {
-          return interaction.followUp({
-            content: `This interaction is only for ${target.toString()}.`,
-            ephemeral: true
-          });
-    
-      if (btn.customId.includes('no')) {
-        collector.stop();
-        status = 'rejected lol';
-        
-        return;
-      }
-      
-      status = 'asdkjgnasg';
-      collector.stop();
-      const gamedata = [
-        {
-          user: message.author,
-          hp: 100,
-          dead: false
-        },
-        {
-          user: target,
-          hp: 100,
-          dead: false
+      await interaction.deferUpdate();
+
+      if (interaction.user.id !== target.id) {
+        return interaction.followUp({
+          content: `This interaction is only for ${target.toString()}.`,
+          ephemeral: true
+        });
+
+        if (btn.customId.includes('no')) {
+          collector.stop();
+          status = 'rejected lol';
+
+          return;
         }
-      ];
-      let current = gamedata[Math.floor(Math.random() * 2)];
 
-      const fightEmbed = new EmbedBuilder()
-        .setTitle('Fight')
-        .addFields([
+        status = 'asdkjgnasg';
+        collector.stop();
+        const gamedata = [
           {
-            name: gamedata[0].user.tag,
-            value: `Health: **100%**`,
-            inline: true
-          }
-        ])
-        .addFields([
+            user: message.author,
+            hp: 100,
+            dead: false
+          },
           {
-            name: gamedata[1].user.tag,
-            value: `Health: **100%**`,
-            inline: true
+            user: target,
+            hp: 100,
+            dead: false
           }
-        ])
-        .addFields([
-          {
-            name: 'Last Action',
-            value: 'The game has started!',
-            inline: false
-          }
-        ])
-        .setColor(Blurple);
-      let logs = [];
-      const mainMessage = await response.reply({
-        content: `${current.user.toString()} its your turn!`,
-        embeds: [fightEmbed],
-        components: [
-          new ActionRowBuilder().addComponents([
-            new ButtonBuilder()
-              .setStyle(ButtonStyle.Primary)
-              .setCustomId('attack')
-              .setLabel('Attack')
-              .setEmoji('🗡️'),
-            new ButtonBuilder()
-              .setStyle(ButtonStyle.Primary)
-              .setCustomId('heal')
-              .setLabel('Heal')
-              .setEmoji('❤️')
+        ];
+        let current = gamedata[Math.floor(Math.random() * 2)];
+
+        const fightEmbed = new EmbedBuilder()
+          .setTitle('Fight')
+          .addFields([
+            {
+              name: gamedata[0].user.tag,
+              value: `Health: **100%**`,
+              inline: true
+            }
           ])
-        ]
-      });
-      const mainCollector = mainMessage.createMessageComponentCollector({
-        filter: (b) => {
-          if (![target.id, message.author.id].includes(b.user.id)) {
-            return b.reply({
-              content: 'go away this is not your game',
-              ephemeral: true
-            });
-          } else if (b.user.id !== current.user.id) {
-            return b.reply({
-              content: 'Wait for your turn.',
-              ephemeral: true
-            });
-          } else return true;
-        },
-        idle: 30 * 1000
-      });
-      mainCollector.on('collect', async (button) => {
-        const action = button.customId;
-        const opponent = gamedata.find((a) => a.user.id !== button.user.id);
-        if (action === 'attack') {
-          const damage = client.functions.getRandom(
-            CONSTANTS.dmg.min,
-            CONSTANTS.dmg.max
-          );
+          .addFields([
+            {
+              name: gamedata[1].user.tag,
+              value: `Health: **100%**`,
+              inline: true
+            }
+          ])
+          .addFields([
+            {
+              name: 'Last Action',
+              value: 'The game has started!',
+              inline: false
+            }
+          ])
+          .setColor(Blurple);
+        let logs = [];
+        const mainMessage = await response.reply({
+          content: `${current.user.toString()} its your turn!`,
+          embeds: [fightEmbed],
+          components: [
+            new ActionRowBuilder().addComponents([
+              new ButtonBuilder()
+                .setStyle(ButtonStyle.Primary)
+                .setCustomId('attack')
+                .setLabel('Attack')
+                .setEmoji('🗡️'),
+              new ButtonBuilder()
+                .setStyle(ButtonStyle.Primary)
+                .setCustomId('heal')
+                .setLabel('Heal')
+                .setEmoji('❤️')
+            ])
+          ]
+        });
+        const mainCollector = mainMessage.createMessageComponentCollector({
+          filter: (b) => {
+            if (![target.id, message.author.id].includes(b.user.id)) {
+              return b.reply({
+                content: 'go away this is not your game',
+                ephemeral: true
+              });
+            } else if (b.user.id !== current.user.id) {
+              return b.reply({
+                content: 'Wait for your turn.',
+                ephemeral: true
+              });
+            } else return true;
+          },
+          idle: 30 * 1000
+        });
+        mainCollector.on('collect', async (button) => {
+          const action = button.customId;
+          const opponent = gamedata.find((a) => a.user.id !== button.user.id);
+          if (action === 'attack') {
+            const damage = client.functions.getRandom(
+              CONSTANTS.dmg.min,
+              CONSTANTS.dmg.max
+            );
 
-        //  button.deferUpdate();
-          let what = `**${current.user.username}** deals **${damage}** damage to **${opponent.user.username}**!`;
-          logs.push(what);
-          opponent.hp -= damage;
-          if (
-            this.checkDeath(
-              opponent,
-              mainCollector,
-              mainMessage,
-              current,
-              gamedata,
-              what, button
-            )
-          ) {
-            return;
-          } else {
+            //  button.deferUpdate();
+            let what = `**${current.user.username}** deals **${damage}** damage to **${opponent.user.username}**!`;
+            logs.push(what);
+            opponent.hp -= damage;
+            if (
+              this.checkDeath(
+                opponent,
+                mainCollector,
+                mainMessage,
+                current,
+                gamedata,
+                what,
+                button
+              )
+            ) {
+              return;
+            } else {
+              current = opponent;
+              this.updateMessage(mainMessage, gamedata, what, current, button);
+            }
+          } else if (action === 'heal') {
+            let health = client.functions.getRandom(
+              CONSTANTS.heal.min,
+              CONSTANTS.heal.max
+            );
+            if (current.hp > 80) {
+              return button.reply({
+                content: 'You cannot heal when your Health is more than 80!',
+                ephemeral: true
+              });
+            }
+            if (current.hp + health > 100) health = 100 - current.hp;
+            current.hp += health;
+            let what = `**${current.user.username}** heals **${health}** hp!`;
+            //   button.deferUpdate();
             current = opponent;
             this.updateMessage(mainMessage, gamedata, what, current, button);
-          }
-        } else if (action === 'heal') {
-          let health = client.functions.getRandom(
-            CONSTANTS.heal.min,
-            CONSTANTS.heal.max
-          );
-          if (current.hp > 80) {
-            return button.reply({
-              content: 'You cannot heal when your Health is more than 80!',
-              ephemeral: true
-            });
-          }
-          if (current.hp + health > 100) health = 100 - current.hp;
-          current.hp += health;
-          let what = `**${current.user.username}** heals **${health}** hp!`;
-       //   button.deferUpdate();
-          current = opponent;
-          this.updateMessage(mainMessage, gamedata, what, current, button);
-        } else;
-      });
-     }
+          } else;
+        });
+      }
     });
 
     collector.on('end', () => {
@@ -269,14 +274,14 @@ module.exports = {
           components: disableButtons(confirMessage.components)
         });
       } else if (status.includes('rejec')) {
-       // confirMessage.components[0].components.forEach((c) => c.setDisabled());
+        // confirMessage.components[0].components.forEach((c) => c.setDisabled());
         confirMessage.edit({
           content: `~~${confirMessage.content}~~\n\nThe challenge was denied.`,
           components: disableButtons(confirMessage.components)
         });
       } else {
-        console.log(confirMessage.components)
-       /* confirMessage.components[0].components.forEach((c) =>
+        console.log(confirMessage.components);
+        /* confirMessage.components[0].components.forEach((c) =>
           ButtonBuilder.from(c).setDisabled()
         );*/
         confirMessage.edit({

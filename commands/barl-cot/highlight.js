@@ -15,7 +15,7 @@ module.exports = {
    */
   async execute(message, args, client) {
     const example = `\n\nExample: \`ic hl add parrot\`, \`ic hl remove felli\` & \`ic hl list\``;
-const action = args[0];
+    const action = args[0];
     if (!action) {
       return message.reply('You must tell me what to do!' + example);
     }

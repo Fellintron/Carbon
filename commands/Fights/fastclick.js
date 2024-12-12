@@ -34,25 +34,28 @@ module.exports = {
       .setStyle(ButtonStyle.Danger)
       .setCustomId('no_fc')
       .setLabel('Decline');
-      
+
     let row = new ActionRowBuilder().addComponents([noButton, yesButton]);
-    
+
     const confirmation = await message.channel.send({
       embeds: [
-        new EmbedBuilder().setTitle('Confirmation')
-         .setDescription(`${user2}, ${user1} has challenged you for a game of fast click.\nWhat do you say?`)
-         .setTimestamp()
-        .setColor(Blurple)
+        new EmbedBuilder()
+          .setTitle('Confirmation')
+          .setDescription(
+            `${user2}, ${user1} has challenged you for a game of fast click.\nWhat do you say?`
+          )
+          .setTimestamp()
+          .setColor(Blurple)
       ],
       components: [row]
     });
-    
+
     const collector = confirmation.createMessageComponentCollector({
-      time: 10*60*1000
+      time: 10 * 60 * 1000
     });
 
-   collector.on('collect', async (button) => {
-      await button.deferUpdate()
+    collector.on('collect', async (button) => {
+      await button.deferUpdate();
       if (button.user.id !== user2.id) {
         return button.followUp({
           content: 'This interaction is not for you.',

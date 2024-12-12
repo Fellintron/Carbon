@@ -52,11 +52,11 @@ module.exports = {
     }
 
     const tokenRegex = new RegExp(process.env.token, 'gi');
-    
+
     let button = false;
     let hasteURL = '';
     result = result.replace(tokenRegex, 'ok kiddo.');
-    
+
     if (result.length > 1000) {
       if (result.length >= 1024) {
         hasteURL = await uploadResult(result, {

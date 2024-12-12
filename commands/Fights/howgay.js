@@ -43,9 +43,11 @@ module.exports = {
     const confirmationMessage = await message.channel.send({
       content: `${target.toString()} do you want to play a game of HowGay with ${message.author.toString()}?`,
       embeds: [
-         new EmbedBuilder().setTitle(`Confirmation`)
+        new EmbedBuilder()
+          .setTitle(`Confirmation`)
           .setDescription(
-            'Use the button to make your choice.\nYou have 10 minutes')
+            'Use the button to make your choice.\nYou have 10 minutes'
+          )
           .setColor(Blurple)
       ],
       components: [
@@ -83,7 +85,9 @@ module.exports = {
       }
 
       const mainMessage = await message.channel.send({
-        embeds: [new EmbedBuilder().setTitle('Starting game...').setColor(Blurple)]
+        embeds: [
+          new EmbedBuilder().setTitle('Starting game...').setColor(Blurple)
+        ]
       });
 
       await new Promise((resolve) => setTimeout(resolve, 5000));

@@ -195,17 +195,23 @@ module.exports = {
         gameBoard['c'][id] = player.symbol;
         gameButton = crow.components.filter((c) => c.customId === id);
       }
-      gameButton[0] = ButtonBuilder.from(gameButton[0]).setDisabled().setEmoji(player.emoji).setStyle(
-        player.symbol === 'x' ? ButtonStyle.Danger : ButtonStyle.Primary
-      );
+      gameButton[0] = ButtonBuilder.from(gameButton[0])
+        .setDisabled()
+        .setEmoji(player.emoji)
+        .setStyle(
+          player.symbol === 'x' ? ButtonStyle.Danger : ButtonStyle.Primary
+        );
       current = ids.filter((a) => a !== current)[0];
       const win = checkWin(gameBoard);
       if (win.win) {
         mainCollector.stop();
         if (win.tie) {
-       
           return message.edit({
-            components: [disableButtons(arow), disableButtons(brow), disableButtons(crow)],
+            components: [
+              disableButtons(arow),
+              disableButtons(brow),
+              disableButtons(crow)
+            ],
             content: "It's a tie!"
           });
         }
@@ -216,19 +222,22 @@ module.exports = {
       } else {
         message.edit({
           content: `<@${current}> your turn!`,
-          components: [disableButtons(arow), disableButtons(brow), disableButtons(crow)]
+          components: [
+            disableButtons(arow),
+            disableButtons(brow),
+            disableButtons(crow)
+          ]
         });
       }
     });
   }
 };
 
-  
 function disableButtons(components) {
   for (let x = 0; x < components.length; x++) {
     for (let y = 0; y < components[x].components.length; y++) {
       components[x].components[y] = ButtonBuilder.from(
-        components[x].components[y],
+        components[x].components[y]
       );
       components[x].components[y].setDisabled(true);
     }

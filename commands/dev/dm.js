@@ -14,8 +14,11 @@ module.exports = {
       return message.reply('You cannot use this.');
     }
 
-    if (!args[0] && !message?.mentions?.users?.first()) return message.reply('Please provide an ID.');
-    const user = message?.mentions?.users.first() || await client.users.fetch(args[0], { cache: true });
+    if (!args[0] && !message?.mentions?.users?.first())
+      return message.reply('Please provide an ID.');
+    const user =
+      message?.mentions?.users.first() ||
+      (await client.users.fetch(args[0], { cache: true }));
 
     if (!user) {
       return message.reply(

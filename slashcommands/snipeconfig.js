@@ -27,7 +27,7 @@ module.exports = {
             .setName('add')
             .setDescription('Add a role.')
             .addRoleOption((option) => {
-              return option 
+              return option
                 .setName('role')
                 .setDescription('The role you want to add.');
             });
@@ -101,7 +101,8 @@ module.exports = {
                 'Roles',
                 server.snipeConfig.allowedRoles
                   .map((v, i) => `${i + 1}. <@&${v}>`)
-                  .join('\n') || italic('No snipe whitelist roles configured for this server.')
+                  .join('\n') ||
+                  italic('No snipe whitelist roles configured for this server.')
               )
               .setColor('Random')
           ]
@@ -125,7 +126,9 @@ module.exports = {
           embeds: [
             new EmbedBuilder()
               .setTitle('Snipe whitelist role')
-              .setDescription(`Added ${role.toString()} to the snipe whitelist.`)
+              .setDescription(
+                `Added ${role.toString()} to the snipe whitelist.`
+              )
               .setColor('Green')
               .setFooter({
                 text: 'You can check the list via /snipe-config allowed-role list'

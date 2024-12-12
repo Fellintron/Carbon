@@ -1,8 +1,4 @@
-const {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle
-} = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 module.exports = {
   name: 'invite',
@@ -14,8 +10,9 @@ module.exports = {
       .setLabel('Invite')
       .setStyle(ButtonStyle.Link)
       .setURL(
-        'https://discord.com/oauth2/authorize?client_id=1291096313550737501&permissions=564584390323280&integration_type=0&scope=bot+applications.commands');
-      
+        'https://discord.com/oauth2/authorize?client_id=1291096313550737501&permissions=564584390323280&integration_type=0&scope=bot+applications.commands'
+      );
+
     const row = new ActionRowBuilder().addComponents([button]);
 
     message.channel.send({

@@ -36,13 +36,13 @@ client.counts = {
   messages: 0,
   hls: 0
 };
-Blurple='Blurple'
-client.emojis.cross = '❌'
-client.snipedMessages= new Collection()
-client.editSnipedMessages= new Collection()
+Blurple = 'Blurple';
+client.emojis.cross = '❌';
+client.snipedMessages = new Collection();
+client.editSnipedMessages = new Collection();
 client.skulls = new Collection();
-client.afkIgnore = []
-client.afks = []
+client.afkIgnore = [];
+client.afks = [];
 client.db = {
   afks: [],
   afkIgnore: [],

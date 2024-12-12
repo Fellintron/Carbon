@@ -4,11 +4,13 @@ module.exports = {
   aliases: ['reboot'],
   async execute(message, args, client) {
     if (!client.config.developers.includes(message.author.id)) {
-      return message.reply(`${client.emojis.cross} Only developers can use command.`);
+      return message.reply(
+        `${client.emojis.cross} Only developers can use command.`
+      );
     }
-    
+
     await message.channel.send('Restarting, please wait.');
-    
+
     process.exit();
   }
 };
