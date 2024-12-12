@@ -33,7 +33,7 @@ if (!max) return message.reply({ content: 'Please provide a valid upper limit.'}
 const startButton =    new ButtonBuilder()
             .setLabel('Start')
             .setStyle(ButtonStyle.Success)
-            .setCustomId('start'),
+            .setCustomId('start')
 const cancelButton =    new ButtonBuilder()
       .setLabel('Cancel')
       .setStyle(ButtonStyle.Danger)
