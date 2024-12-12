@@ -8,7 +8,7 @@ const guildSchema = require('../../database/models/settingsSchema');
 
 module.exports = {
   name: 'snipe',
-  category: 'Other',
+  category: 'Moderation',
   description: 'Snipe deleted messages',
   async execute(message, args, client) {
     const snipedMessages = client.snipedMessages.get(message.channel.id);
@@ -53,7 +53,6 @@ module.exports = {
     }
 
     let index = args[0] ? parseInt(args[0]) - 1 : 0
-    index ??= 0;
 
     function getResponse({ index, disabled = false }) {
       const {

@@ -15,7 +15,6 @@ module.exports = {
       newContent: newMessage.content,
       oldAttachmentURL: oldMessage.attachments.first()?.proxyURL ?? null,
       newAttachmentURL: newMessage.attachments.first()?.proxyURL ?? null,
-      editedIn: newMessage.createdAt - oldMessage.editdAt,
       author: newMessage.member
     });
 

@@ -12,51 +12,48 @@ module.exports = {
   name: 'messageReactionAdd',
   once: false,
   async execute(reaction, user, client) {
-    if (!reaction.emoji.name || reaction.emoji.name !== '💀') return;
-
-    const message = reaction.message;
-    const valid = await serverSettings.findOne({
-      guildID: message.guild.id
+    if (reaction?.partial) await reaction.fetch()
+    if (!reaction?.emoji?.name || reaction?.emoji?.name !== '💀') return;
+    
+    const guildConfig = await serverSettings.findOne({
+      guildID: reaction.message.guild.id
     });
-    if (!valid) return;
-    if (!valid?.skullBoard.enabled) return;
+    
+    if (!guildConfig || !guildConfig?.skullBoard?.enabled) return;
+    
     const { count, channelId } = valid.skullBoard;
-    const rec = await reaction.fetch();
-    if (rec.count < count) return;
-    let exists = await skulls.findOne({
-      messageId: message.id
+    
+    const reactions = await reaction.fetch();
+    if (reactions.count < count) return;
+    
+    let skullBoardMessage = await skulls.findOne({
+      messageId: reaction.message.id
     });
-    if (exists) {
-      console.log('it exists');
-      exists.count++;
-      const c = client.channels.cache?.get(channelId);
-      let msg = await c.messages.fetch(exists.skullBoardMessageId);
-      console.log(msg);
-      const ee = EmbedBuilder.from(msg.embeds[0]);
-      ee.setTitle(`**${reaction.count} :skull:**`);
-      //msg.embeds[0].setTitle(`**${exists.count} :skull:**`)
-      msg.edit({
-        embeds: [ee]
+    
+    if (skullBoardMessage) {
+      console.log('Skullboard message exists')
+      skullBoardMessage.count++;
+      
+      const channel = await client.channels.fetch(channelId);
+      
+      const message= await channel.messages.fetch(exists.skullBoardMessageId);
+      
+      const embed = EmbedBuilder.from(message.embeds[0])
+      embed.setTitle(`**${reactions.count} :skull:**`);
+      
+      await message.edit({
+        embeds: [embed]
       });
-      exists.save();
+      
+      skullBoardMessage.save();
       return;
-    } else {
-      if (noSpam.includes(message.id)) {
-        return;
-      } else {
-        noSpam.push(message.id);
-      }
-      exists = {
-        messageId: message.id,
-        count: reaction.count
-      };
     }
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: message.author.tag,
-        iconURL: message.author.displayAvatarURL(),
-        url: message.url
+        name: reaction.message.author.tag,
+        iconURL: reaction.message.author.displayAvatarURL(),
+        url: reaction.message.url
       })
       .setDescription(message.content || ' ')
       .setImage(message.attachments.first()?.url)
@@ -64,18 +61,18 @@ module.exports = {
         text: 'Use this in your own server by using `/skullboard`!'
       })
       .setTitle(`**${reaction.count} :skull:**`);
-    const channel = client.channels.cache.get(channelId);
+    const channel = await client.channels.fetch(channelId);
     if (!channel) return;
 
-    const temp = await channel.send({
+    const skullBoardMessage = await channel.send({
       embeds: [embed],
       components: [
         new ActionRowBuilder().addComponents([
           new ButtonBuilder()
             .setEmoji('💀')
-            .setStyle(5)
+            .setStyle(ButtonStyle.Link)
             .setURL(message.url)
-            .setLabel('Message')
+            .setLabel('Jump to Message')
         ])
       ]
     });
@@ -88,7 +85,5 @@ module.exports = {
       count: reaction.count,
       skullBoardMessageId: temp.id
     });
-    z.save();
-    noSpam = noSpam.filter((a) => a !== message.id);
   }
 };

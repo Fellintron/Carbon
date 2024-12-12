@@ -54,8 +54,7 @@ module.exports = {
       return message.channel.send('There is nothing to snipe.');
     }
 
-    let index = parseInt(args[0]) - 1;
-    index ??= 0;
+    let index = args[0] ? parseInt(args[0]) - 1 : 0;
 
     function getResponse({ index, disabled= false}) {
       const {

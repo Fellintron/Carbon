@@ -17,7 +17,8 @@ module.exports = {
       const index = client.afks.indexOf(message.author.id);
       client.afks.splice(index, 1);
 
-      if (message.guild.members.me.permissions.has('ManageNicknames')) {message.member.setNickname(
+      if (message.guild.members.me.permissions.has('ManageNicknames') && message.author.id !== message.guild.onwerId && message.member.roles.highest.position < message.guild.members.me.roles.highest.position) {
+        message.member.setNickname(
         message.member.displayName.replace(/~ AFK/g, '')
       );
 }
@@ -44,7 +45,7 @@ module.exports = {
       const user = message.mentions.users.first();
       const data = await db.findOne({ userId: user.id });
 
-      if (!data || !data?.afk) return;
+      if (!data?.afk) return;
 
       message.channel.send(
         `${user.username} is currently AFK: ${

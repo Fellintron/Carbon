@@ -27,7 +27,8 @@ module.exports = {
       content: `${message.author.toString()}, I have set your AFK: ${reason}.`, allowedMentions: { parse: [] }
     });
 
-   if (message.guild.members.me.permissions.has('ManageNicknames')) {message.member.setNickname(`[AFK] ${message.member.displayName}`);}
+   if (message.guild.members.me.permissions.has('ManageNicknames') && message.author.id !== message.guild.onwerId && message.member.roles.highest.position < message.guild.members.me.roles.highest.position)
+   {message.member.setNickname(`[AFK] ${message.member.displayName}`);}
 
     client.afks.push(message.author.id, { reason, timestamp });
   }
