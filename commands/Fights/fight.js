@@ -176,7 +176,7 @@ module.exports = {
             inline: false
           }
         ])
-        .setColor(client.color);
+        .setColor(Blurple);
       let logs = [];
       const mainMessage = await response.reply({
         content: `${current.user.toString()} its your turn!`,

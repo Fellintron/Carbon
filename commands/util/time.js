@@ -28,7 +28,7 @@ module.exports = {
       .setTitle('Timestamp formatter')
       .setDescription(
         'Choose a format and click the button to get text that you can copy.'
-      ).setColor(client.color).setTimestamp();
+      ).setColor(Blurple).setTimestamp();
       
     const components = [new ActionRowBuilder(), new ActionRowBuilder()];
     

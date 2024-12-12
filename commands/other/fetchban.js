@@ -27,7 +27,7 @@ const embed = new EmbedBuilder()
   ])
 .setThumbnail(banInfo.user.displayAvatarURL())
 .setTimestamp()
-.setColor(client.color)
+.setColor(Blurple)
 
     message.channel.send({ embeds: [embed]});
   }

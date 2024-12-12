@@ -42,7 +42,7 @@ module.exports = {
         new EmbedBuilder().setTitle('Confirmation')
          .setDescription(`${user2}, ${user1} has challenged you for a game of fast click.\nWhat do you say?`)
          .setTimestamp()
-        .setColor(client.color)
+        .setColor(Blurple)
       ],
       components: [row]
     });

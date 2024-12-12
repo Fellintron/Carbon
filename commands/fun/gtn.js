@@ -45,7 +45,7 @@ const cancelButton =    new ButtonBuilder()
       
     const response = await message.channel.send({
       content: message.author.toString(),
-      embeds: [new EmbedBuilder().setDescription(`${message.author.toString()}, do you want to host a **Guess The Number** game (__**Range:**__ ${min}-${max}) now?`).setTimestamp().setColor(client.color)
+      embeds: [new EmbedBuilder().setDescription(`${message.author.toString()}, do you want to host a **Guess The Number** game (__**Range:**__ ${min}-${max}) now?`).setTimestamp().setColor(Blurple)
       ],
       components: [row]
     });
@@ -110,7 +110,7 @@ await response.pin()
               .setTitle( '🎉 We have our winner')
                 .setDescription(`The number to be guessed was **${randomNumber}** and ${m.author.toString()} guessed it!`)
                .setTimestamp()
-               .setColor(client.color)
+               .setColor(Blurple)
                .setThumbnail(message.author.displayAvatarURL())
                ]})
           });

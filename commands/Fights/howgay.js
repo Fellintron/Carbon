@@ -46,7 +46,7 @@ module.exports = {
          new EmbedBuilder().setTitle(`Confirmation`)
           .setDescription(
             'Use the button to make your choice.\nYou have 10 minutes')
-          .setColor(client.color)
+          .setColor(Blurple)
       ],
       components: [
         new ActionRowBuilder().addComponents([
@@ -83,7 +83,7 @@ module.exports = {
       }
 
       const mainMessage = await message.channel.send({
-        embeds: [new EmbedBuilder().setTitle('Starting game...').setColor(client.color)]
+        embeds: [new EmbedBuilder().setTitle('Starting game...').setColor(Blurple)]
       });
 
       await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -107,7 +107,7 @@ module.exports = {
             inline: true
           }
         )
-        .setColor(client.color)
+        .setColor(Blurple)
         .setFooter({
           text: 'gg'
         });
