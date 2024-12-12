@@ -96,13 +96,13 @@ module.exports = {
         .setEmoji('911971202048864267')
         .setCustomId('next')
         .setStyle(ButtonStyle.Success)
-        .setDisabled(disabled || editSnipedMessages.length);
+        .setDisabled(disabled || snipedMessages.length);
         
   const lastButton = new ButtonBuilder()
         .setEmoji({ name: '⏪' })
         .setCustomId('last')
         .setStyle(ButtonStyle.Success)
-        .setDisabled(disabled || editSnipedMessages.length);
+        .setDisabled(disabled || snipedMessages.length);
     
        
 
