@@ -22,7 +22,7 @@ module.exports = {
       );
       
 const result= await db.findOneAndUpdate({ userId: message.author.id }, { afk: undefined }, { omitUndefined: true });
-
+console.log('Result', result)
       message.channel
         .send(`Welcome back ${message.member}, I have removed your AFK. You were AFK for ${prettyMilliseconds(now-result.afk.timestamp, { verbose: true, secondsDecimalDigits: 0 })}`)
         .then((response) => {

@@ -11,7 +11,7 @@ module.exports = {
   usage: '<min> <max> <duration>',
   category: 'Fun',
   description: 'Starts a **Guess The Number** game.',
-  async execute(message, args) {
+  async execute(message, args, client) {
     if (!args[0])
       return message.reply({
         content:
