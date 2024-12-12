@@ -155,20 +155,20 @@ client.on('ready', async () => {
   const afks = require('./database/models/user');
   const serverIgnores = require('./database/models/settingsSchema');
   let peopleWhoAreAFK = await afks.find({});
-  peopleWhoAreAFK = peopleWhoAreAFK.filter((u) => u.afk.afk === true);
+  peopleWhoAreAFK = peopleWhoAreAFK.filter((u) => u.afk);
   let channelIgnores = await serverIgnores.find({});
   channelIgnores = channelIgnores.filter(
     (s) => s.afkIgnore && s.afkIgnore.length > 0
   );
 
   for (const channel of channelIgnores) {
-    client.db.afkIgnore = [...client.db.afkIgnore, ...channel.afkIgnore];
+    client.afkIgnore = [...client.afkIgnore, ...channel.afkIgnore];
   }
 
-  for (const afk of peopleWhoAreAFK) {
-    client.db.afks.push(afk.userId);
+  for (const user of peopleWhoAreAFK) {
+    client.afks.push(user.userId, user?.afk);
   }
-  //AFKS
+  //AFKS end
 
   client.db.disabledDrops = (
     await serverIgnores.findOne({ guildID: client.db.fighthub.id })
