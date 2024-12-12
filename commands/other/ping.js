@@ -13,9 +13,10 @@ module.exports = {
           .setDescription(
             `**Websocket Ping:** ${
               client.ws.ping
-            }ms\n**Uptime:** <t:${uptime}:R>\nRoundtrip **Latency:** ${(
+            }ms\n**Roundtrip Latency:** ${(
               Date.now() - message.createdTimestamp
-            ).toLocaleString()}ms`
+            ).toLocaleString()}ms\n**Uptime:** <t:${uptime}:R>\n
+            `
           )
           .setColor('Blurple')
           .setTimestamp()

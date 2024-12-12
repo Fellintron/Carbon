@@ -56,7 +56,7 @@ module.exports = {
           )}(which is ${client.functions.formatTime(
             user.createdAt,
             'D'
-          )})\n\n**__Mutual Servers__**\n${Mutuals.join('\n')}`
+          )})\n\n**__Mutual Servers__**\n${Mutuals.join('\n') ?? 'No Mutual Servers'}`
         )
         .setColor('Random');
 

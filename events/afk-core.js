@@ -26,11 +26,11 @@ module.exports = {
         { afk: undefined },
         { omitUndefined: true }
       );
-      console.log('Result', result?.afk);
+      
       message.channel
         .send(
-          `Welcome back ${message.member}, I have removed your AFK. You were AFK for ${prettyMilliseconds(now - result.afk.timestamp, { verbose: true, secondsDecimalDigits: 0 })}`
-        )
+        { content: `Welcome back ${message.author.toString()}, I have removed your AFK. You were AFK for \`${prettyMilliseconds(now - result.afk.timestamp, { verbose: true, secondsDecimalDigits: 0 })}\`.`
+       , allowedMentions: { parse : [] } })
         .then((response) => {
           setTimeout(() => {
             response.delete();
@@ -59,7 +59,7 @@ module.exports = {
 
         if (data) {
           content.push(
-            `${user.username} ${
+            `${user.toString()} ${
               data.reason
             } - <t:${(data.afk.timestamp / 1000).toFixed(0)}:R>`
           );
@@ -67,8 +67,8 @@ module.exports = {
       }
 
       message.channel.send(
-        'The following users are currently AFK:\n' + content.join('\n -')
-      );
+       { content : 'The following users are currently AFK:\n' + content.join('\n -')
+   , allowedMentions: { parse: [] } } );
     }
   }
 };

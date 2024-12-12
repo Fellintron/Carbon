@@ -15,7 +15,7 @@ module.exports = {
     );
 
     const timestamp = Date.now();
-    const reason = args.join(' ') ?? 'AFK';
+    const reason = args.join(' ') || 'AFK';
 
     await userSchema.findOneAndUpdate(
       { userId: message.author.id },
@@ -23,11 +23,11 @@ module.exports = {
       { upsert: true }
     );
 
-    message.channel.send(
-      `${message.author.toString()}, I have set your AFK: ${reason}`
-    );
+    message.channel.send({
+      content: `${message.author.toString()}, I have set your AFK: ${reason}.`, allowedMentions: { parse: [] }
+    });
 
-    message.member.setNickname(`[AFK] ${message.member.displayName}`);
+   if (message.guild.members.me.permissions.has('ManageNicknames')) {message.member.setNickname(`[AFK] ${message.member.displayName}`);}
 
     client.afks.push(message.author.id, { reason, timestamp });
   }

@@ -1,11 +1,11 @@
 const { EmbedBuilder, italic } = require('discord.js');
 
 module.exports = {
-  name: 'fetchban',
-  aliases: ['fetchbans', 'baninfo', 'fbi'],
+  name: 'baninfo',
+  aliases: ['fetchban', 'fbi'],
   args: true,
   usage: '<id>',
-  category: 'Other',
+  category: 'Moderation',
   description: 'Check ban info about a certain user.',
   icOnly: true,
   async execute(message, args, client) {
@@ -21,7 +21,7 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .addFields([
-        { name: 'User:', value: banInfo.user.username, inline },
+        { name: 'User:', value: banInfo.user.username },
         { name: 'ID:', value: banInfo.user.id},
         {
           name: 'Reason:',
