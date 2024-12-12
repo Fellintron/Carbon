@@ -36,6 +36,8 @@ client.counts = {
   messages: 0,
   hls: 0
 };
+client.color='Blurple'
+client.emojis.cross = '❌'
 client.snipedMessages= new Collection()
 client.editSnipedMessages= new Collection()
 client.skulls = new Collection();

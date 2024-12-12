@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js')
+const { EmbedBuilder , italic } = require('discord.js')
 
 module.exports = {
   name: 'fetchban',
@@ -23,7 +23,7 @@ const embed = new EmbedBuilder()
 .addFields([
   { name: 'User:', value: banInfo.user.username, inline: true}, 
   { name: 'ID:', value: banInfo.user.id, inline: true  }, 
-  { name: 'Reason:', value: banInfo.reason, inline: true }
+  { name: 'Reason:', value: banInfo?.reason ?? italic('No reason provided'), inline: true }
   ])
 .setThumbnail(banInfo.user.displayAvatarURL())
 .setTimestamp()
