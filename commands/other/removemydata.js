@@ -9,7 +9,6 @@ const {
 // Models
 const base = '../../database/models/';
 const heist = require(base + 'heistm');
-const grind = require(base + 'grindm');
 const special = require(base + 'specialm');
 const main = require('../../node_modules/discord-messages/models/messages');
 

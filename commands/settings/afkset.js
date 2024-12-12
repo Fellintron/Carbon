@@ -77,7 +77,7 @@ module.exports = {
           return message.reply(`${user.toString()} is not AFK!`);
         }
         client.afks = client.afks.filter((a) => a !== user.id);
-        dbUser?.afk = {};
+        dbUser.afk = {};
         dbUser.save();
 
         return message.reply('Removed their AFK.');
