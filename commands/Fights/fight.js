@@ -100,7 +100,7 @@ module.exports = {
     if (target.id === message.author.id)
       return message.reply('The bot does not promote self-harm.');
 
-    const confirMessage = await message.reply({
+    const response = await message.reply({
       content: `${target.toString()} do you accept their challenge?`,
       components: [
         new ActionRowBuilder().addComponents([
@@ -116,17 +116,17 @@ module.exports = {
       ]
     });
     
-    const collector = confirMessage.createMessageComponentCollector({
-      idle: 15 * 1000
+    const collector = response.createMessageComponentCollector({
+      idle: 10*60* 1000
     });
     let status = 'no response';
 
-    collector.on('collect', async (btn) => {
-      await btn.deferUpdate()
+    collector.on('collect', async (interaction) => {
+      await interaction.deferUpdate()
       
-     if (btn.user.id !== target.id) {
-          return btn.followUp({
-            content: `Only ${target.toString()} can use this interaction!`,
+     if (interaction.user.id !== target.id) {
+          return interaction.followUp({
+            content: `This interaction is only for ${target.toString()}.`,
             ephemeral: true
           });
     
@@ -178,7 +178,7 @@ module.exports = {
         ])
         .setColor(client.color);
       let logs = [];
-      const mainMessage = await message.channel.send({
+      const mainMessage = await response.reply({
         content: `${current.user.toString()} its your turn!`,
         embeds: [fightEmbed],
         components: [
@@ -259,6 +259,7 @@ module.exports = {
           this.updateMessage(mainMessage, gamedata, what, current);
         } else;
       });
+     }
     });
 
     collector.on('end', () => {

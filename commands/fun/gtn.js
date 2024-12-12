@@ -42,7 +42,9 @@ const cancelButton =    new ButtonBuilder()
       const row = new ActionRowBuilder([startButton, cancelButton])
       
     const response = await message.channel.send({
-      content: `${message.author.toString()}, do you want to host a **Guess The Number** game (__**Range:**__ ${min}-${max}) now?`,
+      content: message.author.toString(),
+      embeds: [new EmbedBuilder().setDescription(`${message.author.toString()}, do you want to host a **Guess The Number** game (__**Range:**__ ${min}-${max}) now?`).setTimestamp().setColor(client.color)
+      ],
       components: [row]
     });
 

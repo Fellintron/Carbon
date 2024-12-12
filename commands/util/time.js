@@ -25,11 +25,13 @@ module.exports = {
       );
 
     const embed = new EmbedBuilder()
-      .setTitle('Time Formatter')
+      .setTitle('Timestamp formatter')
       .setDescription(
         'Choose a format and click the button to get text that you can copy.'
       ).setColor(client.color).setTimestamp();
+      
     const components = [new ActionRowBuilder(), new ActionRowBuilder()];
+    
     const array = [
       ['Short time', 't'],
       ['Long time', 'T'],
@@ -39,6 +41,7 @@ module.exports = {
       ['Long date time', 'F'],
       ['Relative time', 'R']
     ];
+    
     for (const val of array) {
       embed.addFields([
         {
@@ -50,6 +53,7 @@ module.exports = {
           inline: true
         }
       ]);
+      
       if (components[0].components.length < 5) {
         components[0].addComponents([
           new ButtonBuilder()

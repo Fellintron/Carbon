@@ -78,11 +78,11 @@ module.exports = {
         let dbUser = await userDb.findOne({
           userId: user.id
         });
-        if (!dbUser || !dbUser.afk.afk) {
+        if (!dbUser || !dbUser?.afk) {
           return message.reply(`${user.toString()} is not AFK!`);
         }
-        client.db.afks = client.db.afks.filter((a) => a !== user.id);
-        dbUser.afk.afk = false;
+        client.afks = client.db.afks.filter((a) => a !== user.id);
+        dbUser?.afk = false;
         dbUser.save();
 
         return message.reply('Removed their AFK.');
