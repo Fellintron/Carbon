@@ -107,9 +107,11 @@ module.exports = {
        
 
       const row = new ActionRowBuilder().addComponents([
+        firstButton,
         previousButton,
         deleteButton,
-        nextButton
+        nextButton,
+        lastButton
       ]);
 
       return {
@@ -152,8 +154,10 @@ module.exports = {
         await interaction.editReply(getResponse({ index }));
       } else if (id === 'first') {
         index = 0
+        await interaction.editReply(getResponse({ index }))
       } else if (id === 'last') {
         index = snipedMessages.length - 1
+        await interaction.editReply(getResponse({ index }))
       }
       else if (id === 'delete') {
         await response.delete();
