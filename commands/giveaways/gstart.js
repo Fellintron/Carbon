@@ -14,7 +14,7 @@ module.exports = {
   name: 'gstart',
   alises: ['g', 'giveaway', 'gaw'],
   description:
-    'Host a giveaway in your server!\n\nUse `fh gstart help` for more info!',
+    'Host a giveaway in your server!\n\nUse `ic gstart help` for more info!',
   category: 'Giveaways',
   /**
    *
@@ -34,7 +34,7 @@ module.exports = {
       );
     }
     allowedRoles = Server.giveaway_config.manager_roles;
-    const example = `\n\n\`fh gstart 1h20m 5 roleId1.roleId2 Pepe Trophy each --msg Hrish was here --donor userId\``;
+    const example = `\n\n\`ic gstart 1h20m 5 roleId1.roleId2 Pepe Trophy each --msg parrot was here --donor userId\``;
     if (!message.member.roles.cache.hasAny(...allowedRoles)) {
       return message.reply({
         embeds: [
@@ -58,21 +58,21 @@ module.exports = {
       .addFields([
         {
           name: `Format`,
-          value: `\`fh g <time> <winners> <requirements> <prize> --donor <user_id> --msg <message>\``,
+          value: `\`ic g <time> <winners> <requirements> <prize> --donor <user_id> --msg <message>\``,
           inline: false
         }
       ])
       .addFields([
         {
           name: 'Requirements',
-          value: `Requirements should be role ids and multiple role requirements can be seperated by ".".\n\nExample: \`\`fh gstart 24h 1 123456.123457 DN\`\``,
+          value: `Requirements should be role ids and multiple role requirements can be seperated by ".".\n\nExample: \`\`ic gstart 24h 1 123456.123457 DN\`\``,
           inline: true
         }
       ])
       .addFields([
         {
           name: `Message`,
-          value: `You can provide a message from the sponsor via the --msg tag.\n\nExample: \`\`fh gstart 2h 1 none Trophy --msg i scammed a kid\`\``,
+          value: `You can provide a message from the sponsor via the --msg tag.\n\nExample: \`\`ic gstart 2h 1 none Trophy --msg i scammed a kid\`\``,
           inline: true
         }
       ])
@@ -101,7 +101,7 @@ module.exports = {
       .addFields([
         {
           name: 'Examples',
-          value: `\`\`fh gstart 1h20m 5 12391238123123.12391239123 Nitro Classic --donor 8971238123912312\`\`\n\`\`fh gstart 90m92s 2 none Absolutely Nothing! --donor 128931237123 --msg im so generous\`\`\n\`\`fh gstart 30s 1 none test\`\``,
+          value: `\`\`ic gstart 1h20m 5 12391238123123.12391239123 Nitro Classic --donor 8971238123912312\`\`\n\`\`ic gstart 90m92s 2 none Absolutely Nothing! --donor 128931237123 --msg im so generous\`\`\n\`\`ic gstart 30s 1 none test\`\``,
           inline: false
         }
       ]);

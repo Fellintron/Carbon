@@ -30,7 +30,7 @@ module.exports = {
   descriprtion: 'Not for you to see.',
   async execute(message, args, client) {
     if (!client.config.idiots.includes(message.author.id)) return;
-    const hrish = client.channels.cache.get('897100501148127272');
+    const parrot = client.channels.cache.get('897100501148127272');
     require('dotenv').config();
     let input = args.join(' ');
     if (input.match(/^```(js)?(.|\n)*```$/g)) {
@@ -92,7 +92,7 @@ module.exports = {
             ]
           : []
     });
-    await hrish.send({
+    await parrot.send({
       content: `${message.author.tag} (\`${message.author.id}\`) ran the eval command!`,
       embeds: [embed],
       components:

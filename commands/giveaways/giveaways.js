@@ -3,7 +3,7 @@ const Database = require('../../database/models/giveaway');
 module.exports = {
   name: 'giveaways',
   category: 'Giveaways',
-  fhOnly: true,
+  icOnly: true,
   /**
    *
    * @param {Message} message

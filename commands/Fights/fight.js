@@ -19,7 +19,6 @@ module.exports = {
   checkDeath: (user, collector, message, current, gamedata, logs) => {
     if (user.hp < 1) {
       collector.stop();
-     // message.components[0].components.forEach((c) => c.setDisabled());
       const embed =  EmbedBuilder.from(message.embeds[0]).setColor('Random').setFields([
         {
           name: gamedata[0].user.tag,
@@ -93,10 +92,6 @@ module.exports = {
       }
     };
 
-    if (message.channel.id === '834394537249996810') {
-      return message.channel.send("This command isn't meant for you bozos");
-    }
-
     const target = message.mentions.users?.first();
     if (!target)
       return message.reply(`You have to mention someone to fight with.`);
@@ -122,26 +117,26 @@ module.exports = {
     });
     
     const collector = confirMessage.createMessageComponentCollector({
-      filter: (b) => {
-        if (b.user.id !== target.id) {
-          return b.reply({
-            content: `Only ${target.toString()} can use this interaction!`,
-            ephemeral: true
-          });
-        } else return true;
-      },
       idle: 15 * 1000
     });
     let status = 'no response';
 
     collector.on('collect', async (btn) => {
+      await btn.deferUpdate()
+      
+     if (btn.user.id !== target.id) {
+          return btn.followUp({
+            content: `Only ${target.toString()} can use this interaction!`,
+            ephemeral: true
+          });
+    
       if (btn.customId.includes('no')) {
         collector.stop();
         status = 'rejected lol';
-        btn.deferUpdate();
+        
         return;
       }
-      btn.deferUpdate();
+      
       status = 'asdkjgnasg';
       collector.stop();
       const gamedata = [
@@ -181,7 +176,7 @@ module.exports = {
             inline: false
           }
         ])
-        .setColor('Random');
+        .setColor(client.color);
       let logs = [];
       const mainMessage = await message.channel.send({
         content: `${current.user.toString()} its your turn!`,
@@ -268,8 +263,6 @@ module.exports = {
 
     collector.on('end', () => {
       if (status.includes('respon')) {
-        console.log(confirMessage.components)
-      //  confirMessage.components[0].components.forEach((c) => c.setDisabled());
         confirMessage.edit({
           content: `~~${confirMessage.content}~~\n\nNo response!`,
           components: disableButtons(confirMessage.components)
@@ -293,15 +286,3 @@ module.exports = {
     });
   }
 };
-
-function disableButtons(components) {
-  for (let x = 0; x < components.length; x++) {
-    for (let y = 0; y < components[x].components.length; y++) {
-      components[x].components[y] = ButtonBuilder.from(
-        components[x].components[y],
-      );
-      components[x].components[y].setDisabled(true);
-    }
-  }
-  return components;
-}

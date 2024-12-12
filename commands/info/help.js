@@ -1,4 +1,4 @@
-const prefix = 'fh ';
+const prefix = 'ic ';
 const {
   Message,
   Client,
@@ -58,11 +58,11 @@ module.exports = {
           embed.addFields([
             {
               name: 'Usage',
-              value: `\`\`\`yaml\nfh ${command.name} ${command.usage}\`\`\``
+              value: `\`\`\`yaml\nic ${command.name} ${command.usage}\`\`\``
             }
           ]);
         }
-        if (command.fhOnly) {
+        if (command.icOnly) {
           embed.setFooter({
             text: 'Note: This command can only be used in FightHub!'
           });
@@ -79,7 +79,7 @@ module.exports = {
       .setDescription(`Select a Category to see the commands!`)
       .setThumbnail(client.user.displayAvatarURL())
       .setFooter({
-        text: 'Use fh help [command/alias] for more info!'
+        text: 'Use ic help [command/alias] for more info!'
       });
 
     const selection = new SelectMenuBuilder()
@@ -125,7 +125,7 @@ module.exports = {
         {
           label: 'Other',
           value: 'select-Other',
-          description: "Hrish didn't know where these commands go",
+          description: "parrot didn't know where these commands go",
           emoji: '📚'
         }
       ])

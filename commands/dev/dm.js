@@ -2,9 +2,7 @@ const { Client, Message, EmbedBuilder } = require('discord.js');
 
 module.exports = {
   name: 'dm',
-  fhOnly: false,
   category: 'Developer',
-  disabledChannels: [],
   usage: '',
   /**
    * @param {Client} client
@@ -56,11 +54,9 @@ module.exports = {
     } catch (e) {
       return message.reply({
         content: `Could not DM the user.\nError: ${
-          e.message || 'hrish is dumb'
+          e.message || 'parrot is dumb'
         }`
       });
     }
   }
 };
-
-// aaaaa restart

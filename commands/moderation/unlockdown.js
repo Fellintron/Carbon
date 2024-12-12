@@ -14,7 +14,7 @@ module.exports = {
 
     if (!server || !server.lockdownSet.channels)
       return message.channel.send(
-        `This server has not yet set the channels that are supposed to be locked down.\nCheck \`fh lds\` for more info.`
+        `This server has not yet set the channels that are supposed to be locked down.\nCheck \`ic lds\` for more info.`
       );
 
     const yesbut = new ButtonBuilder()

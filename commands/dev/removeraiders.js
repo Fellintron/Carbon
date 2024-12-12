@@ -1,19 +1,12 @@
-const { Client, Message } = require('discord.js');
 const ms = require('ms');
 
 module.exports = {
   name: 'removeraiders',
-  aliases: ['deleteraiders', 'fuckraid', 'HELPIMGETTINGRAIDEDAA'],
+  aliases: ['deleteraiders'],
   category: 'Moderation',
   description:
     'Kicks all the new members who have joined in the last __x__ minutes/hours.',
   usage: '<time (1d, 5m, 3s, 1y)>',
-  /**
-   * @param {Message} message
-   * @param {String[]} args
-   * @param {Client} client
-   * @returns
-   */
   async execute(message, args, client) {
     if (!client.config.cmds.removeRaiders.includes(message.author.id)) return;
     if (!args[0])

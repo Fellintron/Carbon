@@ -4,11 +4,11 @@ module.exports = {
   name: 'lockdownset',
   aliases: ['lockdownsetting', 'lds', 'lockset'],
   async execute(message, args) {
-    // fh lockset add #channel #channel2 ...
-    // fh lockset remove #channel #channel2 ...
-    // fh lockset list
-    // fh lockset clear
-    // fh lockset message [message]
+    // ic lockset add #channel #channel2 ...
+    // ic lockset remove #channel #channel2 ...
+    // ic lockset list
+    // ic lockset clear
+    // ic lockset message [message]
     if (!message.member.permissions.has('Administrator'))
       return message.channel.send(
         `You must have the Administrator permission to run this command`
@@ -24,28 +24,28 @@ module.exports = {
     const helpbed = {
       title: 'Lockdown Settings Help',
       description:
-        'For further help please dm Hrishikesh#0369\n\nCurrent commands are: `fh lds add` `fh lds remove` `fh lds list` `fh lds clear` `fh lds message`',
+        'For further help please dm parrotikesh#0369\n\nCurrent commands are: `ic lds add` `ic lds remove` `ic lds list` `ic lds clear` `ic lds message`',
       fields: [
         {
-          name: 'fh lds add',
+          name: 'ic lds add',
           value: `This command __adds__ a channel(s) to the list, if no channel is #tagged, it will select the current channel, you can provide multiple channels by tagging them.`
         },
         {
-          name: 'fh lds remove',
+          name: 'ic lds remove',
           value:
             'This command __removes__ channel(s) from the list, if no channel is #tagged, it will select the current channel, you can provide multiple channels by tagging them.'
         },
         {
-          name: 'fh lds list',
+          name: 'ic lds list',
           value: 'Shows all the current channels that will be locked down.'
         },
         {
-          name: 'fh lds clear',
+          name: 'ic lds clear',
           value:
             'Removes __all__ the channels from the lockdown list, this change is **irreversible**.'
         },
         {
-          name: 'fh lds message',
+          name: 'ic lds message',
           value:
             'Set the message that will be showed when the server is locked, if no arguments are provided, it will show the current message if any.'
         }
@@ -58,7 +58,7 @@ module.exports = {
 
     if (!args[0])
       return message.channel.send(
-        `Please tell me what to do, run \`fh lockset help\` to know the list of commands.`
+        `Please tell me what to do, run \`ic lockset help\` to know the list of commands.`
       );
 
     if (args[0] === 'help') {
@@ -115,7 +115,7 @@ module.exports = {
           serversettings.save();
 
           return message.channel.send(
-            `${message.channel} has been added to the lockdown list.\nType \`fh lds list\` to check all the channels.`
+            `${message.channel} has been added to the lockdown list.\nType \`ic lds list\` to check all the channels.`
           );
         }
       } else {

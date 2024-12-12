@@ -2,6 +2,7 @@ const {
   CommandInteraction,
   Client,
   EmbedBuilder,
+  italic,
   SlashCommandBuilder
 } = require('discord.js');
 const SETTINGS = require('../database/models/settingsSchema');
@@ -9,24 +10,24 @@ module.exports = {
   global: true,
   data: new SlashCommandBuilder()
     .setName('snipe-config')
-    .setDescription('Configure the snipe settings for your server!')
+    .setDescription('Configure the snipe settings for your server')
     .addSubcommandGroup((group) => {
       return group
         .setName('allowed-role')
-        .setDescription('Roles which can use the snipe command!')
+        .setDescription('Roles which can use the snipe command')
         .addSubcommand((cmd) => {
           return cmd
             .setName('list')
             .setDescription(
-              'View all the roles that can run the `fh snipe` and `fh esnipe` command.'
+              'View all the roles that can run the `ic snipe` and `ic editsnipe` command.'
             );
         })
         .addSubcommand((cmd) => {
           return cmd
             .setName('add')
             .setDescription('Add a role.')
-            .addRoleOption((o) => {
-              return o
+            .addRoleOption((option) => {
+              return option 
                 .setName('role')
                 .setDescription('The role you want to add.');
             });
@@ -67,16 +68,16 @@ module.exports = {
       });
     }
     if (interaction?.options.getSubcommand() == 'toggle') {
-      if (server.snipe_config?.enabled) {
-        server.snipe_config.enabled = false;
+      if (server.snipeConfig?.enabled) {
+        server.snipeConfig.enabled = false;
       } else {
-        server.snipe_config.enabled = true;
+        server.snipeConfig.enabled = true;
       }
       server.save();
 
       return interaction.reply(
         `Snipes are now **${
-          server.snipe_config.enabled ? 'enabled' : 'disabled'
+          server.snipeConfig.enabled ? 'enabled' : 'disabled'
         }** for this server.`
       );
     }
@@ -85,22 +86,22 @@ module.exports = {
 
     if (group === 'allowed-role') {
       const command = interaction.options.getSubcommand();
-      if (!server.snipe_config?.allowed_roles) {
-        server.snipe_config.allowed_roles = [];
+      if (!server.snipeConfig?.allowedRoles) {
+        server.snipeConfig.allowedRoles = [];
       }
       if (command == 'list') {
         return interaction.reply({
           embeds: [
             new EmbedBuilder()
-              .setTitle('Snipe Whitelist Roles')
+              .setTitle('Snipe whitelist roles')
               .setDescription(
-                'You can change these roles by using /snipe-config!'
+                'You can change these roles by using /snipe-config.'
               )
               .addFields(
                 'Roles',
-                server.snipe_config.allowed_roles
-                  .map((v, i) => `${i + 1}: <@&${v}>`)
-                  .join('\n') || 'None.'
+                server.snipeConfig.allowedRoles
+                  .map((v, i) => `${i + 1}. <@&${v}>`)
+                  .join('\n') || italic('No snipe whitelist roles configured for this server.')
               )
               .setColor('Random')
           ]
@@ -108,7 +109,7 @@ module.exports = {
       } else if (command == 'add') {
         const role = interaction.options.getRole('role');
 
-        if (server.snipe_config.allowed_roles.includes(role.id)) {
+        if (server.snipeConfig.allowedRoles.includes(role.id)) {
           return interaction.reply({
             embeds: [
               new EmbedBuilder()
@@ -117,14 +118,14 @@ module.exports = {
             ]
           });
         }
-        server.snipe_config.allowed_roles.push(role.id);
+        server.snipeConfig.allowedRoles.push(role.id);
         server.save();
 
         return interaction.reply({
           embeds: [
             new EmbedBuilder()
-              .setTitle('Snipe Whitelist Role')
-              .setDescription(`Added ${role.toString()} to the list!`)
+              .setTitle('Snipe whitelist role')
+              .setDescription(`Added ${role.toString()} to the snipe whitelist.`)
               .setColor('Green')
               .setFooter({
                 text: 'You can check the list via /snipe-config allowed-role list'
@@ -134,19 +135,19 @@ module.exports = {
       } else if (command == 'remove') {
         const role = interaction.options.getRole('role');
 
-        if (!server.snipe_config.allowed_roles.includes(role.id)) {
+        if (!server.snipeConfig.allowedRoles.includes(role.id)) {
           return interaction.reply({
             embeds: [
               new EmbedBuilder()
                 .setDescription(
-                  `${role.toString()} is not a Snipe Whitelisted role.`
+                  `${role.toString()} is not a snipe whitelisted role.`
                 )
                 .setColor('Red')
             ]
           });
         }
-        server.snipe_config.allowed_roles =
-          server.snipe_config.allowed_roles.filter((r) => r !== role.id);
+        server.snipeConfig.allowedRoles =
+          server.snipeConfig.allowedRoles.filter((r) => r !== role.id);
         server.save();
 
         return interaction.reply({

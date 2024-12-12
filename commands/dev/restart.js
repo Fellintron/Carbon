@@ -1,14 +1,14 @@
 module.exports = {
   name: 'restart',
   category: 'Developer',
-  aliases: ['reboot', 'botisdyingplsreboot', 'EXITPROCESS'],
+  aliases: ['reboot'],
   async execute(message, args, client) {
-    if (!client.config.idiots.includes(message.author.id)) {
-      return message.reply('You cannot use this.');
+    if (!client.config.developers.includes(message.author.id)) {
+      return message.reply(`${client.emojis.cross} Only developers can use command.`);
     }
-    await message.channel.send(
-      'Restarting wait <a:fh_dead2:855683919394635786>'
-    );
-    return process.exit();
+    
+    await message.channel.send('Restarting, please wait.');
+    
+    process.exit();
   }
 };

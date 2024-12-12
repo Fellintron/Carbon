@@ -13,7 +13,7 @@ module.exports = {
    * @param {String[]} args
    */
   async execute(message, args, client) {
-    const example = '\n\n`fh rm work in 1h`';
+    const example = '\n\n`ic rm work in 1h`';
     if (!args[0]) return message.reply('Provide valid arguments.' + example);
     if (args[0] == 'list') {
       const eembed = new EmbedBuilder()
@@ -77,7 +77,7 @@ module.exports = {
       `${message.author.toString()} noted. I will remind you about **${reason} ${client.functions.formatTime(
         time,
         'R'
-      )}**.\nType \`fh rm list\` to check your reminders!`
+      )}**.\nType \`ic rm list\` to check your reminders!`
     );
   }
 };

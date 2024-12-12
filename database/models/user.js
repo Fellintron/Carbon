@@ -4,10 +4,8 @@ const UserSchema = new mongoose.Schema({
   userId: String,
   commandsRan: { type: Number, default: 0 },
   afk: {
-    type: Object,
-    default: {
-      afk: false
-    }
+    reason: String,
+    timestamp: Number,
   },
   highlight: {
     words: [String]

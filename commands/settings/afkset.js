@@ -18,9 +18,9 @@ module.exports = {
       return message.reply('Only Community Managers+ can run this command!');
 
     const examples = {
-      ignore: `\`fh afkset ignore #${message.channel.name}\``,
-      remove: `\`fh afkset clear @${message.author.tag}\` or \`fh afkset clear ${message.author.id}\``,
-      ignores: `\`fh afkset ignores\``
+      ignore: `\`ic afkset ignore #${message.channel.name}\``,
+      remove: `\`ic afkset clear @${message.author.tag}\` or \`ic afkset clear ${message.author.id}\``,
+      ignores: `\`ic afkset ignores\``
     };
     if (
       !args[0] ||

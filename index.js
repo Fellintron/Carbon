@@ -36,11 +36,10 @@ client.counts = {
   messages: 0,
   hls: 0
 };
-client.snipes = {
-  snipes: new Collection(),
-  esnipes: new Collection()
-};
+client.snipedMessages= new Collection()
+client.editSnipedMessages= new Collection()
 client.skulls = new Collection();
+client.afks = []
 client.db = {
   afks: [],
   afkIgnore: [],
@@ -267,7 +266,7 @@ client.on('messageCreate', (msg) => {
     msg.content.toLowerCase().includes('help')
   ) {
     msg
-      .reply(`Hello :wave:\nMy prefix in this server is \`fh \`!`)
+      .reply(`Hello :wave:\nMy prefix in this server is \`ic \`!`)
       .then(async (m) => {
         await msg.client.functions.sleep(2500);
         m.delete();
@@ -292,7 +291,7 @@ client.on('messageCreate', async (message) => {
   if (client.c.disabledCommands.includes(command.name)) {
     return message.reply('This command is temporarily disabled.');
   }
-  if (message.guild && message.guild.id !== config.guildId && command.fhOnly)
+  if (message.guild && message.guild.id !== config.guildId && command.icOnly)
     return message.reply(
       `This command can only be run in FightHub temporarily.`
     );

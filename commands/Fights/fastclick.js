@@ -1,19 +1,17 @@
 const {
-  Message,
   ButtonBuilder,
   ActionRowBuilder,
+  EmbedBuilder,
   ButtonStyle
 } = require('discord.js');
 const ms = require('pretty-ms');
+
 module.exports = {
   name: 'fastclick',
   category: 'Fights',
   usage: '<USER>',
   description: 'Use your skills to win fights, the fastest to click wins!',
-  /**
-   * @param {Message} message
-   */
-  async execute(message, args) {
+  async execute(message, args, client) {
     const user1 = message.member;
     const user2 =
       message.mentions.members.first() ||
@@ -21,11 +19,11 @@ module.exports = {
 
     if (!user2)
       return message.channel.send(
-        `You must mention someone to play with them!\n\nExample: \`fh fastclick @Hrishikesh#0369\``
+        `You must mention someone to play with them!\n\nExample: \`ic fastclick @parrot7702\``
       );
     if (user1.id === user1.id)
       return message.channel.send(
-        `Please don't play yourself, it's kinda lonely`
+        `Please don't play yourself, it's kinda lonely.`
       );
 
     let yesButton = new ButtonBuilder()
@@ -36,31 +34,33 @@ module.exports = {
       .setStyle(ButtonStyle.Danger)
       .setCustomId('no_fc')
       .setLabel('Decline');
+      
     let row = new ActionRowBuilder().addComponents([noButton, yesButton]);
+    
     const confirmation = await message.channel.send({
       embeds: [
-        {
-          title: 'Confirmation',
-          description: `${user2}, ${user1} has challenged you for a game of fast click.\nWhat do you say?`,
-          timestamp: new Date()
-        }
+        new EmbedBuilder().setTitle('Confirmation')
+         .setDescription(`${user2}, ${user1} has challenged you for a game of fast click.\nWhat do you say?`)
+         .setTimestamp()
+        .setColor(client.color)
       ],
       components: [row]
     });
-    const confirmationCollector = confirmation.createMessageComponentCollector({
-      time: 30000
+    
+    const collector = confirmation.createMessageComponentCollector({
+      time: 10*60*1000
     });
 
-    confirmationCollector.on('collect', async (button) => {
+   collector.on('collect', async (button) => {
+      await button.deferUpdate()
       if (button.user.id !== user2.id) {
-        return button.reply({
-          content: 'This is not for you.',
+        return button.followUp({
+          content: 'This interaction is not for you.',
           ephemeral: true
         });
       }
 
-      if (button.customId === 'yes_fc') {
-        button.deferUpdate();
+      if (button.customId === 'yes') {
         yesButton.setDisabled();
         noButton = noButton
           .setStyle(ButtonStyle.Secondary)

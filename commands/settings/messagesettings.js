@@ -2,9 +2,9 @@ const { Message } = require('discord.js');
 const db = require('../../database/models/user');
 module.exports = {
   name: 'messagesettings',
-  fhOnly: false,
+  icOnly: false,
   aliases: ['msettings', 'contentsettings'],
-  fhOnly: true,
+  icOnly: true,
   /**
    * @param {Message} message
    * @param {String[]} args
@@ -43,7 +43,7 @@ module.exports = {
           {
             title: 'Help - Invalid option entered',
             description: `To disable/enable a certain message content setting, please use one of the following sub-commands:\n${options
-              .map((o) => `**\`fh msettings ${o}\`**`)
+              .map((o) => `**\`ic msettings ${o}\`**`)
               .join('\n')}`
           }
         ]

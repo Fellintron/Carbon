@@ -5,7 +5,7 @@ module.exports = {
   aliases: ['ar'],
   subcommands: ['+', 'add', '-', 'remove', 'list'],
   category: 'Moderation',
-  fhOnly: true,
+  icOnly: true,
   /**
    * @param {Message} message
    * @param {String[]} args
@@ -23,7 +23,7 @@ module.exports = {
         return message.reply({
           embeds: [
             {
-              description: `\`\`\`xml\n<Usage: fh ar add <auto trigger (Not found.)> <response>>\n\`\`\``
+              description: `\`\`\`xml\n<Usage: ic ar add <auto trigger (Not found.)> <response>>\n\`\`\``
             }
           ]
         });
@@ -42,7 +42,7 @@ module.exports = {
         return message.reply({
           embeds: [
             {
-              description: `\`\`\`xml\n<Usage: fh ar add <auto trigger> <response (Not found.)>>\n\`\`\``
+              description: `\`\`\`xml\n<Usage: ic ar add <auto trigger> <response (Not found.)>>\n\`\`\``
             }
           ]
         });

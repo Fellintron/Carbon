@@ -1,7 +1,5 @@
 const {
   EmbedBuilder,
-  Client,
-  Message,
   ButtonBuilder,
   ActionRowBuilder,
   ButtonStyle
@@ -10,37 +8,30 @@ const settings = require('../../database/models/settingsSchema');
 
 module.exports = {
   name: 'snipe',
-  category: 'Fun',
-  description: 'get sniped lol',
-  disabledChannels: ['874330931752730674'],
-  /**
-   *
-   * @param {Message} message
-   * @param {String[]} args
-   * @param {Client} client
-   * @returns
-   */
+  category: 'Moderation',
+  description: 'Snipe deleted messages',
   async execute(message, args, client) {
-    const sniped = client.snipes.snipes.get(message.channel.id);
+    const snipedMessages = client.snipedMessages.get(message.channel.id);
+    
     const server = await settings.findOne({
       guildID: message.guild.id
     });
 
-    if (!server || !server.snipe_config?.allowed_roles.length) {
+    if (!server || !server?.snipeConfig?.allowedRoles?.length) {
       return message.reply(
-        'This server has not yet setup the Snipe Feature.\nPlease ask an admin to run `/snipe-config` to set it up. If you cant see the slash commands please reinvite the bot using `fh invite`.'
+        'This server has not yet setup the snipe feature.\nPlease ask an Administrator to run `/snipe-config`.'
       );
     }
 
-    if (!server.snipe_config.enabled) {
+    if (!server?.snipeConfig?.enabled) {
       return message.reply(
-        'Snipes are disabled in this server! (/snipe-config)'
+        'Snipes are disabled in this server.\nPlease ask an Administrator to run /snipe-config.'
       );
     }
 
     if (
-      server.snipe_config.allowed_roles.length &&
-      !message.member.roles.cache.hasAny(...server.snipe_config.allowed_roles)
+      server?.snipeConfig?.allowedRoles.length &&
+      !message.member.roles.cache.hasAny(...server?.snipeConfig?.allowedRoles)
     ) {
       return message.reply({
         embeds: [
@@ -48,7 +39,7 @@ module.exports = {
             title: 'No permission!',
             description:
               'You need to have one of the following roles to use this command:' +
-              `\n${server.snipe_config.allowed_roles
+              `\n${server.snipeConfig.allowedRoles
                 .map((a) => `<:bdash:919555889239822477><@&${a}>`)
                 .join('\n')}`
           }
@@ -56,134 +47,87 @@ module.exports = {
       });
     }
 
-    if (!sniped || sniped == undefined) {
-      message.channel.send('There is nothing to snipe!');
-      return;
+    if (!snipedMessages) {
+    return message.channel.send('There is nothing to snipe.');
     }
 
-    let snipe = +args[0] - 1 || 0;
+    let index = +parseInt(args[0]) - 1;
+    index ??= 0
 
-    let target = sniped[snipe];
+    function getResponse({ id, disabled =false}) {
+    const { content, author, deletedTimestamp, attachmentURL, createdTimestamp } = snipedMessages[id];
 
-    let { msg, time, image } = target;
-
-    let snipeBed = new EmbedBuilder()
+    const embed = new EmbedBuilder()
       .setAuthor({
-        name: msg.author.tag,
-        iconURL: msg.author.displayAvatarURL() || null
+        name: author.username,
+        iconURL: author.displayAvatarURL()
       })
-      .setDescription(msg.content)
-      .setColor('Random')
-      .setFooter({ text: `${snipe + 1}/${sniped.length}` })
-      .setImage(image)
-      .setTimestamp(time);
-    let prevBut = new ButtonBuilder()
-      .setEmoji('911971090954326017')
-      .setCustomId('prev-snipe')
-      .setStyle(ButtonStyle.Success);
-    let delBut = new ButtonBuilder()
-      .setEmoji('🗑')
-      .setCustomId('del-snipe')
-      .setStyle(ButtonStyle.Primary);
-    let nextBut = new ButtonBuilder()
-      .setEmoji('911971202048864267')
-      .setCustomId('next-snipe')
-      .setStyle(ButtonStyle.Success);
-    let row = new ActionRowBuilder().addComponents([prevBut, delBut, nextBut]);
+      .setColor(client.color)
+      .setFooter({ text: `${id + 1}/${snipedMessages.length}` })
+      .setImage(attachmentURL)
+    
 
-    const mainMessage = await message.channel.send({
-      content: 'Use the buttons to navigate.',
-      embeds: [snipeBed],
-      components: [row]
+      if (content) embed.setDescription(content)
+      
+  const previousButton = new ButtonBuilder()
+    .setEmoji('911971090954326017')
+    .setCustomId('previous')
+    .setStyle(ButtonStyle.Success)
+    .setDisabled(disabled || index === 0);
+  const deleteButton = new ButtonBuilder()
+    .setEmoji('🗑')
+    .setCustomId('delete')
+    .setStyle(ButtonStyle.Primary)
+    .setDisabled(disabled);
+  const nextButton = new ButtonBuilder()
+    .setEmoji('911971202048864267')
+    .setCustomId('next')
+    .setStyle(ButtonStyle.Success)
+    .setDisabled(disabled || editSnipedMessages.length)
+
+  const row = new ActionRowBuilder().addComponents([previousButton, deleteButton, nextButton]);
+      
+      return { content: `**__Sent at:__** <t:${(createdTimestamp/1000).toFixed()}:R>\n**__Deleted at:__ <t:${(deletedTimestamp/1000).toFixed()}:R>`, embeds: [embed], components: [row] }
+}
+  
+    const response = await message.channel.send(getResponse({ index }));
+
+    const collector = response.createMessageComponentCollector({
+      time: 10*60*1000
     });
 
-    const collector = mainMessage.createMessageComponentCollector({
-      time: 30000
-    });
-
-    collector.on('collect', async (button) => {
-      if (button.user.id !== message.author.id) {
-        return button.reply({
+    collector.on('collect', async (interaction) => {
+      await interaction.deferUpdate();
+      
+      if (interaction.user.id !== message.author.id) {
+        return interaction.followUp({
           ephemeral: true,
-          content: 'This is not for you'
+          content: 'This interaction is not for you.'
         });
       }
-      const id = button.customId;
-      button.deferUpdate();
-      if (id === 'prev-snipe') {
-        snipe--;
-        if (snipe < 0) {
-          snipe = 0;
+      
+      const id = interaction.customId;
+      if (id === 'previous') {
+        index--;
+        if (index < 0) {
+          index = 0;
         }
-        target = sniped[snipe];
-        let { msg, time, image } = target;
-        snipeBed = new EmbedBuilder()
-          .setAuthor({
-            name: msg.author.tag,
-            iconURL: msg.author.displayAvatarURL() || null
-          })
-          .setDescription(msg.content)
-          .setColor('Random')
-          .setFooter({ text: `${snipe + 1}/${sniped.length}` })
-          .setImage(image)
-          .setTimestamp(time);
-
-        return mainMessage.edit({
-          content: 'Use the buttons to navigate.',
-          embeds: [snipeBed],
-          components: [row]
-        });
-      } else if (id === 'next-snipe') {
-        snipe++;
-        if (snipe > sniped.length || snipe == sniped.length) {
-          snipe = sniped.length - 1;
+  
+        await interaction.editReply(getResponse({ index }));
+      } else if (id === 'next') {
+        index++;
+        if (index > snipedMessages.length || index == snipedMessages.length) {
+         index = snipedMessages.length - 1;
         }
-        target = sniped[snipe];
-        let { msg, time, image } = target;
-        snipeBed = new EmbedBuilder()
-          .setAuthor({
-            name: msg.author.tag,
-            iconURL: msg.author.displayAvatarURL() || null
-          })
-          .setDescription(msg.content)
-          .setColor('Random')
-          .setFooter({ text: `${snipe + 1}/${sniped.length}` })
-          .setImage(image)
-          .setTimestamp(time);
-
-        return mainMessage.edit({
-          content: 'Use the buttons to navigate.',
-          embeds: [snipeBed],
-          components: [row]
-        });
-      } else {
-        mainMessage.delete();
+        
+       await interaction.editReply(getResponse({ index }))
+      } else if (id === 'delete') {
+       await response.delete();
       }
     });
 
-    collector.on('end', () => {
-      prevBut = prevBut.setDisabled();
-      nextBut = nextBut.setDisabled();
-      row = new ActionRowBuilder().addComponents([prevBut, nextBut]);
-      target = sniped[snipe];
-      let { msg, time, image } = target;
-      snipeBed = new EmbedBuilder()
-        .setAuthor({
-          name: msg.author.tag,
-          iconURL: msg.author.displayAvatarURL() || null
-        })
-        .setDescription(msg.content)
-        .setColor('Random')
-        .setFooter({ text: `${snipe + 1}/${sniped.length}` })
-        .setImage(image)
-        .setTimestamp(time);
-      try {
-        mainMessage.edit({
-          content: 'Use the buttons to navigate.',
-          embeds: [snipeBed],
-          components: [row]
-        });
-      } catch (e) {}
+    collector.on('end',async () => {
+        await response.edit(getResponse({ index, disabled : true }));
     });
   }
 };

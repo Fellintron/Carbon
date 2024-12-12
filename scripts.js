@@ -1,4 +1,18 @@
 const { randomBytes } = require('crypto');
+const { ButtonBuilder } = require('discord.js')
+
+const disableComponents = (components) => {
+  for (let x = 0; x < components.length; x++) {
+    for (let y = 0; y < components[x].components.length; y++) {
+      components[x].components[y] = ButtonBuilder.from(
+        components[x].components[y],
+      );
+      components[x].components[y].setDisabled(true);
+    }
+  }
+  
+  return components;
+}
 
 /**
  * @param {String} string

@@ -11,7 +11,7 @@ module.exports = {
   name: 'amongus',
   category: 'Fun',
   aliases: ['amogus'],
-  fhOnly: false,
+  icOnly: false,
   disabledChannels: [],
   description: 'Start a game of amogus, right in discord!',
   /**

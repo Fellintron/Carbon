@@ -1,29 +1,23 @@
-const { Message, Client } = require('discord.js');
-// const userSchema = require('../database/models/user')
-
 module.exports = {
   name: 'messageDelete',
   once: false,
-  /**
-   *
-   * @param {Message} message
-   * @param {Client} client
-   */
   async execute(message, client) {
-    // const userSettings = await userSchema.findOne({
-    //     userId: message.author.id,
-    // })
+    if (!message.guild || message.author.bot || message.webhookId) return;
+    
+    const { author, attachments, channel, content, createdTimestamp } = message;
 
-    // if (userSettings?.messagesettings?.snipesDisabled === true) return
-
-    let snipes = client.snipes.snipes.get(message.channel.id) || [];
-
-    snipes.unshift({
-      msg: message,
-      image: message.attachments.first()?.proxyURL || null,
-      time: Date.now()
+    if (!content && attachments?.size === 0) return;
+    
+    const snipedMessages = client.snipedMessages.get(channel.id) ?? [];
+ 
+    snipedMessages.unshift({
+      author,
+      content,
+      attachmentURL: attachments?.first()?.proxyURL ?? null,
+      createdTimestamp,
+      deletedTimestamp: Date.now()
     });
 
-    client.snipes.snipes.set(message.channel.id, snipes);
+    client.snipedMessages.set(channel.id, snipedMessages);
   }
 };

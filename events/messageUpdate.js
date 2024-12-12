@@ -1,26 +1,19 @@
-// const userSchema = require('../database/models/user')
-
 module.exports = {
   name: 'messageUpdate',
   once: false,
   async execute(oldMessage, newMessage, client) {
-    // const userSettings = await userSchema.findOne({
-    //     userId: newMessage.author.id,
-    // })
+    
+    let editSnipedMessages = client.editSnipedMessages.get(oldMessage.channel.id) ?? [];
 
-    // if (userSettings?.messagesettings?.snipesDisabled === true) return
-
-    let snipes = client.snipes.esnipes.get(oldMessage.channel.id) || [];
-
-    snipes.unshift({
+    editSnipedMessages.unshift({
       oldContent: oldMessage.content,
       newContent: newMessage.content,
+      oldAttachmentURL: oldMessage.attachments.first()?.proxyURL ?? null,
+      newAttachmentURL: newMessage.attachments.first()?.proxyURL ?? null,
       editedIn: newMessage.createdAt - oldMessage.editedAt,
-      member: newMessage.member,
-      author: newMessage.author,
-      msg: newMessage
+      author: newMessage.member,
     });
 
-    client.snipes.esnipes.set(oldMessage.channel.id, snipes);
+    client.editSnipedMessages.set(oldMessage.channel.id, editSnipedMessages);
   }
 };

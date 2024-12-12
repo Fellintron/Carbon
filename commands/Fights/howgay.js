@@ -10,17 +10,12 @@ module.exports = {
   category: 'Fights',
   args: true,
   usage: '<user> <high / low>',
-  description: "Dank Memer's howgay fighthub method, but its automatic!",
-  /**
-   * @param {Message} message
-   * @param {String[]} args
-   * @param {Client} client
-   */
+  description: "Dank Memer's howgay Ice Café method, but its automatic!",
   async execute(message, args, client) {
-    const target = message.mentions?.users?.first() || null;
+    const target = message.mentions?.users?.first() ?? null;
 
     if (!target) {
-      return message.channel.send('You must ping someone to play with them!');
+      return message.channel.send('You must ping someone to play with them.');
     }
 
     const getRate = () => Math.floor(Math.random() * 101);
@@ -48,12 +43,10 @@ module.exports = {
     const confirmationMessage = await message.channel.send({
       content: `${target.toString()} do you want to play a game of HowGay with ${message.author.toString()}?`,
       embeds: [
-        {
-          title: `Confirmation | ${target.username}`,
-          description:
-            'Use the button to make your choice.\nYou have 30 seconds...',
-          color: `16776960`
-        }
+         new EmbedBuilder().setTitle(`Confirmation`)
+          .setDescription(
+            'Use the button to make your choice.\nYou have 10 minutes...')
+          .setColor(client.color)
       ],
       components: [
         new ActionRowBuilder().addComponents([
@@ -70,13 +63,13 @@ module.exports = {
     });
 
     const collector = confirmationMessage.createMessageComponentCollector({
-      time: 30 * 1000
+      time: 10 * 60 * 1000
     });
 
     collector.on('collect', async (button) => {
       if (button.user.id !== target.id) {
         return button.reply({
-          content: ':warning: This is not for you idiot.',
+          content: ':warning: This interaction is not for you.',
           ephemeral: true
         });
       }
@@ -90,7 +83,7 @@ module.exports = {
       }
 
       const mainMessage = await message.channel.send({
-        embeds: [new EmbedBuilder().setTitle('Starting game...').setColor('Random')]
+        embeds: [new EmbedBuilder().setTitle('Starting game...').setColor(client.color)]
       });
 
       await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -114,7 +107,7 @@ module.exports = {
             inline: true
           }
         )
-        .setColor('Random')
+        .setColor(client.color)
         .setFooter({
           text: 'gg'
         });

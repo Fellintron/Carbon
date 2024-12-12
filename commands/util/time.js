@@ -20,14 +20,14 @@ module.exports = {
   async execute(message, args, client) {
     if (!args[0])
       return message.reply(
-        'Please provide time.\n\nExample: `fh time 30 minutes`'
+        'Please provide time.\n\nExample: `ic time 30 minutes`'
       );
 
     const rawTime = args.join(' ');
     const time = getMilliseconds(rawTime);
     if (!time)
       return message.reply(
-        `Couldn't parse \`${rawTime}\` as valid time.\n\nExample: \`fh time 30 minutes\``
+        `Couldn't parse \`${rawTime}\` as valid time.\n\nExample: \`ic time 30 minutes\``
       );
 
     const embed = new EmbedBuilder()
@@ -85,7 +85,7 @@ module.exports = {
       filter: (b) => {
         if (b.user.id !== message.author.id) {
           return b.reply({
-            content: `Type \`fh time\` to get your own interface.`,
+            content: `Type \`ic time\` to get your own interface.`,
             ephemeral: true
           });
         } else return true;

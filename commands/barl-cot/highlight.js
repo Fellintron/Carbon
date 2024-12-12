@@ -5,7 +5,7 @@ module.exports = {
   aliases: ['hl'],
   usage: '<add/remove/list> <highlight>',
   description: "Carl bot's highlight feature.",
-  fhOnly: true,
+  icOnly: true,
   subcommands: ['add', 'remove', 'list', '+', '-'],
   /**
    * @param {Message} message
@@ -13,31 +13,8 @@ module.exports = {
    * @param {Client} client
    */
   async execute(message, args, client) {
-    const example = `\n\nExample: \`fh hl add hrish\`, \`fh hl remove felli\` & \`fh hl list\``;
-    /**
-     * boring
-     * stuff
-     * like
-     * checking
-     * perms
-     * goes
-     * here
-     * yuh
-     */
-    const roles = [
-      '824687430753189902',
-      '828048225096826890',
-      '825283097830096908',
-      '839803117646512128',
-      '997919482934734909',
-      '999911967319924817',
-      '824539655134773269'
-    ];
-    if (!message.member.roles.cache.hasAny(...roles))
-      return message.reply(
-        `You cannot run this command! Check <#843943148945276949> for more info!`
-      );
-    const action = args[0];
+    const example = `\n\nExample: \`ic hl add parrot\`, \`ic hl remove felli\` & \`ic hl list\``;
+const action = args[0];
     if (!action) {
       return message.reply('You must tell me what to do!' + example);
     }

@@ -20,8 +20,8 @@ module.exports = {
    * @param {Client} client
    */
   async execute(message, args, client) {
-    if (!client.config.idiots.includes(message.author.id))
-      return message.reply(`This command can only be run by idiots!`);
+    if (!client.config.devs.includes(message.author.id))
+      return message.reply(`This command can only be run by Developers or Admininstrator.`);
 
     const subc = ['stats', 'gdump', 'gban', 'gunban'];
     const wtf = args[0]?.toLowerCase();

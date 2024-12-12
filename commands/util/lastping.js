@@ -18,25 +18,6 @@ module.exports = {
    * @param {String[]} args
    */
   async execute(message, args) {
-    if (
-      !message.member.roles.cache.hasAny(
-        '826197829126979635',
-        '824687526396297226',
-        '825965323500126208',
-        '828048225096826890',
-        '824348974449819658',
-        '999912526445809836'
-      )
-    ) {
-      return message.reply(
-        `You don't have permission to run this command. Check <#843943148945276949> for more info.`
-      );
-    }
-
-    if (message.channel.id === '870240187198885888') {
-      return message.channel.send('Try this command elsewhere.');
-    }
-
     const DBUser = await Pings.findOne({ userId: message.author.id });
 
     const PingBed = new EmbedBuilder()

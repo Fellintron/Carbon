@@ -2,7 +2,7 @@ const { Client, Message, EmbedBuilder } = require('discord.js');
 
 module.exports = {
   name: 'snipeset',
-  fhOnly: false,
+  icOnly: false,
   disabledChannels: [],
   /**
    * @param {Client} client
@@ -22,7 +22,7 @@ module.exports = {
 
     if (!args[0]) {
       message.channel.send(
-        `Please specify what you want to do.\nType \`fh snipeset help\` for more info.`
+        `Please specify what you want to do.\nType \`ic snipeset help\` for more info.`
       );
       return;
     }

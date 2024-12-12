@@ -11,9 +11,9 @@ const SettingsSchema = new mongoose.Schema({
     channelId: String
   },
   disabledDrop: { type: [String] },
-  snipe_config: {
+  snipeConfig: {
     enabled: Boolean,
-    allowed_roles: [String]
+    allowedRoles: [String]
   },
   giveaway_config: {
     manager_roles: [String],

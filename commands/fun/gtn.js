@@ -1,5 +1,4 @@
 const {
-  Message,
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle
@@ -8,128 +7,117 @@ const {
 module.exports = {
   name: 'guessthenumber',
   aliases: ['gtn'],
-  usage: '<limit>',
-  description: 'Use this command to start GuessTheNumber event!',
-  /**
-   * @param {Message} message
-   * @param {String[]} args
-   */
+  usage: '<min> <max> <duration>',
+  description: 'Starts a **Guess The Number** game.',
   async execute(message, args) {
-    const modRoles = ['858088054942203945', '824348974449819658'];
-    if (!message.member.roles.cache.hasAny(...modRoles)) {
-      return message.reply('You do not have permission to use this command.');
-    }
-
     if (!args[0])
       return message.reply({
         content:
-          'Please provide a upper limit.\n\nThis example will start a gtn from 1-100: `fh gtn 100`'
+          'Please provide a lower limit.\n\nThis example will start a **Guess The Number** game from 1-100: `ic gtn 1 100`'
       });
 
-    if (isNaN(Number(args[0]))) return message.reply('Provide a valid number.');
+ if (!args[1])
+      return message.reply({
+        content:
+          'Please provide an upper limit.\n\nThis example will start a **Guess The Number** game from 1-100: `ic gtn 1 100`'
+      });
 
-    const number = +args[0];
-    const randomNumber = message.client.functions.getRandom(0, number);
+    const min = parseInt(args[0]);
+    const max = parseInt(args[1]);
+    
+    if (!min) return message.reply({ content: 'Please provide a valid lower limit.'})
+if (!max) return message.reply({ content: 'Please provide a valid upper limit.'})
+    
+    const randomNumber = message.client.functions.getRandom(min, max);
 
-    const msg = await message.channel.send({
-      content: `${message.author.toString()} do you want to host a GTN(0-${number}) now?`,
-      components: [
-        new ActionRowBuilder().addComponents([
-          new ButtonBuilder()
+const startButton =    new ButtonBuilder()
             .setLabel('Start')
             .setStyle(ButtonStyle.Success)
-            .setCustomId('start-gtn'),
-          new ButtonBuilder()
-            .setLabel('No')
-            .setStyle(ButtonStyle.Danger)
-            .setCustomId('cancel-gtn')
-        ])
-      ]
+            .setCustomId('start'),
+const cancelButton =    new ButtonBuilder()
+      .setLabel('Cancel')
+      .setStyle(ButtonStyle.Danger)
+      .setCustomId('cancel')
+      
+      const row = new ActionRowBuilder([startButton, cancelButton])
+      
+    const response = await message.channel.send({
+      content: `${message.author.toString()}, do you want to host a **Guess The Number** game (__**Range:**__ ${min}-${max}) now?`,
+      components: [row]
     });
 
-    const collector = msg.createMessageComponentCollector({
-      filter: (b) => b.user.id === message.author.id,
-      time: 30 * 1000
+await response.pin()
+
+    const collector = response.createMessageComponentCollector({
+      time: 10 * 15 * 1_000
     });
 
-    collector.on('collect', async (button) => {
-      if (button.customId !== 'start-gtn') {
-        message.channel.send('The event has been cancelled!');
-        return collector.stop('cancel');
+    collector.on('collect', async (interaction) => {
+      await interaction.deferUpdate()
+      if (interaction.customId === 'cancel') {
+        cancelButton.setStyle(ButtonStyle.Secondary).setDisabled()
+        startButton.setDisabled()
+        
+        await interaction.editReply({ components: [row]})
       } else {
-        collector.stop('start');
-        button.reply({
-          content: `The number to be guessed is **${randomNumber}**!`,
+   startButton.setStyle(ButtonStyle.Secondary).setDisabled()
+   cancelButton.setDisabled()
+        
+        await interaction.editReply({ components: [row]})
+    
+        await interaction.followUp({
+          content: `The number to be guessed is **${randomNumber}**.`,
           ephemeral: true
         });
-        message.channel.send(
+        
+        await message.channel.send(
           'The channel will be unlocked after 5 seconds and will be automatically locked after someone guesses the number.'
         );
-        await message.client.functions.sleep(5000);
-        message.channel.send('Good luck, channel is unlocked.');
+        
+        await new Promise(resolve => setTimeout(resolve, 5000));
+
+        message.channel.send('Good luck everyone, channel is now unlocked 🔓.');
+        
         message.channel.permissionOverwrites.edit(
           message.guild.roles.everyone,
           {
             SendMessages: true
           }
         );
-        console.log(randomNumber);
 
-        const col = message.channel.createMessageCollector({
-          filter: (m) => m.content === `${randomNumber}`
+        const messageCollector = message.channel.createMessageCollector({
+          filter: (collected) => collected.content === randomNumber
         });
 
-        col.on('collect', (m) => {
+        messageCollector.on('collect', (collected) => {
           message.channel.permissionOverwrites.edit(
             message.guild.roles.everyone,
             {
               SendMessages: false
             }
           );
-          col.stop();
-          m.reply({
+          
+          messageCollector.stop();
+          collected.reply({
             embeds: [
-              {
-                title: '🎉 We have our winner',
-                description: `The number to be guessed was **${randomNumber}** and ${m.author.toString()} guessed it!`,
-                timestamp: new Date()
-              }
-            ]
+              new EmbedBuilder()
+              .setTitle( '🎉 We have our winner')
+                .setDescription(`The number to be guessed was **${randomNumber}** and ${m.author.toString()} guessed it!`)
+               .setTimestamp()
+               .setColor(client.color)
+               .setThumbnail(message.author.displayAvatarURL())
+               ]})
           });
-        });
-      }
+        }
     });
 
     collector.on('end', (reason) => {
-      if (reason == 'cancel') {
-        msg.components[0].components
-          .find((b) => b.customId !== 'cancel-gtn')
-          .setStyle(ButtonStyle.Secondary);
-        msg.components[0].components.forEach((d) => {
-          d.setDisabled();
-        });
-
-        msg.edit({
-          components: [...msg.components]
-        });
-      } else if (reason === 'start') {
-        msg.components[0].components
-          .find((b) => b.customId === 'cancel-gtn')
-          .setStyle(ButtonStyle.Secondary);
-        msg.components[0].components.forEach((d) => {
-          d.setDisabled();
-        });
-
-        msg.edit({
-          components: [...msg.components]
-        });
-      } else {
-        msg.components[0].components.forEach((d) => {
-          ButtonBuilder.from(d).setDisabled();
-        });
-
-        msg.edit({
-          components: [...msg.components]
+        if (reason === 'time') {
+       startButton.setDisabled();
+       cancelButton.setDisabled();
+       
+        response.edit({
+          components: [row]
         });
       }
     });

@@ -82,7 +82,7 @@ module.exports = {
     //               'Vinland Saga',
     //               'Demon Slayer (mid)',
     //               "JoJo's Bizzare Adventures",
-    //               'Hrish',
+    //               'parrot',
     //               'over my orphanage',
     //               'Jujutsu Kaisen',
     //               'Your Name.'
@@ -101,7 +101,7 @@ module.exports = {
     // // Random Color
     // if (randomColorCounter > 119) {
     //   randomColorCounter = 0;
-    //   const fh = client.guilds.cache.get(client.db.fighthub.id);
+    //   const ic = client.guilds.cache.get(client.db.fighthub.id);
     //   const random = [
     //     'White',
     //     'Aqua',
@@ -133,7 +133,7 @@ module.exports = {
     //     'FF00CC',
     //     'FF00CC'
     //   ];
-    //   fh.roles.cache
+    //   ic.roles.cache
     //     .get('857817197417594921')
     //     .setColor(random[Math.floor(Math.random() * random.length)]);
     // }
@@ -169,7 +169,7 @@ module.exports = {
     //                     1000
     //                   ).toFixed(
     //                     0
-    //                   )}:R>\n\nOnce you vote, you will be reminded again after 12 hours. Thanks for your support! You can toggle vote reminders by running \`fh voterm\``
+    //                   )}:R>\n\nOnce you vote, you will be reminded again after 12 hours. Thanks for your support! You can toggle vote reminders by running \`ic voterm\``
     //                 )
     //                 .setThumbnail(client.db.fighthub.iconURL())
     //             ]

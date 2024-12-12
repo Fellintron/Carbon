@@ -28,7 +28,7 @@ module.exports = {
           const msg = message.channel.send({
             embeds: [
               new EmbedBuilder()
-                .setTitle('<:fh_timeout:952067949538181130> Timeout')
+                .setTitle('<:ic_timeout:952067949538181130> Timeout')
                 .setColor('Red')
                 .setDescription(
                   `${message.member.toString()} has been timed out for **10 minutes** for saying a censored word!`
@@ -50,7 +50,7 @@ module.exports = {
           const msg = message.channel.send({
             embeds: [
               new EmbedBuilder()
-                .setTitle('<:fh_timeout:952067949538181130> Timeout')
+                .setTitle('<:ic_timeout:952067949538181130> Timeout')
                 .setColor('Red')
                 .setDescription(
                   `${message.member.toString()} has been timed out for **10 minutes** for saying a censored word!`

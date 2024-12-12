@@ -4,7 +4,7 @@ module.exports = {
   name: 'unban',
   aliases: ['ub'],
   category: 'Moderation',
-  fhOnly: false,
+  icOnly: false,
   usage: '<USER_ID> <REASON>',
   /**
    * @param {Client} client
@@ -21,7 +21,7 @@ module.exports = {
     )
       return;
 
-    const fh = client.guilds.cache.get('824294231447044197');
+    const ic = client.guilds.cache.get('824294231447044197');
     if (!args[0]) return message.reply('Either ping or give me the id.');
     const user =
       message.mentions.users.first() || (await client.users.fetch(args[0]));
@@ -31,7 +31,7 @@ module.exports = {
     const reason = args.join(' ');
     if (!reason)
       return message.reply('You also need to provide a reason for the unban.');
-    const banned = await fh.bans.fetch(user.id, { cache: true }).catch((e) => {
+    const banned = await ic.bans.fetch(user.id, { cache: true }).catch((e) => {
       return message.reply('The user is not banned.');
     });
 
@@ -43,7 +43,7 @@ module.exports = {
       dm: true
     };
     try {
-      await fh.bans.remove(user.id, reason);
+      await ic.bans.remove(user.id, reason);
     } catch (e) {
       errors.push(e.message);
       data.banned = false;

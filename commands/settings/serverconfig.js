@@ -30,7 +30,7 @@ module.exports = {
       );
     const setting = args[0];
     const possibleSettings = ['donorole', 'logchannel', 'gtnrole', 'snipes'];
-    const example = `Example: \`fh config donorole add role_id\` | \`fh config logchannel channel_id\``;
+    const example = `Example: \`ic config donorole add role_id\` | \`ic config logchannel channel_id\``;
     if (!possibleSettings.includes(setting.toLowerCase())) {
       return message.channel.send('That is not a valid setting.\n\n' + example);
     }
@@ -65,7 +65,7 @@ module.exports = {
         args.shift();
         if (!args[0])
           return message.channel.send(
-            'You must give a valid role id.\nExample: `fh config donorole add 5932941239242349`'
+            'You must give a valid role id.\nExample: `ic config donorole add 5932941239242349`'
           );
         let roleID = args[0];
         const validRole = message.guild.roles.cache.some(
@@ -83,7 +83,7 @@ module.exports = {
         args.shift();
         if (!args[0])
           return message.channel.send(
-            'You must give a valid role id.\nExample: `fh config donorole remove 5932941239242349`'
+            'You must give a valid role id.\nExample: `ic config donorole remove 5932941239242349`'
           );
         let roleID = args[0];
         const validRole = message.guild.roles.cache.some(

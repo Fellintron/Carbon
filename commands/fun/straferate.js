@@ -18,7 +18,7 @@ module.exports = {
       embeds: [
         {
           title: `Strafe r8 machine`,
-          description: `${what} ${rate}% Strafe <:fh_strafe:864780923944828938>`
+          description: `${what} ${rate}% Strafe <:ic_strafe:864780923944828938>`
         }
       ]
     });

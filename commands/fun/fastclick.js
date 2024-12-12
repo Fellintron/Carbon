@@ -20,7 +20,7 @@ module.exports = {
 
     if (!user2)
       return message.channel.send(
-        `You must mention someone to play with them!\n\nExample: \`fh fastclick @Hrishikesh#0369\``
+        `You must mention someone to play with them!\n\nExample: \`ic fastclick @parrotikesh#0369\``
       );
 
     let yesButton = new ButtonBuilder()
