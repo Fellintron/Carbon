@@ -1,6 +1,4 @@
 const {
-  Message,
-  Client,
   EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder,
@@ -10,13 +8,9 @@ const { getMilliseconds } = require('better-ms');
 
 module.exports = {
   name: 'time',
-  description: 'Get relative time.',
+  description: 'Get relative timestamps.',
+  category: 'Utility',
   usage: `<time>`,
-  /**
-   * @param {Message} message
-   * @param {String[]} args
-   * @param {Client} client
-   */
   async execute(message, args, client) {
     if (!args[0])
       return message.reply(
@@ -34,7 +28,7 @@ module.exports = {
       .setTitle('Time Formatter')
       .setDescription(
         'Choose a format and click the button to get text that you can copy.'
-      );
+      ).setColor(client.color).setTimestamp();
     const components = [new ActionRowBuilder(), new ActionRowBuilder()];
     const array = [
       ['Short time', 't'],
