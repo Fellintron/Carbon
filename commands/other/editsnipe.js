@@ -50,7 +50,7 @@ module.exports = {
       });
     }
 
-    if (!edtiSnipedMessages) {
+    if (!editSnipedMessages) {
       return message.channel.send('There is nothing to snipe.');
     }
 
