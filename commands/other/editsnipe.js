@@ -130,7 +130,7 @@ module.exports = {
       ]);
 
       return {
-        content: `**__Sent at:__** <t:${(createdTimestamp / 1000).toFixed()}:R>\n**__Edit at:__ <t:${(editedTimestamp / 1000).toFixed()}:R>`,
+        content: `**__Sent at:__** <t:${(createdTimestamp / 1000).toFixed()}:R>\n**__Edited at:__ <t:${(editedTimestamp / 1000).toFixed()}:R>`,
         embeds:
      [oldMessageEmbed, newMessageEmbed] , components: [row]};
     }
