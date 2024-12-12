@@ -2,6 +2,7 @@ const { Formatters, EmbedBuilder, Client, Message } = require('discord.js');
 
 module.exports = {
   name: 'whois',
+  category: 'Utility',
   aliases: ['wi'],
   description: 'Shows mutual guilds with the bot and information about them.',
   usage: '[user]',

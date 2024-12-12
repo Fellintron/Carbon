@@ -93,10 +93,10 @@ module.exports = {
           emoji: '👊'
         },
         {
-          label: 'Donations',
-          value: 'select-Donation',
-          description: 'Donation commands that help your server!',
-          emoji: '💵'
+          label: 'Moderation',
+          value: 'select-Moderation',
+          description: 'Moderation commands that help moderation your server!',
+          emoji: '🔨'
         },
         {
           label: 'Fun',

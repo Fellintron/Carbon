@@ -8,6 +8,7 @@ module.exports = {
   name: 'guessthenumber',
   aliases: ['gtn'],
   usage: '<min> <max> <duration>',
+  category: 'Fun',
   description: 'Starts a **Guess The Number** game.',
   async execute(message, args) {
     if (!args[0])

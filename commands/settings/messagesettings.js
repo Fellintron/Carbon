@@ -3,6 +3,7 @@ const db = require('../../database/models/user');
 module.exports = {
   name: 'messagesettings',
   icOnly: false,
+  category: 'Utility',
   aliases: ['msettings', 'contentsettings'],
   icOnly: true,
   /**

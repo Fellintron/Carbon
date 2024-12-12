@@ -4,6 +4,7 @@ module.exports = {
   name: 'exec',
   aliases: ['execute'],
   usage: '<string>',
+  category: 'Developer',
   description: 'Run code in shell.',
   async execute(message, args, client) {
     if (!client.config.developers.includes(message.author.id))

@@ -3,6 +3,7 @@ const db = require('../../database/models/settingsSchema');
 
 module.exports = {
   name: 'disable',
+  category: 'Utility',
   /**
    *
    * @param {Message} message

@@ -3,6 +3,7 @@ const db = require('../../database/models/settingsSchema');
 module.exports = {
   name: 'lockdownset',
   aliases: ['lockdownsetting', 'lds', 'lockset'],
+  category: 'Utility',
   async execute(message, args) {
     // ic lockset add #channel #channel2 ...
     // ic lockset remove #channel #channel2 ...

@@ -5,7 +5,7 @@ module.exports = {
   aliases: ['fetchbans', 'baninfo'],
   args: true,
   usage: '<id>',
-  category: 'Moderation',
+  category: 'Other',
   description: 'Check ban info about a certain user.',
   icOnly: true,
   async execute(message, args, client) {

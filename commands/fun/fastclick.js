@@ -7,6 +7,7 @@ const {
 const ms = require('pretty-ms');
 module.exports = {
   name: 'fastclick',
+  category: 'Fun',
   usage: '<USER>',
   description: 'Use your skills to win fights, the fastest to click wins!',
   /**

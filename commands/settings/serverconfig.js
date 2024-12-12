@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 module.exports = {
   name: 'serverconfig',
   aliases: ['config', 'serverconf'],
+  category: 'Utility',
   description:
     'The only command the bot dev doesnt care about, change the server config.',
   args: true,

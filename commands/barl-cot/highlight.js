@@ -5,6 +5,7 @@ module.exports = {
   aliases: ['hl'],
   usage: '<add/remove/list> <highlight>',
   description: "Carl bot's highlight feature.",
+  category: 'Utility',
   icOnly: true,
   subcommands: ['add', 'remove', 'list', '+', '-'],
   /**

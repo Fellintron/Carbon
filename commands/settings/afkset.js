@@ -6,6 +6,7 @@ module.exports = {
   name: 'afkset',
   aliases: ['afksettings'],
   usage: '<remove/clear|ignore|ignores> <@user|#channel>',
+  category: 'Utility',
   description: 'Change the settings for the `afk` command in your server!',
   async execute(message, args, client) {
     

@@ -11,6 +11,7 @@ const db = require('../../database/models/timer');
 
 module.exports = {
   name: 'timer',
+  category: 'Utility',
   disabledChannels: [],
   async execute(message, args, client) {
     if (!message.member.permissions.has('ManageMessages')) {

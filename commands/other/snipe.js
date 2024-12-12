@@ -8,7 +8,7 @@ const settings = require('../../database/models/settingsSchema');
 
 module.exports = {
   name: 'snipe',
-  category: 'Moderation',
+  category: 'Other',
   description: 'Snipe deleted messages',
   async execute(message, args, client) {
     const snipedMessages = client.snipedMessages.get(message.channel.id);

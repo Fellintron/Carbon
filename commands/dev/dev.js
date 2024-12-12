@@ -12,6 +12,7 @@ const { inspect } = require('util');
 module.exports = {
   name: 'dev',
   aliases: ['cringe', 'fuck'],
+  category: 'Developer',
   description: "Unpaid user's favorite command!!",
   /**
    *
