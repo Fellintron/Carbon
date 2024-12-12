@@ -7,7 +7,7 @@ const {
 const guildSchema = require('../../database/models/settingsSchema');
 
 module.exports = {
-  name: 'snipe',
+  name: 'esnipe',
   category: 'Moderation',
   description: 'Snipe edited sniped messages',
   async execute(message, args, client) {
@@ -93,7 +93,7 @@ module.exports = {
       if (newContent) newMessageEmbed.setDescription(newContent);
 
    const firstButton = new ButtonBuilder()
-        .setEmoji({ name: '⏩' })
+        .setEmoji({ name: '⏪' })
         .setCustomId('first')
         .setStyle(ButtonStyle.Success)
         .setDisabled(disabled || index === 0);
@@ -113,24 +113,24 @@ module.exports = {
         .setEmoji('911971202048864267')
         .setCustomId('next')
         .setStyle(ButtonStyle.Success)
-        .setDisabled(disabled || index === editSnipedMessages.length);
+        .setDisabled(disabled || index === editSnipedMessages.length-1);
         
   const lastButton = new ButtonBuilder()
-        .setEmoji({ name: '⏪' })
+        .setEmoji({ name: '⏩' })
         .setCustomId('last')
         .setStyle(ButtonStyle.Success)
-        .setDisabled(disabled || index === editSnipedMessages.length);
+        .setDisabled(disabled || index === editSnipedMessages.length -1);
 
-      const row = new ActionRowBuilder().addComponents([
+      const row = editSnipedMessages.length >1 ?  new ActionRowBuilder().addComponents([
         firstButton,
         previousButton,
         deleteButton,
         nextButton,
         lastButton
-      ]);
+      ]) : new ActionRowBuilder().addComponents([deleteButton]);
 
       return {
-        content: `**__Sent at:__** <t:${(createdTimestamp / 1000).toFixed()}:R>\n**__Edited at:__ <t:${(editedTimestamp / 1000).toFixed()}:R>`,
+        content:`**__Sent at:__** <t:${(createdTimestamp / 1000).toFixed()}:F> (<t:${(createdTimestamp/1000).toFixed()}:R>)\n**__Edited at:__** <t:${(editedTimestamp/1000).toFixed()}:F> (<t:${(editedTimestamp / 1000).toFixed()}:R>)`,
         embeds:
      [oldMessageEmbed, newMessageEmbed] , components: [row]};
     }

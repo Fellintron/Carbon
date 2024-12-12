@@ -76,7 +76,7 @@ module.exports = {
       if (content) embed.setDescription(content);
 
    const firstButton = new ButtonBuilder()
-        .setEmoji({ name: '⏩' })
+        .setEmoji({ name: '⏪' })
         .setCustomId('first')
         .setStyle(ButtonStyle.Success)
         .setDisabled(disabled || index === 0);
@@ -96,24 +96,24 @@ module.exports = {
         .setEmoji('911971202048864267')
         .setCustomId('next')
         .setStyle(ButtonStyle.Success)
-        .setDisabled(disabled || index === snipedMessages.length);
+        .setDisabled(disabled || index === snipedMessages.length - 1);
         
   const lastButton = new ButtonBuilder()
-        .setEmoji({ name: '⏪' })
+        .setEmoji({ name: '⏩' })
         .setCustomId('last')
         .setStyle(ButtonStyle.Success)
-        .setDisabled(disabled || index === snipedMessages.length);
+        .setDisabled(disabled || index === snipedMessages.length - 1);
 
-      const row = new ActionRowBuilder().addComponents([
+      const row = snipedMessages.length > 1? new ActionRowBuilder().addComponents([
         firstButton,
         previousButton,
         deleteButton,
         nextButton,
         lastButton
-      ]);
+      ]): new ActionRowBuilder().addComponents([deleteButton])
 
       return {
-        content: `**__Sent at:__** <t:${(createdTimestamp / 1000).toFixed()}:R>\n**__Deleted at:__ <t:${(deletedTimestamp / 1000).toFixed()}:R>`,
+        content: `**__Sent at:__** <t:${(createdTimestamp / 1000).toFixed()}:F> (<t:${(createdTimestamp/1000).toFixed()}:R>)\n**__Deleted at:__** <t:${(deletedTimestamp/1000).toFixed()}:F> (<t:${(deletedTimestamp / 1000).toFixed()}:R>)`,
         embeds: [embed],
         components: [row]
       };

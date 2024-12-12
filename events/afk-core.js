@@ -17,10 +17,10 @@ module.exports = {
       const index = client.afks.indexOf(message.author.id);
       client.afks.splice(index, 1);
 
-      message.member.setNickname(
+      if (message.guild.members.me.permissions.has('ManageNicknames')) {message.member.setNickname(
         message.member.displayName.replace(/~ AFK/g, '')
       );
-
+}
       const result = await db.findOneAndUpdate(
         { userId: message.author.id },
         { afk: undefined },
@@ -49,7 +49,7 @@ module.exports = {
       message.channel.send(
         `${user.username} is currently AFK: ${
           data.reason
-        } - <t:${(data.afk.timestamp / 1000).toFixed(0)}:R>`
+        } - <t:${(data.afk.timestamp / 1000).toFixed()}:R>`
       );
     } else {
       let content = [];
@@ -61,7 +61,7 @@ module.exports = {
           content.push(
             `${user.toString()} ${
               data.reason
-            } - <t:${(data.afk.timestamp / 1000).toFixed(0)}:R>`
+            } - <t:${(data.afk.timestamp / 1000).toFixed()}:R>`
           );
         }
       }
