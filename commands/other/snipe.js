@@ -103,8 +103,6 @@ module.exports = {
         .setCustomId('last')
         .setStyle(ButtonStyle.Success)
         .setDisabled(disabled || snipedMessages.length);
-    
-       
 
       const row = new ActionRowBuilder().addComponents([
         firstButton,
