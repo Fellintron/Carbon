@@ -45,7 +45,7 @@ module.exports = {
             `${user2}, ${user1} has challenged you for a game of fast click.\nWhat do you say?`
           )
           .setTimestamp()
-          .setColor(Blurple)
+          .setColor('Blurple')
       ],
       components: [row]
     });

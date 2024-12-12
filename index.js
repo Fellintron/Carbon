@@ -36,7 +36,6 @@ client.counts = {
   messages: 0,
   hls: 0
 };
-Blurple = 'Blurple';
 client.emojis.cross = '❌';
 client.snipedMessages = new Collection();
 client.editSnipedMessages = new Collection();

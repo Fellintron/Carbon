@@ -2,7 +2,7 @@ const { EmbedBuilder, italic } = require('discord.js');
 
 module.exports = {
   name: 'fetchban',
-  aliases: ['fetchbans', 'baninfo'],
+  aliases: ['fetchbans', 'baninfo', 'fbi'],
   args: true,
   usage: '<id>',
   category: 'Other',
@@ -21,17 +21,16 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .addFields([
-        { name: 'User:', value: banInfo.user.username, inline: true },
-        { name: 'ID:', value: banInfo.user.id, inline: true },
+        { name: 'User:', value: banInfo.user.username, inline },
+        { name: 'ID:', value: banInfo.user.id},
         {
           name: 'Reason:',
           value: banInfo?.reason ?? italic('No reason provided'),
-          inline: true
         }
       ])
       .setThumbnail(banInfo.user.displayAvatarURL())
       .setTimestamp()
-      .setColor(Blurple);
+      .setColor('Blurple');
 
     message.channel.send({ embeds: [embed] });
   }

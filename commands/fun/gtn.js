@@ -103,11 +103,11 @@ module.exports = {
           }
         );
 
-        const messageCollector = message.channel.createMessageCollector({
-          filter: (collected) => collected.content === randomNumber
-        });
+        const messageCollector = message.channel.createMessageCollector();
 
         messageCollector.on('collect', (collected) => {
+          if (Number(collected.content) !== randomNumber) return;
+          
           message.channel.permissionOverwrites.edit(
             message.guild.roles.everyone,
             {
@@ -121,11 +121,11 @@ module.exports = {
               new EmbedBuilder()
                 .setTitle('🎉 We have our winner')
                 .setDescription(
-                  `The number to be guessed was **${randomNumber}** and ${m.author.toString()} guessed it!`
+                  `The number to be guessed was **${randomNumber}** and ${collected.author.toString()} guessed it!`
                 )
                 .setTimestamp()
-                .setColor(Blurple)
-                .setThumbnail(message.author.displayAvatarURL())
+                .setColor('Blurple')
+                .setThumbnail(collected.author.displayAvatarURL())
             ]
           });
         });

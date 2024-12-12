@@ -29,7 +29,7 @@ module.exports = {
       .setDescription(
         'Choose a format and click the button to get text that you can copy.'
       )
-      .setColor(Blurple)
+      .setColor('Blurple')
       .setTimestamp();
 
     const components = [new ActionRowBuilder(), new ActionRowBuilder()];

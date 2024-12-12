@@ -52,34 +52,41 @@ module.exports = {
       return message.channel.send('There is nothing to snipe.');
     }
 
-    let index = parseInt(args[0]) - 1;
+    let index = args[0] ? parseInt(args[0]) - 1 : 0
     index ??= 0;
 
-    function getResponse({ id, disabled = false }) {
+    function getResponse({ index, disabled = false }) {
       const {
         content,
         author,
         deletedTimestamp,
         attachmentURL,
         createdTimestamp
-      } = snipedMessages[id];
+      } = snipedMessages[index];
 
       const embed = new EmbedBuilder()
         .setAuthor({
           name: author.username,
           iconURL: author.displayAvatarURL()
         })
-        .setColor(Blurple)
-        .setFooter({ text: `${id + 1}/${snipedMessages.length}` })
+        .setColor('Blurple')
+        .setFooter({ text: `${index + 1}/${snipedMessages.length}` })
         .setImage(attachmentURL);
 
       if (content) embed.setDescription(content);
 
+   const firstButton = new ButtonBuilder()
+        .setEmoji({ name: '⏩' })
+        .setCustomId('first')
+        .setStyle(ButtonStyle.Success)
+        .setDisabled(disabled || index === 0);
+   
       const previousButton = new ButtonBuilder()
         .setEmoji('911971090954326017')
         .setCustomId('previous')
         .setStyle(ButtonStyle.Success)
         .setDisabled(disabled || index === 0);
+        
       const deleteButton = new ButtonBuilder()
         .setEmoji('🗑')
         .setCustomId('delete')
@@ -90,6 +97,14 @@ module.exports = {
         .setCustomId('next')
         .setStyle(ButtonStyle.Success)
         .setDisabled(disabled || editSnipedMessages.length);
+        
+  const lastButton = new ButtonBuilder()
+        .setEmoji({ name: '⏪' })
+        .setCustomId('last')
+        .setStyle(ButtonStyle.Success)
+        .setDisabled(disabled || editSnipedMessages.length);
+    
+       
 
       const row = new ActionRowBuilder().addComponents([
         previousButton,
@@ -135,7 +150,12 @@ module.exports = {
         }
 
         await interaction.editReply(getResponse({ index }));
-      } else if (id === 'delete') {
+      } else if (id === 'first') {
+        index = 0
+      } else if (id === 'last') {
+        index = snipedMessages.length - 1
+      }
+      else if (id === 'delete') {
         await response.delete();
       }
     });

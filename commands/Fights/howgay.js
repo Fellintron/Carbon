@@ -48,7 +48,7 @@ module.exports = {
           .setDescription(
             'Use the button to make your choice.\nYou have 10 minutes'
           )
-          .setColor(Blurple)
+          .setColor('Blurple')
       ],
       components: [
         new ActionRowBuilder().addComponents([
@@ -86,7 +86,7 @@ module.exports = {
 
       const mainMessage = await message.channel.send({
         embeds: [
-          new EmbedBuilder().setTitle('Starting game...').setColor(Blurple)
+          new EmbedBuilder().setTitle('Starting game...').setColor('Blurple')
         ]
       });
 
@@ -111,7 +111,7 @@ module.exports = {
             inline: true
           }
         )
-        .setColor(Blurple)
+        .setColor('Blurple')
         .setFooter({
           text: 'gg'
         });

@@ -73,7 +73,7 @@ module.exports = {
           name: author.username,
           iconURL: author.displayAvatarURL()
         })
-        .setColor(Blurple)
+        .setColor('Blurple')
         .setFooter({ text: `${id + 1}/${editSnipedMessages.length}` })
         .setImage(oldAttachmentURL)
         .setTimestamp(timestamp);
@@ -86,7 +86,7 @@ module.exports = {
           name: author.username,
           iconURL: author.displayAvatarURL()
         })
-        .setColor(Blurple)
+        .setColor('Blurple')
         .setFooter({ text: `${id + 1}/${editSnipedMessages.length}` })
         .setImage(newAttachmentURL)
         .setTimestamp(timestamp);
