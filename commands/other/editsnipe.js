@@ -48,7 +48,7 @@ module.exports = {
     return message.channel.send('There is nothing to snipe.');
     }
 
-    let index = +parseInt(args[0]) - 1;
+    let index = parseInt(args[0]) - 1;
     index ??= 0
 
     function getEditSnipedMessage(id) {

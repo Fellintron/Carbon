@@ -13,37 +13,34 @@ module.exports = {
   async execute(message, args, client) {
     const snipedMessages = client.snipedMessages.get(message.channel.id);
     
-    const server = await settings.findOne({
+    const data = await guildSchema.findOne({
       guildID: message.guild.id
     });
 
-    if (!server || !server?.snipeConfig?.allowedRoles?.length) {
+    if (!data || !data?.snipeConfig?.allowedRoles?.length) {
       return message.reply(
         'This server has not yet setup the snipe feature.\nPlease ask an Administrator to run `/snipe-config`.'
       );
     }
 
-    if (!server?.snipeConfig?.enabled) {
+    if (!data?.snipeConfig?.enabled) {
       return message.reply(
         'Snipes are disabled in this server.\nPlease ask an Administrator to run /snipe-config.'
       );
     }
 
     if (
-      server?.snipeConfig?.allowedRoles.length &&
-      !message.member.roles.cache.hasAny(...server?.snipeConfig?.allowedRoles)
+      data?.snipeConfig?.allowedRoles.length &&
+      !message.member.roles.cache.hasAny(...data?.snipeConfig?.allowedRoles)
     ) {
       return message.reply({
         embeds: [
-          {
-            title: 'No permission!',
-            description:
-              'You need to have one of the following roles to use this command:' +
-              `\n${server.snipeConfig.allowedRoles
-                .map((a) => `<:bdash:919555889239822477><@&${a}>`)
-                .join('\n')}`
-          }
-        ]
+           new EmbedBuilder()
+           .setTitle("No permission")
+           .setColor("Red")
+           .setDescription(`You need to have one of the following roles to use this command:\n${server?.snipeConfig?.allowedRoles
+                .map((role) => `- <@&${a}>`)
+                .join('\n')}`).setTimestamp()]
       });
     }
 
@@ -51,7 +48,7 @@ module.exports = {
     return message.channel.send('There is nothing to snipe.');
     }
 
-    let index = +parseInt(args[0]) - 1;
+    let index = parseInt(args[0]) - 1;
     index ??= 0
 
     function getResponse({ id, disabled =false}) {
