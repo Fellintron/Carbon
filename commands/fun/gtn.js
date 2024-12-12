@@ -53,7 +53,7 @@ module.exports = {
             `${message.author.toString()}, do you want to host a **Guess The Number** game (__**Range:**__ ${min}-${max}) now?`
           )
           .setTimestamp()
-          .setColor(Blurple)
+          .setColor('Blurple')
       ],
       components: [row]
     });
