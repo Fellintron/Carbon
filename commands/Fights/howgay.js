@@ -12,7 +12,7 @@ module.exports = {
   usage: '<user> <high / low>',
   description: "Dank Memer's howgay Ice Café method, but its automatic!",
   async execute(message, args, client) {
-    const target = message.mentions?.users?.first() ?? null;
+    const target = message.mentions?.users?.first();
 
     if (!target) {
       return message.channel.send('You must ping someone to play with them.');
@@ -45,7 +45,7 @@ module.exports = {
       embeds: [
          new EmbedBuilder().setTitle(`Confirmation`)
           .setDescription(
-            'Use the button to make your choice.\nYou have 10 minutes...')
+            'Use the button to make your choice.\nYou have 10 minutes')
           .setColor(client.color)
       ],
       components: [

@@ -16,7 +16,7 @@ module.exports = {
   aliases: ['ffight'],
   description: 'Fight someone in the old dank memer style!',
   disabledChannels: ['870240187198885888', '796729013456470036'],
-  checkDeath: (user, collector, message, current, gamedata, logs) => {
+  checkDeath: (user, collector, message, current, gamedata, logs, button) => {
     if (user.hp < 1) {
       collector.stop();
       const embed =  EmbedBuilder.from(message.embeds[0]).setColor('Random').setFields([
@@ -37,7 +37,7 @@ module.exports = {
         }
       ]);
       message.embeds[0] = embed
-      message.edit({
+      button.update({
         content: `${current.user.toString()} has won the game! :trophy:`,
         embeds: message.embeds,
         components: disableButtons(message.components)
@@ -50,7 +50,7 @@ module.exports = {
    * @param {Message} msg
    * @param {Object[]} gamedata
    */
-  updateMessage: (msg, gamedata, logs, current) => {
+  updateMessage: (msg, gamedata, logs, current, button) => {
    const embed = EmbedBuilder.from(msg.embeds[0]).setColor('Random').setFields([
       {
         name: gamedata[0].user.tag,
@@ -70,7 +70,7 @@ module.exports = {
     ]);
 
     msg.embeds[0] = embed
-    msg.edit({
+    button.update({
       content: `${current.user.toString()} its your turn!`,
       embeds: msg.embeds
     });
@@ -232,13 +232,13 @@ module.exports = {
               mainMessage,
               current,
               gamedata,
-              what
+              what, button
             )
           ) {
             return;
           } else {
             current = opponent;
-            this.updateMessage(mainMessage, gamedata, what, current);
+            this.updateMessage(mainMessage, gamedata, what, current, button);
           }
         } else if (action === 'heal') {
           let health = client.functions.getRandom(
@@ -256,7 +256,7 @@ module.exports = {
           let what = `**${current.user.username}** heals **${health}** hp!`;
        //   button.deferUpdate();
           current = opponent;
-          this.updateMessage(mainMessage, gamedata, what, current);
+          this.updateMessage(mainMessage, gamedata, what, current, button);
         } else;
       });
      }

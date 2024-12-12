@@ -1,27 +1,20 @@
 const { Message, Client, EmbedBuilder } = require('discord.js');
 const userDb = require('../../database/models/user');
 const serverDb = require('../../database/models/settingsSchema');
+
 module.exports = {
   name: 'afkset',
   aliases: ['afksettings'],
   usage: '<remove/clear|ignore|ignores> <@user|#channel>',
   description: 'Change the settings for the `afk` command in your server!',
-  /**
-   *
-   * @param {Message} message
-   * @param {String[]} args
-   * @param {Client} client
-   */
   async execute(message, args, client) {
-    const dumbPeople = ['824348974449819658', '1016728636365209631'];
-    if (!message.member.roles.cache.hasAny(...dumbPeople))
-      return message.reply('Only Community Managers+ can run this command!');
-
+    
     const examples = {
       ignore: `\`ic afkset ignore #${message.channel.name}\``,
       remove: `\`ic afkset clear @${message.author.tag}\` or \`ic afkset clear ${message.author.id}\``,
       ignores: `\`ic afkset ignores\``
     };
+    
     if (
       !args[0] ||
       !['remove', 'ignore', 'clear', 'ignores'].includes(
@@ -51,6 +44,7 @@ module.exports = {
               .setTitle('Ignored Channels')
               .setDescription(map.join('\n'))
               .setColor('Yellow')
+              .setTimestamp()
           ]
         });
 
@@ -81,8 +75,8 @@ module.exports = {
         if (!dbUser || !dbUser?.afk) {
           return message.reply(`${user.toString()} is not AFK!`);
         }
-        client.afks = client.db.afks.filter((a) => a !== user.id);
-        dbUser?.afk = false;
+        client.afks = client.afks.filter((a) => a !== user.id);
+        dbUser?.afk = {};
         dbUser.save();
 
         return message.reply('Removed their AFK.');
@@ -103,7 +97,7 @@ module.exports = {
 
         if (server.afkIgnore.includes(channel.id)) {
           server.afkIgnore = server.afkIgnore.filter((a) => a !== channel.id);
-          client.db.afkIgnore = client.db.afkIgnore.filter(
+          client.afkIgnore = client.afkIgnore.filter(
             (a) => a !== channel.id
           );
           server.save();
@@ -116,10 +110,10 @@ module.exports = {
           } else {
             server.afkIgnore = [channel.id];
           }
-          client.db.afkIgnore.push(channel.id);
+          client.afkIgnore.push(channel.id);
           server.save();
 
-          return message.reply(`${channel.toString()} is now AFK Ignored!`);
+          return message.reply(`${channel.toString()} is now AFK ignored!`);
         }
     }
   }
