@@ -130,9 +130,9 @@ module.exports = {
     } else if (command == 'minimum-skulls') {
       const count = interaction.options.getNumber('count');
 
-      if (count > 50 || count < 3) {
+      if (count > 50 || count < 1) {
         return interaction.reply(
-          'The minimum skull count should be a number between 3-50!'
+          'The minimum skull count should be a number between 1-50!'
         );
       }
       server.skullBoard.count = count;
