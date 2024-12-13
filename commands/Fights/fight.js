@@ -134,7 +134,7 @@ module.exports = {
           ephemeral: true
         });
 
-        if (btn.customId.includes('no')) {
+        if (interaction.customId.includes('no')) {
           collector.stop();
           status = 'rejected lol';
 
@@ -155,6 +155,7 @@ module.exports = {
             dead: false
           }
         ];
+        
         let current = gamedata[Math.floor(Math.random() * 2)];
 
         const fightEmbed = new EmbedBuilder()

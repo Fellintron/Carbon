@@ -28,7 +28,9 @@ module.exports = {
     });
 
    if (message.guild.members.me.permissions.has('ManageNicknames') && message.author.id !== message.guild.onwerId && message.member.roles.highest.position < message.guild.members.me.roles.highest.position)
-   {message.member.setNickname(`[AFK] ${message.member.displayName}`);}
+   {
+     message.member.setNickname(`[AFK] ${message.member.displayName}`);
+   }
 
     client.afks.push(message.author.id, { reason, timestamp });
   }

@@ -12,8 +12,8 @@ module.exports = {
 
     snipedMessages.unshift({
       author,
+      attachments,
       content,
-      attachmentURL: attachments?.first()?.proxyURL ?? null,
       createdTimestamp,
       deletedTimestamp: Date.now()
     });

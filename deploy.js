@@ -31,15 +31,3 @@ const rest = new REST().setToken(process.env.token);
     console.error(error);
   }
 })();
-(async () => {
-  try {
-    console.log('[GLOBAL]: Started refreshing application (/) commands.');
-    await rest.put(Routes.applicationCommands(clientId), {
-      body: globalCommands
-    });
-
-    console.log('[GLOBAL]: Successfully reloaded application (/) commands.');
-  } catch (error) {
-    console.error(error);
-  }
-})();

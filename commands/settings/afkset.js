@@ -22,7 +22,7 @@ module.exports = {
       )
     ) {
       return message.reply(
-        `Please provide valid arguments.\n\nIgnore a channeL: ${examples.ignore}\nRemove someone's AFK: ${examples.remove}\nCheck all ignored channels: ${examples.ignores}`
+        `Please provide valid arguments.\n\n- Ignore a channel: ${examples.ignore}\n- Remove someone's AFK: ${examples.remove}\n- Check all ignored channels: ${examples.ignores}`
       );
     }
 
@@ -33,7 +33,7 @@ module.exports = {
         });
 
         if (!Server || !Server.afkIgnore.length) {
-          return message.reply('This server has not ignored any channels!');
+          return message.reply('This server has not ignored any channels.');
         }
 
         const map = Server.afkIgnore.map((a, i) => `${i + 1}\) <#${a}>`);

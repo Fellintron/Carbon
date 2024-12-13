@@ -1,39 +1,35 @@
 const {
-  Message,
   EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle
 } = require('discord.js');
-const Pings = require('../../database/models/ping');
+const pingSchema = require('../../database/models/ping');
+
 module.exports = {
   name: 'lastping',
   aliases: ['lp'],
-  usage: '',
   category: 'Utility',
-  description: 'Check your previous 10 pings in the server!',
-  /**
-   *
-   * @param {Message} message
-   * @param {String[]} args
-   */
+  description: 'Check your previous 10 pings in the server.',
   async execute(message, args) {
-    const DBUser = await Pings.findOne({ userId: message.author.id });
+    const user = await pingSchema.findOne({ userId: message.author.id });
 
-    const PingBed = new EmbedBuilder()
-      .setTitle('Last Pings')
+    const embed = new EmbedBuilder()
+      .setTitle('Last pings')
       .setColor('Green')
       .setTimestamp();
 
-    if (!DBUser || !DBUser?.pings.length) {
-      PingBed.setDescription(`None of your pings have been counted yet!`);
+    if (!user || !user?.pings?.length) {
+      embed.setDescription(`None of your pings have been counted yet.`);
+      
       return message.reply({
-        embeds: [PingBed]
+        embeds: [embed]
       });
     }
 
-    let pings = DBUser.pings.sort((a, b) => b.when - a.when);
+    let pings = user.pings.sort((a, b) => b.timestamp - a.timestamp);
     if (pings.length > 10) pings = pings.slice(0, 10);
+    
     const map = pings
       .map(
         (V, I) =>
@@ -42,6 +38,73 @@ module.exports = {
           )}:R>**\n**${V.author}**: ${V.content} [[Jump]](${V.message_link})`
       )
       .join('\n➖➖➖➖➖➖➖\n');
+      
+      function generateEmbeds() {
+        const pings = []
+        for (let i = 0; i < user.pings.length; i++) {
+      const ping = user.pings[i];
+    
+      description.push(
+        dedent`${i+1}. In <#${ping.channelId}>, <t:${(ping.timestamp/1000).toFixed()}:R> **${card.name}** • ${card.element} • Level ${card.level} • Tier : ${tierKeys[card.tier]}`,
+      );
+    }
+      
+    let description = [];
+    const embeds = [];
+
+    for (let i = 0; i < pings.length; i += 10) {
+      description = pings.slice(i, i + 10);
+      embeds.push(
+        new EmbedBuilder()
+          .setDescription(description.join('\n'))
+          .setAuthor({
+            name: `${target.username}'s pings`,
+            iconURL: target.displayAvatarURL(),
+          })
+          .setColor('Blurple')
+          .setFooter({
+            text: `Page ${embeds.length + 1} / ${Math.ceil(pings.length / 10)}`,
+          })
+          .setTimestamp(),
+      );
+    }
+
+    return embeds;
+    
+    function generateComponents(currentPage, totalPages, disabled = false) {
+    const buttons = [];
+    const emojis = [
+      { id: '⏪', name: 'First' },
+      { id: '◀️', name: 'Previous' },
+      { id: '⏺️', name: 'Stop', style: ButtonStyle.Danger },
+      { id: '▶️', name: 'Next' },
+      { id: '⏩', name: 'Last' },
+    ];
+
+    for (let index = 0; index < emoji.length; index++) {
+      const emoji = emojis[index];
+      
+      buttons.push(
+        new ButtonBuilder()
+          .setCustomId(emoji.name.toLowerCase())
+          .setLabel(emoji.name)
+          .setStyle(emoji?.style ?? ButtonStyle.Primary)
+          .setEmoji({ name: emoji.id })
+          .setDisabled(
+            (currentPage === 1 && ['⏪', '◀️'].includes(emoji.id)) ||
+              (currentPage === totalPages && ['⏩', '▶️'].includes(emoji.id)) ||
+              disabled === true
+              ? true
+              : false,
+          ),
+      );
+    }
+    
+    const row = new ActionRowBuilder().addComponents(buttons);
+
+    return row;
+  }
+
     PingBed.setDescription(map);
     const inboxMessage = await message.reply({
       content: 'Only 10 recent pings are shown...',

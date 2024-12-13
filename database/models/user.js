@@ -14,17 +14,6 @@ const UserSchema = new mongoose.Schema({
     highlightsDisabled: Boolean,
     snipesDisabled: Boolean,
     lastPingDisabled: Boolean
-  },
-  fighthub: {
-    voting: {
-      hasVoted: Boolean,
-      lastVoted: Number,
-      enabled: Boolean
-    },
-    investor: {
-      isInvestor: Boolean,
-      expiresOn: Number
-    }
   }
 });
 

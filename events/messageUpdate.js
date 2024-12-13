@@ -13,8 +13,8 @@ module.exports = {
       createdTimestamp: oldMessage.createdTimestamp,
       editedTimestamp: newMessage.editedTimestamp,
       newContent: newMessage.content,
-      oldAttachmentURL: oldMessage.attachments.first()?.proxyURL ?? null,
-      newAttachmentURL: newMessage.attachments.first()?.proxyURL ?? null,
+      oldAttachment: oldMessage.attachments.first() ?? null,
+      newAttachment: newMessage.attachments.first() ?? null,
       author: newMessage.member
     });
 

@@ -1,7 +1,5 @@
 const {
-  CommandInteraction,
   EmbedBuilder,
-  Client,
   TextChannel,
   SlashCommandBuilder
 } = require('discord.js');
@@ -17,8 +15,8 @@ module.exports = {
         .setDescription('The channel you want to viewlock')
         .setRequired(true);
     })
-    .addUserOption((opt) => {
-      return opt
+    .addUserOption((option) => {
+      return option
         .setName('user')
         .setDescription(
           'The user you want to viewlock for the channel you have selected.'
@@ -33,10 +31,6 @@ module.exports = {
         )
         .setRequired(false);
     }),
-  /**
-   * @param {CommandInteraction} interaction
-   * @param {Client} client
-   */
   async execute(interaction, client) {
     const data = {
       channel: interaction.options.getChannel('channel'),

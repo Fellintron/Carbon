@@ -50,7 +50,7 @@ module.exports = {
       embeds: [
         new EmbedBuilder()
           .setDescription(
-            `${message.author.toString()}, do you want to host a **Guess The Number** game (__**Range:**__ ${min}-${max}) now?`
+            `${message.author.toString()}, do you want to host a **Guess The Number** game (__**Range:**__ ${min}-${max}) now?\nPlease type \`stop\` or \`end\` to end the game.`
           )
           .setTimestamp()
           .setColor('Blurple')
@@ -106,7 +106,24 @@ module.exports = {
         const messageCollector = message.channel.createMessageCollector();
 
         messageCollector.on('collect', (collected) => {
-          console.log(Number(collected.content))
+          if (['end','stop'].includes(collected.toLowerCase()) && collected.author.id === message.author.id) {
+            collector.stop();
+            
+ collected.reply({
+            embeds: [
+              new EmbedBuilder()
+                .setTitle('Game stopped')
+                .setDescription(
+                  `The game has been stopped by ${collected.author.toString()}.`
+                )
+                .setTimestamp()
+                .setColor('Red')
+                .setThumbnail(collected.author.displayAvatarURL())
+            ]
+          });
+        
+          }
+          
           if (Number(collected.content) !== randomNumber) return;
           
           message.channel.permissionOverwrites.edit(

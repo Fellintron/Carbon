@@ -6,12 +6,6 @@ module.exports = {
   aliases: ['wi'],
   description: 'Shows mutual guilds with the bot and information about them.',
   usage: '[user]',
-  /**
-   *
-   * @param {Message} message
-   * @param {String[]} args
-   * @param {Client} client
-   */
   async execute(message, args, client) {
     try {
       const user =
@@ -21,7 +15,9 @@ module.exports = {
           (user) => user.username === args[0] || user.tag === args[0]
         ) ||
         message.author;
+        
       if (user.bot) return message.reply('no');
+      
       const Mutuals = [];
       const mess = await message.reply({
         embeds: [
@@ -58,7 +54,7 @@ module.exports = {
             'D'
           )})\n\n**__Mutual Servers__**\n${Mutuals.join('\n') ?? 'No Mutual Servers'}`
         )
-        .setColor('Random');
+        .setColor('Blurple');
 
       return mess.edit({
         embeds: [embed]

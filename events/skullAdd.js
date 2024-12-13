@@ -5,15 +5,15 @@ const {
   ButtonStyle,
   TextChannel
 } = require('discord.js');
-const noSpam = [];
 const serverSettings = require('../database/models/settingsSchema');
 const skulls = require('../database/models/skullboard');
+
 module.exports = {
   name: 'messageReactionAdd',
   once: false,
   async execute(reaction, user, client) {
-    if (reaction?.partial) await reaction.fetch()
     if (!reaction?.emoji?.name || reaction?.emoji?.name !== '💀') return;
+    if (reaction.message.webhookId || reaction.message.author?.bot) return;
     
     const guildConfig = await serverSettings.findOne({
       guildID: reaction.message.guild.id
@@ -21,7 +21,7 @@ module.exports = {
     
     if (!guildConfig || !guildConfig?.skullBoard?.enabled) return;
     
-    const { count, channelId } = valid.skullBoard;
+    const { count, channelId } = guildConfig.skullBoard;
     
     const reactions = await reaction.fetch();
     if (reactions.count < count) return;
@@ -49,27 +49,27 @@ module.exports = {
       return;
     }
 
+  const channel = await client.channels.fetch(channelId);
+    if (!channel) return;
+    
+await reaction.message.fetch().catch(() => null)
+
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: reaction.message.author.tag,
-        iconURL: reaction.message.author.displayAvatarURL(),
+        name: reaction.message?.author?.username,
+        iconURL: reaction.message?.author?.displayAvatarURL(),
         url: reaction.message.url
       })
       .setDescription(message.content || ' ')
       .setImage(message.attachments.first()?.url)
-      .setFooter({
-        text: 'Use this in your own server by using `/skullboard`!'
-      })
       .setTitle(`**${reaction.count} :skull:**`);
-    const channel = await client.channels.fetch(channelId);
-    if (!channel) return;
 
     const skullBoardMessage = await channel.send({
       embeds: [embed],
       components: [
         new ActionRowBuilder().addComponents([
           new ButtonBuilder()
-            .setEmoji('💀')
+            .setEmoji('🔗')
             .setStyle(ButtonStyle.Link)
             .setURL(message.url)
             .setLabel('Jump to Message')
