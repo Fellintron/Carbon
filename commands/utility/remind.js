@@ -7,28 +7,26 @@ module.exports = {
   aliases: ['rm', 'remindme'],
   category: 'Utility',
   usage: '<reason> in <time>',
-  /**
-   * @param {Client} client
-   * @param {Message} message
-   * @param {String[]} args
-   */
   async execute(message, args, client) {
     const example = '\n\n`ic rm work in 1h`';
+    
     if (!args[0]) return message.reply('Provide valid arguments.' + example);
+    
     if (args[0] == 'list') {
-      const eembed = new EmbedBuilder()
+      const embed = new EmbedBuilder()
         .setTitle('Reminders')
         .setColor('Green')
         .setDescription('Your reminders are as follows:')
         .setTimestamp();
-      client.db.reminders
-        .filter((u) => u.userId === message.author.id)
+        
+      client.reminders
+        .filter((user) => user.userId === message.author.id)
         .forEach((reminder) => {
-          eembed.addFields([
+         embed.addFields([
             {
               name: `Reminder about ${reminder.reason}`,
-              value: `ID: ${reminder.id}\nReminds ${client.functions.formatTime(
-                reminder.time,
+              value: `ID: ${reminder.id}\nReminds ${timestamp(
+                reminder.timestamp,
                 'R'
               )}`,
               inline: true
@@ -40,12 +38,15 @@ module.exports = {
         embeds: [eembed]
       });
     }
-    const valid = args.join(' ').split(' in ');
-    if (!valid.length)
+    
+    let reason = args.join(' ').split(' in ');
+    
+    if (!reason.length)
       return message.reply('Please give valid time.' + example);
 
-    const reason = valid.slice(0, -1).join(' ') || 'something';
-    let time = valid.pop();
+    let reason = valid.slice(0, -1).join(' ') || undefined;
+    
+    let time = reason.pop();
     if (!getMilliseconds(time))
       return message.reply(
         `Please provide valid time. I could not parse \`${time}\`${example}`
@@ -65,6 +66,7 @@ module.exports = {
       reason,
       link: message.url
     });
+    
     dbEntry.save();
     client.db.reminders.push({
       id,
@@ -73,8 +75,9 @@ module.exports = {
       reason,
       link: message.url
     });
+    
     return message.reply(
-      `${message.author.toString()} noted. I will remind you about **${reason} ${client.functions.formatTime(
+      `${message.author.toString()} noted. I will remind you about **${reason} ${client.functions.timestamp(
         time,
         'R'
       )}**.\nType \`ic rm list\` to check your reminders!`

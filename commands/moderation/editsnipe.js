@@ -63,8 +63,8 @@ module.exports = {
         author,
         createdTimestamp,
         editedTimestamp,
-        oldAttachmentURL,
-        newAttachmentURL
+        oldAttachments,
+        newAttachments
       } = editSnipedMessages[index];
 
       const oldMessageEmbed = new EmbedBuilder()

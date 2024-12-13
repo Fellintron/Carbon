@@ -31,10 +31,10 @@ module.exports = {
                 .setTimestamp()
                 .setTitle(':alarm_clock: Reminder :alarm_clock:')
                 .setDescription(
-                  `${client.functions.formatTime(
+                  `${client.functions.timestamp(
                     new Date().getTime() -
                       (new Date().getTime() - reminder.time)
-                  )} (${client.functions.formatTime(
+                  )} (${client.functions.timestamp(
                     new Date().getTime() -
                       (new Date().getTime() - reminder.time),
                     'f'

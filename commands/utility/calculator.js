@@ -1,40 +1,41 @@
 const {
-  Message,
   ActionRowBuilder,
   ButtonBuilder,
-  EmbedBuilder,
   ButtonStyle,
-  codeBlock
+  EmbedBuilder,
+  Colors,
+  codeBlock,
+  inlineCode
 } = require('discord.js');
 
 module.exports = {
   name: 'calculator',
   aliases: ['calc'],
   category: 'Utility',
-  description: 'A fancy ✨ calculator within Discord.',
+  description: 'A fancy 🧮 calculator within Discord.',
   async execute(message, args, client) {
-    const arrays = [
+    const array = [
       [
-        ['7', ButtonStyle.Secondary],
-        ['8', ButtonStyle.Secondary],
-        ['9', ButtonStyle.Secondary],
+        ['7'],
+        ['8'],
+        ['9'],
         ['✖', ButtonStyle.Primary]
       ],
       [
-        ['4', ButtonStyle.Secondary],
-        ['5', ButtonStyle.Secondary],
-        ['6', ButtonStyle.Secondary],
+        ['4'],
+        ['5'],
+        ['6'],
         ['➖', ButtonStyle.Primary]
       ],
       [
-        ['1', ButtonStyle.Secondary],
-        ['2', ButtonStyle.Secondary],
-        ['3', ButtonStyle.Secondary],
+        ['1'],
+        ['2'],
+        ['3'],
         ['➕', ButtonStyle.Primary]
       ],
       [
         ['․', ButtonStyle.Primary],
-        ['0', ButtonStyle.Secondary],
+        ['0'],
         ['➗', ButtonStyle.Primary],
         ['=',  ButtonStyle.Success]
       ]
@@ -47,9 +48,9 @@ module.exports = {
       for (let j=0;j<4;j++) {
         row.addComponents([
           new ButtonBuilder()
-            .setLabel(array[i][j])
-            .setCustomId(array[i][j])
-            .setStyle(array[i][j])
+            .setLabel(array[i][j][0])
+            .setCustomId(array[i][j][0])
+            .setStyle(array[i][j][1] || ButtonStyle.Secondary)
         ]);
       }
       components.push(row)
@@ -60,7 +61,7 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle('🔢 Calculator')
       .setDescription(codeBlock(description.join('')))
-      .setColor('Green')
+      .setColor(Colors.Green)
       .setTimestamp()
 
     const response = await message.channel.send({
@@ -69,7 +70,7 @@ module.exports = {
     });
     
     const collector = response.createMessageComponentCollector({
-      time: 10*60*1_000
+      time: 30*60*1_000
     });
     
     const operationsArray = ['+', '-', '/', '*'];
@@ -79,7 +80,7 @@ module.exports = {
       await interaction.deferUpdate();
       
       if (interaction.user.id !== message.author.id) {
-       return interaction.followUp({ content: `This interaction isn't for you.`, ephemeral : true})
+       return interaction.followUp({ embeds: createWarnEmbed(`This interaction is not for you. Type ${inlineCode('ic calc')} to get your own calculator interface.`) , ephemeral : true})
       }
       
       if (calculated) {
@@ -89,7 +90,7 @@ module.exports = {
       
       const { customId } = interaction;
       
-      if (interaction === '=') {
+      if (customId === '=') {
         calculated = true;
         
         const result = eval(description.join(''));
@@ -115,5 +116,9 @@ module.exports = {
         embeds: [embed]
       });
     });
+    
+    collector.on('end', () => {
+      response.edit({ content: '*This interaction has expired, please use the command again.*', components: disableComponents(components)}).catch(() => null)
+    })
   }
 };

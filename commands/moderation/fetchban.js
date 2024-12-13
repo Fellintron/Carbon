@@ -3,11 +3,9 @@ const { EmbedBuilder, italic } = require('discord.js');
 module.exports = {
   name: 'baninfo',
   aliases: ['fetchban', 'fbi'],
-  args: true,
   usage: '<id>',
   category: 'Moderation',
   description: 'Check ban info about a certain user.',
-  icOnly: true,
   async execute(message, args, client) {
     const id = args[0];
 

@@ -8,7 +8,7 @@ const {
 module.exports = {
   name: 'guessthenumber',
   aliases: ['gtn'],
-  usage: '<min> <max> <duration>',
+  usage: '<min> <max>',
   category: 'Fun',
   description: 'Starts a **Guess The Number** game.',
   async execute(message, args, client) {
@@ -32,7 +32,7 @@ module.exports = {
     if (!max)
       return message.reply({ content: 'Please provide a valid upper limit.' });
 
-    const randomNumber = message.client.functions.getRandom(min, max);
+    const randomNumber = getRandom(min, max);
 
     const startButton = new ButtonBuilder()
       .setLabel('Start')
@@ -50,7 +50,7 @@ module.exports = {
       embeds: [
         new EmbedBuilder()
           .setDescription(
-            `${message.author.toString()}, do you want to host a **Guess The Number** game (__**Range:**__ ${min}-${max}) now?\nPlease type \`stop\` or \`end\` to end the game.`
+            `Do you want to host a **Guess The Number** game (__**Range:**__ ${min}-${max}) now?\nPlease type \`stop\` or \`end\` to end the game.`
           )
           .setTimestamp()
           .setColor('Blurple')
@@ -58,10 +58,8 @@ module.exports = {
       components: [row]
     });
 
-    await response.pin();
-
     const collector = response.createMessageComponentCollector({
-      time: 10 * 15 * 1_000
+      time: 30 * 15 * 1_000
     });
 
     collector.on('collect', async (interaction) => {
@@ -72,6 +70,7 @@ module.exports = {
           content: 'This interaction is not for you.',
           ephemeral: true
         });
+        
       if (interaction.customId === 'cancel') {
         cancelButton.setStyle(ButtonStyle.Secondary).setDisabled();
         startButton.setDisabled();
@@ -88,11 +87,12 @@ module.exports = {
           ephemeral: true
         });
 
-        await message.channel.send(
+        const lockMessage = await message.channel.send(
           'The channel will be unlocked after 5 seconds and will be automatically locked after someone guesses the number.'
         );
 
         await new Promise((resolve) => setTimeout(resolve, 5000));
+await lockMessage.delete();
 
         message.channel.send('Good luck everyone, channel is now unlocked 🔓.');
 
@@ -105,7 +105,7 @@ module.exports = {
 
         const messageCollector = message.channel.createMessageCollector();
 
-        messageCollector.on('collect', (collected) => {
+        messageCollector.on('collect', async(collected) => {
           if (['end','stop'].includes(collected.toLowerCase()) && collected.author.id === message.author.id) {
             collector.stop();
             
@@ -134,7 +134,7 @@ module.exports = {
           );
 
           messageCollector.stop();
-          collected.reply({
+         const sentMessage = collected.reply({
             embeds: [
               new EmbedBuilder()
                 .setTitle('🎉 We have our winner')
@@ -146,6 +146,8 @@ module.exports = {
                 .setThumbnail(collected.author.displayAvatarURL())
             ]
           });
+          
+          await sentMessage.pin()
         });
       }
     });

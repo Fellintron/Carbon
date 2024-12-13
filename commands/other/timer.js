@@ -59,7 +59,7 @@ module.exports = {
       embeds: [
         new EmbedBuilder()
           .setTitle(reason)
-          .setDescription(`Ends ${client.functions.formatTime(time, 'R')}`)
+          .setDescription(`Ends ${client.functions.timestamp(time, 'R')}`)
           .setTimestamp()
       ],
       components: [row]

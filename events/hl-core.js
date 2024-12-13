@@ -71,7 +71,7 @@ module.exports = {
       let data = [];
       for (const msg of messages) {
         data.push(
-          `[${client.functions.formatTime(msg[1].createdTimestamp, 'T')}] **${
+          `[${client.functions.timestamp(msg[1].createdTimestamp, 'T')}] **${
             msg[1].author.tag
           }**: ${
             (msg[1].content.includes(hlWord)

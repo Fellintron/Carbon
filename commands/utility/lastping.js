@@ -15,8 +15,8 @@ module.exports = {
     const user = await pingSchema.findOne({ userId: message.author.id });
 
     const embed = new EmbedBuilder()
-      .setTitle('Last pings')
-      .setColor('Green')
+      .setTitle('No pings counted')
+      .setColor('Red')
       .setTimestamp();
 
     if (!user || !user?.pings?.length) {
@@ -27,9 +27,6 @@ module.exports = {
       });
     }
 
-    let pings = user.pings.sort((a, b) => b.timestamp - a.timestamp);
-    if (pings.length > 10) pings = pings.slice(0, 10);
-    
     const map = pings
       .map(
         (V, I) =>

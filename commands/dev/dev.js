@@ -48,7 +48,7 @@ module.exports = {
         .setTitle('Bot Stats')
         .addFields(
           'Up since',
-          `${client.functions.formatTime(client.readyAt)}`,
+          `${client.functions.timestamp(client.readyAt)}`,
           false
         )
         .addFields(

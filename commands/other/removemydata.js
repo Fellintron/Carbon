@@ -8,9 +8,6 @@ const {
 
 // Models
 const base = '../../database/models/';
-const heist = require(base + 'heistm');
-const special = require(base + 'specialm');
-const main = require('../../node_modules/discord-messages/models/messages');
 
 const remind = require(base + 'remind');
 
@@ -26,7 +23,7 @@ module.exports = {
    * @param {Message} message
    */
   async execute(message) {
-    const userID = [remind, heist, grind, special, main];
+    const userID = [remind, main];
 
     const confirmation = await message.reply({
       embeds: [

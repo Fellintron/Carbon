@@ -7,11 +7,7 @@ const UserSchema = new mongoose.Schema({
     reason: String,
     timestamp: Number
   },
-  highlight: {
-    words: [String]
-  },
   messageSettings: {
-    highlightsDisabled: Boolean,
     snipesDisabled: Boolean,
     lastPingDisabled: Boolean
   }

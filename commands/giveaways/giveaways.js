@@ -28,7 +28,7 @@ module.exports = {
         (g, i) =>
           `${emo_jis[i]} Prize: **${
             g.prize
-          }**\n<:blank:914473340129906708><:blank:914473340129906708>Time: ${message.client.functions.formatTime(
+          }**\n<:blank:914473340129906708><:blank:914473340129906708>Time: ${message.client.functions.timestamp(
             g.endsAt,
             'R'
           )}\n<:blank:914473340129906708><:blank:914473340129906708>Giveaway link: [Jump](https://discord.com/channels/${

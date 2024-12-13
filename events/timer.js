@@ -52,7 +52,7 @@ module.exports = {
             });
             message.embeds[0]
               .setDescription(
-                `Ended ${client.functions.formatTime(timer.time)}`
+                `Ended ${client.functions.timestamp(timer.time)}`
               )
               .setFooter(
                 `Reminded a total of ${a.reminders.length.toLocaleString()} users!`

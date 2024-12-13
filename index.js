@@ -1,5 +1,3 @@
-// -.-- --- ..- .-. . / -.. ..- -- -...
-
 const {
   Collection,
   Client,
@@ -7,13 +5,14 @@ const {
   GatewayIntentBits,
   Partials
 } = require('discord.js');
-const fs = require('fs');
+const fs = require('node:fs');
 const shell = require('shelljs');
 const mongoose = require('mongoose');
 const config = require('./config.json');
 require('dotenv').config();
 
 const client = new Client({
+  allowedMentions: { roles: [], parse: ['users'] },
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
@@ -24,24 +23,18 @@ const client = new Client({
   partials: [Partials.Reaction, Partials.Message]
 });
 
-let dbURL = process.env.mongopath;
-mongoose.connect(dbURL);
-client.c = {
-  commands: new Collection(),
-  cooldowns: new Collection(),
-  disabledCommands: [],
-  slashCommands: new Collection()
-};
-client.counts = {
-  messages: 0,
-  hls: 0
-};
-client.emojis.cross = '❌';
+mongoose.connect(process.env.MONGO_URI);
+
+client.commands= new Collection()
+client.cooldowns= new Collection()
+client.disabledCommands= []
+client.slashCommands = new Collection()
 client.snipedMessages = new Collection();
 client.editSnipedMessages = new Collection();
 client.skulls = new Collection();
 client.afkIgnore = [];
 client.afks = [];
+
 client.db = {
   afks: [],
   afkIgnore: [],
@@ -61,7 +54,7 @@ client.functions = {
   dmUser: skripts.dmUser,
   getRandom: skripts.getRandom,
   sleep: skripts.sleep,
-  formatTime: skripts.formatTime,
+  timestamp: skripts.timestamp,
   randomHash: skripts.getRandomHash
 };
 client.switches = {

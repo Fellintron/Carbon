@@ -1,7 +1,1 @@
-.env
-*.sqlite
 node_modules
-settings.json
-.vscode
-package.json
-package-lock.json

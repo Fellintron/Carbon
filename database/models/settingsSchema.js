@@ -26,22 +26,7 @@ const SettingsSchema = new mongoose.Schema({
     issuedBy: String,
     message: String
   },
-  heistMode: {
-    enabled: Boolean,
-    joined: Number,
-    left: Number,
-    startedOn: Number
-  },
-  afkIgnore: [String],
-  censors: {
-    censors: [Object],
-    timeout_duration: Number
-  },
-  pings: {
-    mini: Number,
-    gaw: Number,
-    event: Number
-  }
+  afkIgnore: [String]
 });
 
 module.exports = mongoose.model('SettingsSchema', SettingsSchema);

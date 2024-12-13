@@ -4,45 +4,51 @@ const {
   EmbedBuilder,
   ButtonStyle
 } = require('discord.js');
-const ms = require('pretty-ms');
+const prettyMilliseconds = require('pretty-ms');
 
 module.exports = {
   name: 'fastclick',
   category: 'Fights',
-  usage: '<USER>',
-  description: 'Use your skills to win fights, the fastest to click wins!',
+  usage: '@opponent',
+  description: 'Use your skills to win fights, the fastest to click wins.',
   async execute(message, args, client) {
-    const user1 = message.member;
-    const user2 =
-      message.mentions.members.first() ||
-      message.guild.members.cache.get(args[0]);
+    const player = message.author;
+    const opponent = resolveUser(args.join(' '))
 
-    if (!user2)
-      return message.channel.send(
-        `You must mention someone to play with them!\n\nExample: \`ic fastclick @parrot7702\``
-      );
-    if (user1.id === user1.id)
-      return message.channel.send(
-        `Please don't play yourself, it's kinda lonely.`
-      );
+    if (!opponent) {
+      return message.channel.send({
+        embeds: createErrorEmbed(`You must mention someone to play with them.\n\n**Example:** \`ic fastclick @parrot7702\``)
+      });
+    }
+      
+    if (player.id === opponent.id) {
+      return message.channel.send({
+        embeds: createErrorEmbed(`Please don't play yourself, it's kinda lonely.`)
+      })
+    }
+      
+      if (opponent.bot) {
+        return message.channel.send({ embeds: createErrorEmbed(`You can't play with bots.`) })
+      }
 
-    let yesButton = new ButtonBuilder()
+    const accept = new ButtonBuilder()
       .setStyle(ButtonStyle.Success)
-      .setCustomId('yes_fc')
+      .setCustomId('accept')
       .setLabel('Accept');
-    let noButton = new ButtonBuilder()
+      
+   const decline = new ButtonBuilder()
       .setStyle(ButtonStyle.Danger)
-      .setCustomId('no_fc')
+      .setCustomId('decline')
       .setLabel('Decline');
 
-    let row = new ActionRowBuilder().addComponents([noButton, yesButton]);
+    const row = new ActionRowBuilder().addComponents([accept, decline]);
 
-    const confirmation = await message.channel.send({
+    const response = await message.channel.send({
       embeds: [
         new EmbedBuilder()
           .setTitle('Confirmation')
           .setDescription(
-            `${user2}, ${user1} has challenged you for a game of fast click.\nWhat do you say?`
+            `${opponent.toString()}, ${player.toString()} has challenged you for a game of fast click.\nWhat do you say?`
           )
           .setTimestamp()
           .setColor('Blurple')
@@ -50,160 +56,121 @@ module.exports = {
       components: [row]
     });
 
-    const collector = confirmation.createMessageComponentCollector({
+    const collector = response.createMessageComponentCollector({
       time: 10 * 60 * 1000
     });
 
-    collector.on('collect', async (button) => {
-      await button.deferUpdate();
-      if (button.user.id !== user2.id) {
-        return button.followUp({
-          content: 'This interaction is not for you.',
+    collector.on('collect', async (interaction) => {
+      await interaction.deferUpdate();
+      
+      if (interaction.user.id !== opponent.id) {
+        return interaction.followUp({
+          embeds: createWarnEmbed('This interaction is not for you.'),
           ephemeral: true
         });
       }
 
-      if (button.customId === 'yes') {
-        yesButton.setDisabled();
-        noButton = noButton
-          .setStyle(ButtonStyle.Secondary)
-          .setCustomId('no_fc')
+      if (interaction.customId === 'accept') {
+        accept.setDisabled();
+        decline.setStyle(ButtonStyle.Secondary)
           .setDisabled();
-        row = new ActionRowBuilder().addComponents([yesButton, noButton]);
-        confirmation.edit({
+       
+        await interaction.editReply({
           embeds: [
-            {
-              title: 'Challenge Accepted',
-              description: `${user2}, ${user1} has challenged you for a game of fast click.\nWhat do you say?`,
-              timestamp: new Date()
-            }
+  new EmbedBuilder()
+          .setTitle('Request Accepted')
+          .setDescription(
+            `${player.toString()}, ${opponent.toString()} has accepted your request of playing a **Fast Click** game.`
+          )
+          .setColor('Green')
+          .setTimestamp()
           ],
           components: [row]
         });
 
-        const mainMessage = await message.channel.send(
-          `Alright! The button will appear in a few seconds, good luck!`
-        );
-        let mainButton = new ButtonBuilder()
+        const gameMessage = await interaction.channel.send({
+          embeds: createEmbed(`Alright, the buttons will appear in 3 seconds, good luck!`)
+        });
+        
+        const correct = new ButtonBuilder()
           .setStyle(ButtonStyle.Success)
           .setLabel('This one')
-          .setCustomId('correct-fc');
-        let baitButton1 = new ButtonBuilder()
-          .setStyle(ButtonStyle.Secondary)
-          .setLabel('No not this')
-          .setCustomId('wrong1-fc');
-        let baitButton2 = new ButtonBuilder()
-          .setStyle(ButtonStyle.Secondary)
-          .setLabel('No not this')
-          .setCustomId('wrong2-fc');
-        let baitButton3 = new ButtonBuilder()
-          .setStyle(ButtonStyle.Secondary)
-          .setLabel('No not this')
-          .setCustomId('wrong3-fc');
-        let baitButton4 = new ButtonBuilder()
-          .setStyle(ButtonStyle.Secondary)
-          .setLabel('No not this')
-          .setCustomId('wrong4-fc');
-        let array = [
-          mainButton,
-          baitButton1,
-          baitButton2,
-          baitButton3,
-          baitButton4
-        ].sort(() => Math.random() - 0.5);
-        let mainRow = new ActionRowBuilder().addComponents(array);
-        await sleep(2500);
-        mainMessage.edit({
-          components: [mainRow],
+          .setCustomId('correct');
+          
+         const buttons = []
+          
+          buttons.push(correct)
+          
+          ['first', 'second', 'third', 'fourth'].forEach(value => {
+            buttons.push(new ButtonBuilder().setLabel('No not this').setStyle(ButtonStyle.Secondary).setCustomId(`incorrect_${value}`))
+          })
+          
+        buttons.sort(() => Math.random() - 0.5);
+        
+        const gameRow = new ActionRowBuilder().addComponents(buttons);
+        
+        await sleep(3000);
+        
+        await gameMessage.edit({
+          components: [gameRow],
           content: 'Click the green one!'
         });
-        const now = new Date();
+      
+      const gameCollector = gameMessage.createMessageComponentCollector({ time: 10*60*1_000})
+      
+      gameCollector.on('collect', async button => {
+       await button.deferUpdate()
+       
+  if (![player.id, opponent.id].includes(button.user.id)) {
+    return button.followUp({
+      embeds: createWarnEmbed('This interaction is not for you.'),
+      ephemeral: true
+    });
+  }
 
-        const mainCollector = mainMessage.createMessageComponentCollector(
-          (b) => b,
-          {
-            time: 30000
-          }
-        );
-        mainCollector.on('collect', async (button) => {
-          if (![user1.id, user2.id].includes(button.user.id)) {
-            await button.reply({
-              content: `This is not for you.`,
-              ephemeral: true
-            });
-            return;
-          }
-          mainCollector.stop();
+collector.stop()
+          gameCollector.stop();
 
-          if (button.customId !== 'correct-fc') {
-            const loser = button.user.id;
-            const winner = loser === user1.id ? user2.id : user1.id;
-            mainButton.setDisabled();
-            baitButton1.setDisabled();
-            baitButton2.setDisabled();
-            baitButton3.setDisabled();
-            baitButton4.setDisabled();
-            array = array;
-            mainRow = new ActionRowBuilder().addComponents(array);
-            button.deferUpdate();
-            mainMessage.edit({
-              components: [mainRow],
-              content: `:trophy: <@${
-                [user1.id, user2.id].filter((val) => val !== loser)[0]
-              }> won because <@${loser}> clicked the wrong button!`
+          if (button.customId !== 'correct') {
+           
+            const loserId = button.user.id;
+            const winnerId = loser === player.id ? opponent.id : player.id;
+            
+            await ({
+              components: disableComponents(gameRow),
+              embeds: createSuccessEmbed(`:trophy: <@${winnerId}> won because <@${loserId}> clicked the wrong button!`)
             });
-            return;
           }
-
-          if (![user1.id, user2.id].includes(button.user.id)) {
-            await button.reply({
-              content: 'This is not for you',
-              ephemeral: true
-            });
-            return;
-          }
-          const clickedIn = ms(new Date() - now, {
-            verbose: true
+          
+          const winnerId = button.user.id;
+         
+          await button.editReply({
+            components: disableComponents(mainRow),
+            embeds: createSuccessEmbed(`:trophy: <@${winnerId}> has won! The button was clicked in ${prettyMilliseconds(Date.now() - button.createdTimestamp), { verbose: true }}!`)
           });
-          const winner = button.user.id;
-          mainButton.setDisabled();
-          baitButton1.setDisabled();
-          baitButton2.setDisabled();
-          baitButton3.setDisabled();
-          baitButton4.setDisabled();
-          array = array;
-          mainRow = new ActionRowBuilder().addComponents(array);
-          button.deferUpdate();
-          mainMessage.edit({
-            components: [mainRow],
-            content: `:trophy: <@${winner}> has won! The button was clicked in ${clickedIn}!`
-          });
-          return;
         });
       } else {
-        button.deferUpdate();
-        yesButton = yesButton
-          .setStyle(ButtonStyle.Success)
-          .setCustomId('yes_fc')
+        accept.setStyle(ButtonStyle.Success)
           .setDisabled();
-        noButton.setDisabled();
-        row = new ActionRowBuilder().addComponents([yesButton, noButton]);
-        confirmation.edit({
+        decline.setDisabled();
+        
+    await interaction.editReply({
           embeds: [
-            {
-              title: 'Challenge Declined',
-              description: `${user2}, ${user1} has challenged you for a game of fast click.\nWhat do you say?`,
-              timestamp: new Date()
-            }
+  new EmbedBuilder()
+          .setTitle('Request Declined')
+          .setDescription(
+            `${player.toString()}, ${opponent.toString()} has declined your request of playing a **Fast Click** game.`
+          )
+          .setColor('Red')
+          .setTimestamp()
           ],
           components: [row]
         });
-        return;
-      }
+ }
     });
+    
+    collector.on('end', () => {
+      response.edit({ components: disableComponents(row), content: '*This interaction has expired, please use the command again.*' })
+    })
   }
 };
-
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}

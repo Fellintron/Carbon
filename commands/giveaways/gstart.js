@@ -291,7 +291,7 @@ module.exports = {
           .addFields([
             {
               name: 'Prize | time',
-              value: `${dbDat.prize} | ends ${client.functions.formatTime(
+              value: `${dbDat.prize} | ends ${client.functions.timestamp(
                 dbDat.endsAt
               )}`,
               inline: true

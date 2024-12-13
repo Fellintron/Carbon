@@ -1,30 +1,22 @@
 const userSchema = require('../../database/models/user');
-const guildSchema = require('../../database/models/settingsSchema');
 
 module.exports = {
   name: 'afk',
   cooldown: 5,
   category: 'Utility',
   usage: '[reason]',
-  description: 'Displays an AFK message when someone pings you.',
+  description: 'Sets an AFK status and dislays the status when someone pings you while you are AFK.',
   async execute(message, args, client) {
-    await guildSchema.findOneAndUpdate(
-      { guildID: message.guild.id },
-      { afkIgnore: [] },
-      { upsert: true }
-    );
-
-    const timestamp = Date.now();
     const reason = args.join(' ') || 'AFK';
 
     await userSchema.findOneAndUpdate(
       { userId: message.author.id },
-      { afk: { reason, timestamp } },
+      { afk: { reason, timestamp : message.createdTimestamp} },
       { upsert: true }
     );
 
     message.channel.send({
-      content: `${message.author.toString()}, I have set your AFK: ${reason}.`, allowedMentions: { parse: [] }
+     embeds: createEmbed(`${message.author.toString()}, I have set your AFK: ${reason}.`)
     });
 
    if (message.guild.members.me.permissions.has('ManageNicknames') && message.author.id !== message.guild.onwerId && message.member.roles.highest.position < message.guild.members.me.roles.highest.position)
