@@ -19,12 +19,12 @@ module.exports = {
   async execute(message, args, client) {
     if (args[0]) {
       const command =
-        client.c.commands.find(
+        client.commands.find(
           (c) =>
             c.name == args[0].toLowerCase() ||
             (c.aliases && c.aliases.includes(args[0].toLowerCase()))
         ) ||
-        client.c.slashCommands.find(
+        client.slashCommands.find(
           (c) => c.data.name == args[0].toLowerCase()
         );
       if (!command) {
@@ -146,10 +146,10 @@ module.exports = {
       const value = select.values[0];
       const category = value.replace('select-', '');
       const commands = {
-        legacy: client.c.commands.filter(
+        legacy: client.commands.filter(
           (c) => c.category && c.category === category
         ),
-        slash: client.c.slashCommands.filter(
+        slash: client.slashCommands.filter(
           (c) => c.category && c.category === category
         )
       };

@@ -25,7 +25,7 @@ module.exports = {
       return message.channel.send(`Please provide a valid command name.`);
 
     const commandName = args[0].toLowerCase();
-    const command = client.c.commands.get(commandName);
+    const command = client.commands.get(commandName);
 
     if (!command)
       return message.channel.send(
@@ -45,8 +45,8 @@ module.exports = {
       return message.channel.send(`Could not find any channel with that id!`);
     }
 
-    client.c.disabledCommands.set(message.channel.id, [
-      ...client.c.disabledCommands.get(message.channel.id),
+    client.disabledCommands.set(message.channel.id, [
+      ...client.disabledCommands.get(message.channel.id),
       command
     ]);
 

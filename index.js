@@ -63,12 +63,8 @@ client.switches = {
 };
 client.config = config;
 
-client.options.allowedMentions = {
-  roles: [],
-  parse: ['users']
-};
 shell.exec('node deploy.js');
-const { cooldowns } = client.c;
+const { cooldowns } = client;
 let commandsRan = 0;
 const commandFolders = fs.readdirSync('./commands');
 const eventFiles = fs
@@ -80,7 +76,7 @@ for (const folder of commandFolders) {
     .filter((file) => file.endsWith('.js'));
   for (const file of commandFiles) {
     const command = require(`./commands/${folder}/${file}`);
-    client.c.commands.set(command.name, command);
+    client.commands.set(command.name, command);
   }
 }
 for (const file of eventFiles) {
@@ -97,7 +93,7 @@ const commandFiles = fs
 for (const file of commandFiles) {
   const command = require(`./slashcommands/${file}`);
 
-  client.c.slashCommands.set(command.data.name, command);
+  client.slashCommands.set(command.data.name, command);
 }
 
 process.on('uncaughtException', (err) => {
@@ -172,24 +168,13 @@ client.on('ready', async () => {
   client.db.reminders = await reminders.find({});
   // Reminders
 
-  // ARS
-  const ars = require('./database/models/ar');
-  client.db.ars = await ars.find({});
-  // ARS
-
-  // CENSORS
-  let cens = require('./database/models/settingsSchema');
-  cens = (await cens.findOne({ guildID: client.db.fighthub.id })).censors
-    .censors;
-  client.db.censors = cens;
-  // CENSORS
-
+ 
   // Disabled Commands
   let dcommands = (await require('./database/models/command').find()).filter(
     (a) => a.disabled
   );
   dcommands.forEach((val) => {
-    client.c.disabledCommands.push(val.name);
+    client.disabledCommands.push(val.name);
   });
   // Disabled Commands
 });
@@ -199,7 +184,7 @@ client.on('interactionCreate', async (interaction) => {
 
   const { commandName } = interaction;
 
-  const command = client.c.slashCommands.get(commandName);
+  const command = client.slashCommands.get(commandName);
 
   if (!command) return;
   if (
@@ -277,13 +262,13 @@ client.on('messageCreate', async (message) => {
   const commandName = args.shift().toLowerCase();
 
   const command =
-    client.c.commands.get(commandName) ||
-    client.c.commands.find(
+    client.commands.get(commandName) ||
+    client.commands.find(
       (cmd) => cmd.aliases && cmd.aliases.includes(commandName)
     );
 
   if (!command) return;
-  if (client.c.disabledCommands.includes(command.name)) {
+  if (client.disabledCommands.includes(command.name)) {
     return message.reply('This command is temporarily disabled.');
   }
   if (message.guild && message.guild.id !== config.guildId && command.icOnly)

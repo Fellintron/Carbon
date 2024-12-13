@@ -18,14 +18,14 @@ module.exports = {
     if (!command) return message.reply('Please provide command name.');
     // .
     if (
-      !client.c.commands.has(command) &&
-      !client.c.commands.find((a) => a.aliases && a.aliases.includes(command))
+      !client.commands.has(command) &&
+      !client.commands.find((a) => a.aliases && a.aliases.includes(command))
     )
       return message.reply(`No command \`${command}\` found.`);
 
     command =
-      client.c.commands.get(command) ||
-      client.c.commands.find((a) => a.aliases && a.aliases.includes(command));
+      client.commands.get(command) ||
+      client.commands.find((a) => a.aliases && a.aliases.includes(command));
     const folders = fs.readdirSync('./commands');
     const fName = folders.find((f) =>
       fs.readdirSync(`./commands/${f}`).includes(`${command.name}.js`)
@@ -39,7 +39,7 @@ module.exports = {
 
     try {
       const newCommand = require(`../${fName}/${command.name}.js`);
-      client.c.commands.set(newCommand.name, newCommand);
+      client.commands.set(newCommand.name, newCommand);
 
       message.channel.send(`Command \`${command.name}\` has been reloaded.`);
     } catch (e) {
