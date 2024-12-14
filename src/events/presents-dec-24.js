@@ -15,7 +15,7 @@ module.exports = {
     const userId = message.author.id;
     if (CooldownSet.has(userId)) return;
     addCd(userId);
-    let amount = Math.floor(Math.random() * 25) + 15;
+    let amount = Math.floor(Math.random() * 15) + 5;
     if (message.channel.id == '1256504358615519284') {
       amount *= 1.5;
     }
