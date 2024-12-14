@@ -20,7 +20,7 @@ module.exports = {
 
     const amount = args[1];
     if (!amount) return message.reply('Please specify an amount!');
-    if (isNaN(parseInt(amount))) {
+    if (isNaN(Number(amount))) {
       return message.reply('Please specify a valid amount!');
     }
 
@@ -30,7 +30,7 @@ module.exports = {
       },
       {
         $inc: {
-          amount: parseInt(amount)
+          amount: Number(amount)
         }
       },
       {
@@ -40,9 +40,9 @@ module.exports = {
     );
 
     return message.reply(
-      `Successfully ${
-        parseInt(amount) > 0 ? 'added' : 'removed'
-      } ${amount} presents ${parseInt(amount) > 0 ? 'to' : 'from'} <@${
+      `Successfully ${Number(amount) > 0 ? 'added' : 'removed'} ${Number(
+        amount
+      ).toLocaleString()} presents ${Number(amount) > 0 ? 'to' : 'from'} <@${
         user.id
       }>! Total: ${res.amount}`
     );
