@@ -45,7 +45,7 @@ module.exports = {
     ]);
     let description = '';
     lb.map((value, index) => {
-      description += `${medals[index] || index + 1}: <@${
+      description += `${index + 1}. <@${
         value.userId
       }> - **${value.amount.toLocaleString()}**\n`;
     });
