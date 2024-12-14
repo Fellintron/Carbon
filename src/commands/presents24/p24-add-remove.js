@@ -44,7 +44,7 @@ module.exports = {
         parseInt(amount) > 0 ? 'added' : 'removed'
       } ${amount} presents ${parseInt(amount) > 0 ? 'to' : 'from'} <@${
         user.id
-      }>!`
+      }>! Total: ${res.amount}`
     );
   }
 };
