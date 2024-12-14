@@ -50,13 +50,18 @@ module.exports = {
       }> - **${value.amount.toLocaleString()}**\n`;
     });
 
-    const PresentsEmbed = new EmbedBuilder().setAuthor({
-      name: user.user.username,
-      iconURL: user.user.displayAvatarURL({
-        forceStatic: true
+    const PresentsEmbed = new EmbedBuilder()
+      .setAuthor({
+        name: user.user.username,
+        iconURL: user.user.displayAvatarURL({
+          forceStatic: true
+        })
       })
-    }).setDescription(`
-      Presents: Presents24 **${db?.amount?.toLocaleString() || 0}**`);
+      .setDescription(
+        `
+      Presents: Presents24 **${db?.amount?.toLocaleString() || 0}**`
+      )
+      .setColor(Colors.Green);
     const LeaderboardEmbed = new EmbedBuilder()
       .setColor(Colors.Green)
       .setDescription(description)
@@ -75,7 +80,7 @@ module.exports = {
         .setStyle(ButtonStyle.Primary)
     ]);
     const msg = await message.reply({
-      embeds: [PresentsEmbed],
+      embeds: [PresentsEmbed, LeaderboardEmbed],
       components: [Row]
     });
   }
