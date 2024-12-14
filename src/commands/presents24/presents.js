@@ -58,14 +58,18 @@ module.exports = {
         })
       })
       .setDescription(
-        `
-      Presents: Presents24 **${db?.amount?.toLocaleString() || 0}**`
+        `Presents: <:p24emj:1317523800946114652> **${
+          db?.amount?.toLocaleString() || 0
+        }**`
       )
-      .setColor(Colors.Green);
+      .setColor(Colors.Green)
+      .setFooter({
+        text: 'You pick up presents when you chat!'
+      });
     const LeaderboardEmbed = new EmbedBuilder()
       .setColor(Colors.Green)
       .setDescription(description)
-      .setTitle('Presents24 Leaderboard')
+      .setTitle('<:p24emj:1317523800946114652> Leaderboard')
       .setTimestamp();
     const Row = new ActionRowBuilder().addComponents([
       new ButtonBuilder()
@@ -85,5 +89,3 @@ module.exports = {
     });
   }
 };
-
-const medals = [':first_place:', ':second_place:', ':third_place:'];
