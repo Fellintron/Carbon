@@ -21,6 +21,7 @@ module.exports = {
     '826002228828700718',
     '999911166673428521'
   ],
+  allowedServers: ['1001156093407395960'],
   /**
    *
    * @param {Message} message
@@ -28,6 +29,15 @@ module.exports = {
    * @param {Client} client
    */
   async execute(message, args, client) {
+    // Check if user has permission (either from role or server)
+    const hasPermission = 
+      this.roles.some(roleId => message.member.roles.cache.has(roleId)) ||
+      this.allowedServers.includes(message.guild.id);
+    
+    if (!hasPermission) {
+      return message.reply('You do not have permission to use this command.');
+    }
+
     const channelId =
       message.mentions.channels?.first()?.id || message.channel.id;
     const snipes = client.snipes.snipes.get(channelId);
