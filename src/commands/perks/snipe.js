@@ -10,7 +10,8 @@ const {
 module.exports = {
   name: 'snipe',
   cooldown: 5,
-  roles: [
+  fight: '824294231447044197',
+  requiredRoles: [
     '826196972167757875',
     '969870378811916408',
     '825283097830096908',
@@ -21,7 +22,7 @@ module.exports = {
     '826002228828700718',
     '999911166673428521'
   ],
-  allowedServers: ['1001156093407395960'],
+  notfight: '1001156093407395960',
   /**
    *
    * @param {Message} message
@@ -29,13 +30,17 @@ module.exports = {
    * @param {Client} client
    */
   async execute(message, args, client) {
-    // Check if user has permission (either from role or server)
-    const hasPermission = 
-      this.roles.some(roleId => message.member.roles.cache.has(roleId)) ||
-      this.allowedServers.includes(message.guild.id);
-    
-    if (!hasPermission) {
-      return message.reply('You do not have permission to use this command.');
+    const guildId = message.guild.id;
+
+    if (guildId === this.fight) {
+      const hasRole = this.requiredRoles.some(roleId => 
+        message.member.roles.cache.has(roleId)
+      );
+      if (!hasRole) {
+        return message.reply('You do not have permission to use this command.');
+      }
+    } else if (guildId !== this.notfight) {
+      return message.reply('This command is not available in this server.');
     }
 
     const channelId =
